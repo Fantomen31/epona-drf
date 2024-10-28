@@ -36,6 +36,24 @@ SECRET_KEY = 'django-insecure-%5z_^sms3bmt4%f@lt^cc&amnc1891nx@k*y)7g9fcq^$q*b!_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Get the CSRF_TRUSTED_ORIGINS from environment variable, or use a default value
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'https://*.gitpod.io,https://*.codeinstitute-ide.net').split(',')
+
+# Ensure that the list includes your specific IDE URL
+specific_ide_url = 'https://8000-fantomen31-eponadrf-qkdz40lpp5q.ws.codeinstitute-ide.net'
+if specific_ide_url not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append(specific_ide_url)
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication'
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', '*']
 
 
@@ -54,9 +72,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'cloudinary',
+    'django_filters',
 
     # Local apps
-    'users',
+    'profiles',
     'cities',
     'events',
     'clubs',
@@ -66,6 +85,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
