@@ -14,6 +14,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
+    city = models.ForeignKey('cities.City', on_delete=models.SET_NULL, null=True, related_name='profiles')
     running_level = models.IntegerField(choices=RUNNING_LEVEL_CHOICES, default=1)
     image = CloudinaryField('image', default='default_profile_pic')
     created_at = models.DateTimeField(auto_now_add=True)

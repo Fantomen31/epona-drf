@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
 class RunUp(models.Model):
     VISIBILITY_CHOICES = [
         ('CLOSED', 'Closed - Only visible to connected users'),
@@ -13,7 +14,7 @@ class RunUp(models.Model):
     location = models.CharField(max_length=255)
     date_time = models.DateTimeField()
     visibility = models.CharField(max_length=6, choices=VISIBILITY_CHOICES, default='CLOSED')
-    city = models.CharField(max_length=100)
+    city = models.ForeignKey('cities.City', on_delete=models.CASCADE, related_name='runups') 
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -35,5 +36,5 @@ class RunUp(models.Model):
     )
 
     def __str__(self):
-        return f"RunUp by {self.host.username} on {self.date_time.date()}"
+        return f"RunUp by {self.host.username} on {self.date_time.date()} in {self.city.name}"
 

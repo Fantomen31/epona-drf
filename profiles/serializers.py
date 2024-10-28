@@ -12,7 +12,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'user', 'bio', 'location', 'running_level', 
             'running_level_display', 'image', 'created_at', 
-            'updated_at', 'is_owner'
+            'updated_at', 'is_owner', 'city'
         ]
         read_only_fields = ['id', 'user', 'created_at', 'updated_at']
 
