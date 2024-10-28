@@ -81,7 +81,7 @@ INSTALLED_APPS = [
     'cities',
     'events',
     'clubs',
-    'meetups',
+    'runups',
     'ratings',
     'comments',
 ]
