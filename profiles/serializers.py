@@ -9,7 +9,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['id', 'user', 'bio', 'location', 'running_level', 'running_level_display', 'image', 'created_at', 'updated_at', 'is_owner']
+        fields = [
+            'id', 'user', 'bio', 'location', 'running_level', 
+            'running_level_display', 'image', 'created_at', 
+            'updated_at', 'is_owner'
+        ]
         read_only_fields = ['id', 'user', 'created_at', 'updated_at']
 
     def get_is_owner(self, obj):
