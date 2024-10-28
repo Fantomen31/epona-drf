@@ -49,7 +49,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'cloudinary_storage',
     'django.contrib.staticfiles',
+
+    # Third-party apps
+    'rest_framework',
+    'corsheaders',
     'cloudinary',
+
+    # Local apps
+    'users',
+    'cities',
+    'events',
+    'clubs',
+    'meetups',
+    'ratings',
+    'comments',
 ]
 
 MIDDLEWARE = [
