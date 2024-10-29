@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+from cities.models import City
 
 class RunUp(models.Model):
     VISIBILITY_CHOICES = [
@@ -13,7 +14,7 @@ class RunUp(models.Model):
     location = models.CharField(max_length=255)
     date_time = models.DateTimeField()
     visibility = models.CharField(max_length=6, choices=VISIBILITY_CHOICES, default='CLOSED')
-    city = models.CharField(max_length=100)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='runups')
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

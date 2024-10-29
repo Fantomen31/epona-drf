@@ -19,10 +19,12 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from profiles.views import ProfileViewSet
 from runups.views import RunUpViewSet
+from cities.views import CityViewSet
 
 router = DefaultRouter()
 router.register(r'profiles', ProfileViewSet)
 router.register(r'runups', RunUpViewSet)
+router.register(r'cities', CityViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

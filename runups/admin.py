@@ -3,7 +3,7 @@ from .models import RunUp
 
 @admin.register(RunUp)
 class RunUpAdmin(admin.ModelAdmin):
-    list_display = ('host', 'city', 'date_time', 'visibility', 'is_active', 'distance', 'duration')
+    list_display = ('host', 'city', 'date_time', 'visibility', 'is_active', 'distance', 'duration', 'pace')
     list_filter = ('visibility', 'is_active', 'city')
     search_fields = ('host__username', 'city', 'location')
     date_hierarchy = 'date_time'
