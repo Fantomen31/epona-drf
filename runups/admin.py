@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import RunUp
+from django.contrib.auth.models import User
 
 @admin.register(RunUp)
 class RunUpAdmin(admin.ModelAdmin):

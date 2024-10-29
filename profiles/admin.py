@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Profile
 
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     # Customize how profiles are displayed in the admin interface
