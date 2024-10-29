@@ -17,17 +17,29 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from rest_framework_nested import routers
 from profiles.views import ProfileViewSet
 from runups.views import RunUpViewSet
 from cities.views import CityViewSet
+from events.views import EventViewSet, EventRaceViewSet
 
+# Create a default router
 router = DefaultRouter()
+
+# Register viewsets with the default router
 router.register(r'profiles', ProfileViewSet)
 router.register(r'runups', RunUpViewSet)
 router.register(r'cities', CityViewSet)
+router.register(r'events', EventViewSet)
+
+# Create a nested router for event races
+events_router = routers.NestedSimpleRouter(router, r'events', lookup='event')
+events_router.register(r'races', EventRaceViewSet, basename='event-races')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
+    path('api/', include(events_router.urls)),  
 ]
+
