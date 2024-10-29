@@ -22,7 +22,7 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = ['id', 'name', 'city', 'city_id', 'event_type', 'date', 'description', 'registration_url', 
                   'price', 'difficulty_level', 'created_at', 'updated_at', 'organizers', 'participants', 
-                  'clubs', 'races', 'is_registered']
+                  'races', 'is_registered']
         read_only_fields = ['id', 'created_at', 'updated_at', 'is_registered']
 
     def get_is_registered(self, obj):
