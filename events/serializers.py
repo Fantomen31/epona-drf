@@ -1,6 +1,7 @@
-# events/serializers.py
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Event, EventRace
+from cities.models import City
 from cities.serializers import CitySerializer
 #from clubs.serializers import ClubSerializer
 

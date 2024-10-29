@@ -39,7 +39,6 @@ events_router.register(r'races', EventRaceViewSet, basename='event-races')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/', include(router.urls)),
-    path('api/', include(events_router.urls)),  
+    path('api/', include((router.urls + events_router.urls, 'events'))),
 ]
 
