@@ -34,7 +34,7 @@ class Club(models.Model):
     )
     contact_email = models.EmailField()
     website = models.URLField(blank=True)
-    social_links = models.JSONField(default=dict, blank=True)  # Store multiple social media links
+    social_links = models.JSONField(null=True, blank=True)  # Store multiple social media links
     visibility = models.CharField(
         max_length=10,
         choices=VISIBILITY_CHOICES,
@@ -45,7 +45,7 @@ class Club(models.Model):
         choices=MEMBERSHIP_TYPE,
         default='OPEN'
     )
-    weekly_meetup_schedule = models.JSONField(default=dict)  # Store schedule information
+    weekly_meetup_schedule = models.JSONField(null=True, blank=True)  # Store schedule information
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
