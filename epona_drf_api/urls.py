@@ -22,7 +22,7 @@ from profiles.views import ProfileViewSet
 from runups.views import RunUpViewSet
 from cities.views import CityViewSet
 from events.views import EventViewSet, EventRaceViewSet
-from clubs.ciews import ClubViewSet, ClubRunUpViewSet
+from clubs.views import ClubViewSet, ClubRunUpViewSet
 
 # Create a default router
 router = DefaultRouter()
