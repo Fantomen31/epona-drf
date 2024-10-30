@@ -12,14 +12,21 @@ class UserSerializer(serializers.ModelSerializer):
 class ClubRunUpSerializer(serializers.ModelSerializer):
     created_by = UserSerializer(read_only=True)
     participants = UserSerializer(many=True, read_only=True)
+    is_participant = serializers.SerializerMethodField()
     
     class Meta:
         model = ClubRunUp
         fields = [
             'id', 'title', 'description', 'date_time', 'meeting_point',
             'distance', 'pace', 'created_by', 'participants',
-            'created_at', 'updated_at'
+            'created_at', 'updated_at', 'is_participant'
         ]
+
+    def get_is_participant(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return request.user in obj.participants.all()
+        return False
 
 class ClubStatisticsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -62,8 +69,8 @@ class ClubSerializer(serializers.ModelSerializer):
         source='sister_cities'
     )
     creator = UserSerializer(read_only=True)
-    statistics = ClubStatisticsSerializer(read_only=True)
-    member_count = serializers.IntegerField(source='statistics.total_members', read_only=True)
+    statistics = serializers.SerializerMethodField()
+    member_count = serializers.SerializerMethodField()
     is_member = serializers.SerializerMethodField()
     member_role = serializers.SerializerMethodField()
 
@@ -82,6 +89,20 @@ class ClubSerializer(serializers.ModelSerializer):
         if not City.objects.filter(id=value.id).exists():
             raise serializers.ValidationError("Selected city does not exist")
         return value
+
+    def get_statistics(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            if obj.memberships.filter(user=request.user).exists():
+                return ClubStatisticsSerializer(obj.statistics).data
+        return None
+
+    def get_member_count(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            if obj.memberships.filter(user=request.user).exists():
+                return obj.statistics.total_members if hasattr(obj, 'statistics') else 0
+        return None
 
     def get_is_member(self, obj):
         request = self.context.get('request')
