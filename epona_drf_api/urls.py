@@ -43,9 +43,12 @@ events_router.register(r'races', EventRaceViewSet, basename='event-races')
 clubs_router = routers.NestedSimpleRouter(router, r'clubs', lookup='club')
 clubs_router.register(r'runups', ClubRunUpViewSet, basename='club-runups')
 
+# Combine all router URLs
+all_router_urls = router.urls + events_router.urls + clubs_router.urls
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/', include((router.urls + events_router.urls, 'events'))),
+    path('api/', include((all_router_urls, 'api'))),
 ]
 
