@@ -22,6 +22,7 @@ from profiles.views import ProfileViewSet
 from runups.views import RunUpViewSet
 from cities.views import CityViewSet
 from events.views import EventViewSet, EventRaceViewSet
+from clubs.ciews import ClubViewSet, ClubRunUpViewSet
 
 # Create a default router
 router = DefaultRouter()
@@ -31,10 +32,16 @@ router.register(r'profiles', ProfileViewSet)
 router.register(r'runups', RunUpViewSet)
 router.register(r'cities', CityViewSet)
 router.register(r'events', EventViewSet)
+router.register(r'clubs', ClubViewSet)
+
 
 # Create a nested router for event races
 events_router = routers.NestedSimpleRouter(router, r'events', lookup='event')
 events_router.register(r'races', EventRaceViewSet, basename='event-races')
+
+# Create a nested router for club runups
+clubs_router = routers.NestedSimpleRouter(router, r'clubs', lookup='club')
+clubs_router.register(r'runups', ClubRunUpViewSet, basename='club-runups')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
