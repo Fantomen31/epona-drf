@@ -25,7 +25,8 @@ class Club(models.Model):
     sister_cities = models.ManyToManyField(
         City,
         related_name='sister_clubs',
-        blank=True
+        blank=True,
+        null=True
     )
     creator = models.ForeignKey(
         User,
