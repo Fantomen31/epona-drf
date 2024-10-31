@@ -1,8 +1,8 @@
 from rest_framework import generics, permissions, status, filters
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Route, RouteReview
-
 from .serializers import RouteSerializer, RouteReviewSerializer
 from epona_drf_api.permissions import IsOwnerOrReadOnly
 
@@ -22,19 +22,43 @@ class RouteDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = RouteSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
-class RouteReview(generics.CreateAPIView):
+class RouteReviewCreateUpdateView(generics.CreateAPIView, generics.UpdateAPIView):
     serializer_class = RouteReviewSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        route_id = self.kwargs.get('pk')
+        user = self.request.user.profile
+        try:
+            return RouteReview.objects.get(route_id=route_id, user=user)
+        except RouteReview.DoesNotExist:
+            return None
 
     def create(self, request, *args, **kwargs):
         route_id = self.kwargs.get('pk')
         route = generics.get_object_or_404(Route, id=route_id)
-    
-        serializer = self.get_serializer(data=request.data)
+        existing_review = self.get_object()
+
+        if existing_review:
+            serializer = self.get_serializer(existing_review, data=request.data, partial=True)
+        else:
+            serializer = self.get_serializer(data=request.data)
+
         serializer.is_valid(raise_exception=True)
-        serializer.save(user=request.user.profile, route=route)
+        self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        route_id = self.kwargs.get('pk')
+        route = generics.get_object_or_404(Route, id=route_id)
+        serializer.save(user=self.request.user.profile, route=route)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
 class RoutesByCity(generics.ListAPIView):
     serializer_class = RouteSerializer
@@ -52,3 +76,9 @@ class RoutesByCity(generics.ListAPIView):
             return Response({"error": "City parameter is required or no routes found for the given city"}, status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def check_review_exists(request, pk):
+    review_exists = RouteReview.objects.filter(user=request.user.profile, route_id=pk).exists()
+    return Response({'exists': review_exists})

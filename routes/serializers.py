@@ -9,16 +9,22 @@ class RouteReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RouteReview
-        fields = ['id', 'user', 'content', 'review_rating', 'created_at']
-        read_only_fields = ['user']
+        fields = ['id', 'user', 'content', 'review_rating', 'created_at',]
+        read_only_fields = ['user', 'route']
         extra_kwargs = {
             'comment': {'required': True},
             'review_rating': {'required': True}
         }
 
     def create(self, validated_data):
-        validated_data['user'] = self.context['request'].user.profile
-        return super().create(validated_data)
+        user = self.context['request'].user.profile
+        route = self.context['view'].kwargs.get('route_id')
+        review, created = RouteReview.objects.update_or_create(
+            user=user,
+            route=route,
+            defaults=validated_data
+        )
+        return review
 
 class RouteSerializer(serializers.ModelSerializer):
     creator = ProfileSerializer(read_only=True)
