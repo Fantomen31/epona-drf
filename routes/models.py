@@ -1,6 +1,6 @@
 from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
+from profiles.models import Profile
 from cities.models import City
 from cloudinary.models import CloudinaryField
 
@@ -18,8 +18,8 @@ class Route(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     distance = models.FloatField(help_text="Distance in kilometers")
-    pace = models.FloatField(help_text="Average pace in minutes per kilometer")
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_routes')
+    pace = models.CharField(max_length=50, help_text="Average pace (e.g., '5:30 min/km')")
+    creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='created_routes')
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='routes')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -61,7 +61,7 @@ class RouteReview(models.Model):
         max_digits=3,
         decimal_places=2,
         choices=RATING_CHOICES,
-        
+
         null=True,
         blank=True
     )

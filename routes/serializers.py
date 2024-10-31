@@ -17,6 +17,8 @@ class RouteSerializer(serializers.ModelSerializer):
     reviews = RouteReviewSerializer(many=True, read_only=True)
     image = serializers.ImageField(required=False)
     average_review_rating = serializers.SerializerMethodField()
+    safety_rating = serializers.ChoiceField(choices=Route.RATING_CHOICES, allow_null=True, required=False)
+    difficulty_rating = serializers.ChoiceField(choices=Route.RATING_CHOICES, allow_null=True, required=False)
 
     class Meta:
         model = Route
