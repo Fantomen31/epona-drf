@@ -11,6 +11,14 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
+        # Check if the object has a 'creator' attribute
+        if hasattr(obj, 'creator'):
+            return obj.creator == request.user.profile
+
+        # Fallback to checking 'user' attribute
+        if hasattr(obj, 'user'):
+            return obj.user == request.user
+
         # Write permissions are only allowed to the owner of the object.
         return obj.user == request.user
 

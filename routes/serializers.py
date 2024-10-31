@@ -13,7 +13,7 @@ class RouteReviewSerializer(serializers.ModelSerializer):
 
 class RouteSerializer(serializers.ModelSerializer):
     creator = ProfileSerializer(read_only=True)
-    city = serializers.StringRelatedField()
+    city = serializers.PrimaryKeyRelatedField(queryset=City.objects.all())
     reviews = RouteReviewSerializer(many=True, read_only=True)
     image = serializers.ImageField(required=False)
     average_review_rating = serializers.SerializerMethodField()

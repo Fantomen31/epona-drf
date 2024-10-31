@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Route, RouteReview
+from cities.models import City
 from .serializers import RouteSerializer, RouteReviewSerializer
 from epona_drf_api.permissions import IsOwnerOrReadOnly
 
