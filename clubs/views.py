@@ -5,7 +5,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Club, ClubMembership, ClubJoinRequest, ClubRunUp
 from .serializers import (
     ClubSerializer, ClubDetailSerializer, ClubRunUpSerializer,
-    ClubJoinRequestSerializer, ClubMembershipSerializer
+    ClubJoinRequestSerializer, ClubMembershipSerializer,
+    ClubJoinRequestCreateSerializer, ClubJoinRequestProcessSerializer
 )
 
 class IsClubMember(permissions.BasePermission):
@@ -56,9 +57,46 @@ class ClubViewSet(viewsets.ModelViewSet):
             return queryset.filter(visibility='PUBLIC')
         return queryset.filter(visibility='PUBLIC')
 
+    @action(detail=True, methods=['POST'])
+    def request_membership(self, request, pk=None):
+        club = self.get_object()
+        serializer = ClubJoinRequestCreateSerializer(data={'club': club.id}, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'status': 'Membership request sent'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['POST'])
+    def process_join_request(self, request, pk=None):
+        club = self.get_object()
+        serializer = ClubJoinRequestProcessSerializer(data=request.data, context={'request': request, 'club': club})
+        if serializer.is_valid():
+            action = serializer.validated_data['action']
+            join_request_id = request.data.get('request_id')
+            try:
+                join_request = club.join_requests.get(id=join_request_id, status='PENDING')
+            except ClubJoinRequest.DoesNotExist:
+                return Response({'status': 'Join request not found'}, status=status.HTTP_404_NOT_FOUND)
+
+            if action == 'APPROVE':
+                ClubMembership.objects.create(club=club, user=join_request.user, role='MEMBER')
+                join_request.status = 'APPROVED'
+            else:
+                join_request.status = 'REJECTED'
+
+            join_request.processed_by = request.user
+            join_request.save()
+
+            if hasattr(club, 'statistics'):
+                club.statistics.total_members = club.memberships.count()
+                club.statistics.save()
+
+            return Response({'status': f'Join request {action.lower()}ed'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class ClubRunUpViewSet(viewsets.ModelViewSet):
     serializer_class = ClubRunUpSerializer
-    permission_classes = [permissions.IsAuthenticated] #Removed IsClubMember for testing purposes.  May need to be reinstated.
+    permission_classes = [permissions.IsAuthenticated, IsClubMember]
 
     def get_queryset(self):
         return ClubRunUp.objects.filter(club_id=self.kwargs['club_pk'])
@@ -95,8 +133,6 @@ class ClubRunUpViewSet(viewsets.ModelViewSet):
             {'detail': 'Not registered for this RunUp'},
             status=status.HTTP_400_BAD_REQUEST
         )
-
-
 
     def get_serializer_context(self):
         context = super().get_serializer_context()

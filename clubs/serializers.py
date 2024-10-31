@@ -73,6 +73,7 @@ class ClubSerializer(serializers.ModelSerializer):
     member_count = serializers.SerializerMethodField()
     is_member = serializers.SerializerMethodField()
     member_role = serializers.SerializerMethodField()
+    can_request_membership = serializers.SerializerMethodField()
 
     class Meta:
         model = Club
@@ -81,7 +82,8 @@ class ClubSerializer(serializers.ModelSerializer):
             'sister_cities', 'sister_city_ids', 'creator', 'contact_email', 
             'website', 'social_links', 'visibility', 'membership_type', 
             'weekly_meetup_schedule', 'created_at', 'updated_at', 
-            'statistics', 'member_count', 'is_member', 'member_role'
+            'statistics', 'member_count', 'is_member', 'member_role',
+            'can_request_membership'
         ]
         read_only_fields = ['creator', 'statistics', 'member_count']
 
@@ -116,6 +118,14 @@ class ClubSerializer(serializers.ModelSerializer):
             membership = obj.memberships.filter(user=request.user).first()
             return membership.role if membership else None
         return None
+
+    def get_can_request_membership(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            is_member = obj.memberships.filter(user=request.user).exists()
+            has_pending_request = obj.join_requests.filter(user=request.user, status='PENDING').exists()
+            return not (is_member or has_pending_request)
+        return False
 
     def create(self, validated_data):
         sister_cities = validated_data.pop('sister_cities', [])
@@ -158,4 +168,47 @@ class ClubDetailSerializer(ClubSerializer):
             many=True,
             context=self.context
         ).data
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            membership = instance.memberships.filter(user=request.user).first()
+            if membership and membership.role in ['CREATOR', 'ADMIN']:
+                data['pending_requests'] = ClubJoinRequestSerializer(
+                    instance.join_requests.filter(status='PENDING'),
+                    many=True
+                ).data
+            else:
+                data['pending_requests'] = []
+        else:
+            data['pending_requests'] = []
+        return data
+
+class ClubJoinRequestCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClubJoinRequest
+        fields = ['club']
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        club = validated_data['club']
+        
+        # Check if user is already a member
+        if ClubMembership.objects.filter(club=club, user=user).exists():
+            raise serializers.ValidationError("You are already a member of this club.")
+        
+        # Check if there's a pending request
+        if ClubJoinRequest.objects.filter(club=club, user=user, status='PENDING').exists():
+            raise serializers.ValidationError("You already have a pending join request for this club.")
+        
+        join_request = ClubJoinRequest.objects.create(club=club, user=user)
+        return join_request
+
+class ClubJoinRequestProcessSerializer(serializers.Serializer):
+    action = serializers.ChoiceField(choices=['APPROVE', 'REJECT'])
+
+    def validate(self, data):
+        request = self.context['request']
+        club = self.context['club']
+        membership = club.memberships.filter(user=request.user).first()
+        if not membership or membership.role not in ['CREATOR', 'ADMIN']:
+            raise serializers.ValidationError("You don't have permission to process join requests.")
         return data

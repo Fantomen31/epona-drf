@@ -50,5 +50,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include((all_router_urls, 'api'))),
-    path('api/routes/', include('routes.urls')),  # Add this line for the routes app
+    path('api/routes/', include('routes.urls')),  
 ]
