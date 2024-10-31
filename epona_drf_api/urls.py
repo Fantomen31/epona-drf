@@ -23,6 +23,7 @@ from runups.views import RunUpViewSet
 from cities.views import CityViewSet
 from events.views import EventViewSet, EventRaceViewSet
 from clubs.views import ClubViewSet, ClubRunUpViewSet
+from routes.views import RouteViewSet
 
 # Create a default router
 router = DefaultRouter()
@@ -33,6 +34,7 @@ router.register(r'runups', RunUpViewSet)
 router.register(r'cities', CityViewSet)
 router.register(r'events', EventViewSet)
 router.register(r'clubs', ClubViewSet)
+router.register(r'routes', RouteViewSet)
 
 
 # Create a nested router for event races
@@ -44,7 +46,12 @@ clubs_router = routers.NestedSimpleRouter(router, r'clubs', lookup='club')
 clubs_router.register(r'runups', ClubRunUpViewSet, basename='club-runups')
 
 # Combine all router URLs
-all_router_urls = router.urls + events_router.urls + clubs_router.urls
+all_router_urls = router.urls + events_router.urls + clubs_router.urls 
+
+# Custom route views
+route_list = RouteViewSet.as_view({'get': 'list', 'post': 'create'})
+route_detail = RouteViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})
+route_by_city = RouteViewSet.as_view({'get': 'by_city'})
 
 urlpatterns = [
     path('admin/', admin.site.urls),
