@@ -82,8 +82,8 @@ INSTALLED_APPS = [
     'events',
     'clubs',
     'runups',
-    'ratings',
-    'comments',
+    'routes',
+
 ]
 
 MIDDLEWARE = [

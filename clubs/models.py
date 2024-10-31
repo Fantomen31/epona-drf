@@ -26,7 +26,7 @@ class Club(models.Model):
         City,
         related_name='sister_clubs',
         blank=True,
-        null=True
+        
     )
     creator = models.ForeignKey(
         User,
