@@ -5,11 +5,20 @@ from profiles.serializers import ProfileSerializer
 
 class RouteReviewSerializer(serializers.ModelSerializer):
     user = ProfileSerializer(read_only=True)
+    review_rating = serializers.ChoiceField(choices=Route.RATING_CHOICES, allow_null=True, required=False)
 
     class Meta:
         model = RouteReview
         fields = ['id', 'user', 'content', 'review_rating', 'created_at']
         read_only_fields = ['user']
+        extra_kwargs = {
+            'comment': {'required': True},
+            'review_rating': {'required': True}
+        }
+
+    def create(self, validated_data):
+        validated_data['user'] = self.context['request'].user.profile
+        return super().create(validated_data)
 
 class RouteSerializer(serializers.ModelSerializer):
     creator = ProfileSerializer(read_only=True)

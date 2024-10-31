@@ -54,7 +54,7 @@ class RouteReview(models.Model):
     ]
 
     route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='reviews')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     review_rating = models.DecimalField(
@@ -70,4 +70,4 @@ class RouteReview(models.Model):
         unique_together = ('route', 'user')
 
     def __str__(self):
-        return f"Review by {self.user.username} for {self.route.title}"
+        return f"Review by {self.user.user.username} for {self.route.title}"
