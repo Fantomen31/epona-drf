@@ -1,0 +1,1 @@
+web: gunicorn epona_drf_api.wsgi --log-file -
