@@ -24,15 +24,19 @@ class Route(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     image = CloudinaryField('image', default='route_default_iwvigb', null=True, blank=True)
-    safety_rating = models.FloatField(
+    safety_rating = models.DecimalField(
+        max_digits=3,
+        decimal_places=2,
         choices=RATING_CHOICES,
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
+
         null=True,
         blank=True
     )
-    difficulty_rating = models.FloatField(
+    difficulty_rating = models.DecimalField(
+        max_digits=3,
+        decimal_places=2,
         choices=RATING_CHOICES,
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
+
         null=True,
         blank=True
     )
@@ -48,14 +52,16 @@ class RouteReview(models.Model):
         (4.00, '4'), (4.25, '4.25'), (4.50, '4.5'), (4.75, '4.75'),
         (5.00, '5'),
     ]
-    
+
     route = models.ForeignKey(Route, on_delete=models.CASCADE, related_name='reviews')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    review_rating = models.FloatField(
+    review_rating = models.DecimalField(
+        max_digits=3,
+        decimal_places=2,
         choices=RATING_CHOICES,
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        
         null=True,
         blank=True
     )
