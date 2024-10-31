@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-import os   
+import os
+import dj_database_url
 
 if os.path.exists('env.py'):
     import env
@@ -31,10 +32,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%5z_^sms3bmt4%f@lt^cc&amnc1891nx@k*y)7g9fcq^$q*b!_'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'DEV' in os.environ
 
 # Get the CSRF_TRUSTED_ORIGINS from environment variable, or use a default value
 CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'https://*.gitpod.io,https://*.codeinstitute-ide.net').split(',')
@@ -57,8 +58,7 @@ REST_FRAMEWORK = {
 
 ALLOWED_HOSTS = [
     'localhost', 
-    '127.0.0.1', 
-    '.herokuapp.com', 
+    'epona-drf-api.herokuapp.com', 
     '8000-fantomen31-eponadrf-tr3makianj4.ws.codeinstitute-ide.net',
 ]
 
@@ -120,6 +120,7 @@ REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_SECURE = True
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+JWT_AUTH_SAMESITE = 'None'
 
 REST_AUTH_SERIALIZERS = {'USER_DETAILS_SERIALIZER': 'epona_drf_api.serializers.CurrentUserSerializer'}
 
@@ -137,6 +138,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
 ]
+
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
+    ]
+else:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https://.*\.gitpod\.io$",
+    ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'epona_drf_api.urls'
 
@@ -163,11 +175,14 @@ WSGI_APPLICATION = 'epona_drf_api.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'default': ({
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    } if 'DEV' in os.environ else dj_database_url.parse(
+        os.environ.get('DATABASE_URL')
+    ))
 }
+
 
 
 # Password validation
