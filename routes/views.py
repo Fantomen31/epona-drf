@@ -4,12 +4,12 @@ from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Route, RouteReview
 from .serializers import RouteSerializer, RouteReviewSerializer
-from .permissions import IsCreatorOrReadOnly
+from epona_drf_api.permissions import IsOwnerOrReadOnly
 
 class RouteViewSet(viewsets.ModelViewSet):
     queryset = Route.objects.all()
     serializer_class = RouteSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsCreatorOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_fields = ['city', 'creator', 'safety_rating', 'difficulty_rating']
     ordering_fields = ['distance', 'pace', 'created_at', 'safety_rating', 'difficulty_rating']

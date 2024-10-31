@@ -48,10 +48,7 @@ clubs_router.register(r'runups', ClubRunUpViewSet, basename='club-runups')
 # Combine all router URLs
 all_router_urls = router.urls + events_router.urls + clubs_router.urls 
 
-# Custom route views
-route_list = RouteViewSet.as_view({'get': 'list', 'post': 'create'})
-route_detail = RouteViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})
-route_by_city = RouteViewSet.as_view({'get': 'by_city'})
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
