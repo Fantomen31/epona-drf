@@ -6,6 +6,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username']
+        ref_name = "RunupsUser"
 
 class RunUpSerializer(serializers.ModelSerializer):
     host = UserSerializer(read_only=True)

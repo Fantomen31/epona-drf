@@ -8,6 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username']
+        ref_name = "ClubsUser"
 
 class ClubRunUpSerializer(serializers.ModelSerializer):
     created_by = UserSerializer(read_only=True)
