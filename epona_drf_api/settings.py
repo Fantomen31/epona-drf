@@ -38,7 +38,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = 'DEV' in os.environ
 
 # Get the CSRF_TRUSTED_ORIGINS from environment variable, or use a default value
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'https://*.gitpod.io,https://*.codeinstitute-ide.net').split(',')
+
 
 # Ensure that the list includes your specific IDE URL
 specific_ide_url = 'https://8000-fantomen31-eponadrf-qkdz40lpp5q.ws.codeinstitute-ide.net'
@@ -57,9 +57,11 @@ REST_FRAMEWORK = {
 }
 
 ALLOWED_HOSTS = [
-    'localhost', 
-    'epona-drf-api.herokuapp.com', 
+    'localhost',
+
+    
     '8000-fantomen31-eponadrf-tr3makianj4.ws.codeinstitute-ide.net',
+    'epona-drf-api-0cc8608a0241.herokuapp.com',
 ]
 
 
