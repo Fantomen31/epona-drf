@@ -37,14 +37,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEV' in os.environ
 
-# Get the CSRF_TRUSTED_ORIGINS from environment variable, or use a default value
-
-
-# Ensure that the list includes your specific IDE URL
-specific_ide_url = 'https://8000-fantomen31-eponadrf-qkdz40lpp5q.ws.codeinstitute-ide.net'
-if specific_ide_url not in CSRF_TRUSTED_ORIGINS:
-    CSRF_TRUSTED_ORIGINS.append(specific_ide_url)
-
+#Rest_framwork
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
@@ -59,7 +52,7 @@ REST_FRAMEWORK = {
 ALLOWED_HOSTS = [
     'localhost',
 
-    
+
     '8000-fantomen31-eponadrf-tr3makianj4.ws.codeinstitute-ide.net',
     'epona-drf-api-0cc8608a0241.herokuapp.com',
 ]
