@@ -1,0 +1,76 @@
+.cardGridContainer {
+  padding: 15px;
+}
+
+.cardGrid {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.cardColumn {
+  padding: 15px;
+  display: flex;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border: 1px solid #7AB55C;
+  background-color: #212a21;
+  color: #F5F5F0; 
+}
+
+.card:hover {
+  transform: scale(1.05);
+  border-color: #E67E22;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.cardImage {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 15px;
+}
+
+.cardTitleContainer {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  margin-bottom: 0;
+  color: #F5F5F0; 
+  text-align: center;
+}
+
+.cardContent {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardText {
+  font-size: 0.9rem;
+  color: #F5F5F0; 
+  margin-bottom: 5px;
+}

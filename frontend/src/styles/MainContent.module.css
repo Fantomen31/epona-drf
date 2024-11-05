@@ -1,0 +1,50 @@
+.customNav {
+  border-bottom: 1px solid #7AB55C; /* Autumn light-dark green */
+}
+
+.customNav :global(.nav-item) {
+  margin-right: 5px;
+}
+
+.customNav :global(.nav-link) {
+  color: #F5F5F0 !important; /* Creamy white */
+  background-color: transparent;
+  border: none;
+  padding: 10px 15px;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.customNav :global(.nav-link:hover) {
+  color: #E67E22 !important; /* Autumn orange on hover */
+  background-color: transparent !important;
+  border-bottom: 2px solid #E67E22;
+}
+
+.customNav :global(.nav-link.active) {
+  color: #E67E22 !important; /* Autumn orange when active */
+  background-color: transparent !important;
+  border-bottom: 5px solid #E67E22;
+}
+
+/* Customizing Tab's content */
+.tabContent {
+  background: rgba(209, 246, 209, 0.1) !important; /* Light green with low opacity */
+  padding: 20px;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Customizing Tab's header icon (if you decide to add icons later) */
+.customNav :global(.nav-link .tab-icon) {
+  color: #7AB55C !important; /* Autumn light-dark green */
+  margin-right: 5px;
+}
+
+/* Customizing selected item icon */
+.customNav :global(.nav-link.active .tab-icon) {
+  color: #E67E22 !important; /* Autumn orange */
+}
+
+.searchBar {
+  margin-top: 10px;
+}

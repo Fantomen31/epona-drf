@@ -1,0 +1,109 @@
+.navbar {
+  background-color: #191e19;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid #7AB55C; /* Light green border at the bottom */
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+}
+
+.container {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.navbarBrand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navbarBrand img {
+  transition: transform 0.3s ease;
+  border-radius: 50%; 
+  width: 45px; 
+  height: 45px; 
+  border: 2px solid transparent;
+  object-fit: cover;
+}
+
+.navbarBrand img:hover {
+  transform: scale(1.05);
+  border: 2px solid #E67E22;
+}
+
+.brandText {
+  color: #F5F5F0;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.navbarCollapse {
+  justify-content: flex-end;
+}
+
+.navLink {
+  color: #F5F5F0;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 1rem;
+  position: relative;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  background-color: #212a21; /* Borderless green background */
+}
+
+.navLink:hover {
+  color: #E67E22 !important;
+  transform: scale(1.05);
+}
+
+.faIcon {
+  margin-right: 0.5rem;
+  font-size: 1.1em;
+}
+
+.navbarToggler {
+  border: none;
+  padding: 0.5rem;
+}
+
+.navbarToggler:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .navLink {
+    margin: 0.5rem 0;
+  }
+  
+  .navbarCollapse {
+    padding: 1rem 0;
+  }
+
+  .brandText {
+    font-size: 14px;
+    max-width: 200px;
+  }
+  
+  .navbarBrand {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .navbarBrand img {
+    height: 35px;
+  }
+}
