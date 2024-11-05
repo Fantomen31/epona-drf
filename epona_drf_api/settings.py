@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+import re
 
 if os.path.exists('env.py'):
     import env
@@ -50,11 +51,8 @@ REST_FRAMEWORK = {
 }
 
 ALLOWED_HOSTS = [
-    'localhost',
-
-
-    '8000-fantomen31-eponadrf-tr3makianj4.ws.codeinstitute-ide.net',
-    'epona-drf-api-0cc8608a0241.herokuapp.com',
+   os.environ.get('ALLOWED_HOST'),
+   'localhost',
 ]
 
 
