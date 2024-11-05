@@ -140,7 +140,8 @@ CORS_ALLOWED_ORIGINS = [
     os.environ.get('CLIENT_ORIGIN')
     ]
 
-    
+CORS_ALLOW_ALL_ORIGINS = True  # For development only
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'epona_drf_api.urls'
 

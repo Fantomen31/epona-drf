@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Form, Button, Alert } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import styles from '../../styles/SignInUpForm.module.css';
 
 const SignUpForm = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    password: '',
-    confirmPassword: '',
+    password1: '',
+    password2: '',
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,29 +22,43 @@ const SignUpForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your form validation logic here
+    // Form validation
     const newErrors = {};
     if (!formData.username) newErrors.username = 'Username is required';
     if (!formData.email) newErrors.email = 'Email is required';
-    if (!formData.password) newErrors.password = 'Password is required';
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+    if (!formData.password1) newErrors.password1 = 'Password is required';
+    if (formData.password1 !== formData.password2) {
+      newErrors.password2 = 'Passwords do not match';
     }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
-      // If no errors, you can proceed with form submission
-      console.log('Form submitted:', formData);
-      // Add your API call or other logic here
+      try {
+        const url = `${process.env.REACT_APP_API_URL}/dj-rest-auth/registration/`;
+        console.log('Submitting to:', url);
+        const response = await axios.post(url, formData);
+        console.log('Registration successful:', response.data);
+        navigate('/login');
+      } catch (err) {
+        console.error('Registration error:', err.response?.data || err.message);
+        setErrors(err.response?.data || { non_field_errors: ['An unexpected error occurred.'] });
+      }
     }
   };
 
   return (
     <div className={styles.formContainer}>
       <h2 className={styles.formTitle}>Sign Up</h2>
+      {errors.non_field_errors && (
+        <Alert variant="danger">
+          {errors.non_field_errors.map((error, index) => (
+            <p key={index}>{error}</p>
+          ))}
+        </Alert>
+      )}
       <Form onSubmit={handleSubmit} className={styles.form}>
         <Form.Group controlId="username" className={styles.formGroup}>
           <Form.Label>Username</Form.Label>
@@ -70,30 +86,30 @@ const SignUpForm = () => {
           <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group controlId="password" className={styles.formGroup}>
+        <Form.Group controlId="password1" className={styles.formGroup}>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
-            name="password"
-            value={formData.password}
+            name="password1"
+            value={formData.password1}
             onChange={handleChange}
-            isInvalid={!!errors.password}
+            isInvalid={!!errors.password1}
             className={styles.formControl}
           />
-          <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">{errors.password1}</Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group controlId="confirmPassword" className={styles.formGroup}>
+        <Form.Group controlId="password2" className={styles.formGroup}>
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
+            name="password2"
+            value={formData.password2}
             onChange={handleChange}
-            isInvalid={!!errors.confirmPassword}
+            isInvalid={!!errors.password2}
             className={styles.formControl}
           />
-          <Form.Control.Feedback type="invalid">{errors.confirmPassword}</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">{errors.password2}</Form.Control.Feedback>
         </Form.Group>
 
         <Button type="submit" className={styles.submitButton}>

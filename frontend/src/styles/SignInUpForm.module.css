@@ -1,110 +1,115 @@
 .formContainer {
-    background-color: #212a21;
-    border-radius: 10px;
-    padding: 2rem;
-    max-width: 400px;
-    margin: 2rem auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 1px solid #7AB55C;
-  }
-  
-  .formTitle {
-    color: #F5F5F0;
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .formGroup {
-    margin-bottom: 1rem;
-  }
-  
-  .formGroup label {
-    color: #F5F5F0;
-    margin-bottom: 0.5rem;
-    display: block;
-  }
-  
-  .formControl {
-    background-color: #212a21;
-    border: 1px solid #7AB55C;
-    padding: 0.5rem;
-    border-radius: 5px;
-    width: 100%;
-  }
-  
-  .formControl:focus {
-    background-color: #2C4A33;
-    outline: none;
-    border-color: #E67E22;
-    box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.25);
-  }
-  
-  .formControl::placeholder {
-    color: #A0A0A0;
-  }
-  
-  .submitButton {
-    background-color: #E67E22;
-    border: none;
-    color: #F5F5F0;
-    padding: 0.75rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 1rem;
-    width: 100%;
-  }
-  
-  .submitButton:hover {
-    background-color: #D35400;
-  }
-  
-  .submitButton:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.5);
-  }
-  
-  /* Error styling */
-  .formControl.is-invalid {
-    border-color: #DC3545;
-  }
-  
-  .invalid-feedback {
-    color: #DC3545;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-  }
-  
-  /* Login link styling */
-  .loginLink {
-    text-align: center;
-    margin-top: 1rem;
-    color: #F5F5F0;
-  }
-  
-  .loginLink a {
-    color: #E67E22;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-  }
-  
-  .loginLink a:hover {
-    color: #D35400;
-    text-decoration: underline;
-  }
-  /* Error styling */
-  .formControl.is-invalid {
-    border-color: #DC3545;
-  }
-  
-  .invalid-feedback {
-    color: #DC3545;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-  }
+  background-color: #212a21;
+  border-radius: 10px;
+  padding: 2rem;
+  max-width: 400px;
+  margin: 2rem auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.formTitle {
+  color: #F5F5F0;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup label {
+  color: #F5F5F0;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.formControl {
+  color: #F5F5F0;
+  background-color: #212a21;
+  border: 1px solid #7AB55C;
+  padding: 0.5rem;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.formControl:focus {
+  color: #F5F5F0;
+  background-color: #2C4A33;
+  outline: none;
+  border-color: #E67E22;
+  box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.25);
+}
+
+.formControl::placeholder {
+  color: #A0A0A0;
+}
+
+.submitButton {
+  background-color: #E67E22;
+  border: none;
+  color: #F5F5F0;
+  padding: 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.submitButton:hover {
+  background-color: #D35400;
+}
+
+.submitButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.5);
+}
+
+/* Error styling */
+.formControl.is-invalid {
+  border-color: #DC3545;
+}
+
+.invalid-feedback {
+  color: #DC3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Login and Signup link styling */
+.loginLink,
+.signupLink {
+text-align: center;
+margin-top: 1rem;
+color: #F5F5F0;
+}
+
+.loginLink a,
+.signupLink a {
+color: #E67E22;
+text-decoration: none;
+font-weight: bold;
+transition: color 0.3s ease;
+}
+
+.loginLink a:hover,
+.signupLink a:hover {
+color: #D35400;
+text-decoration: underline;
+}
+
+/* Error styling */
+.formControl.is-invalid {
+  border-color: #DC3545;
+}
+
+.invalid-feedback {
+  color: #DC3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
