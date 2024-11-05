@@ -136,7 +136,7 @@ MIDDLEWARE = [
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
         os.environ.get('CLIENT_ORIGIN'),
-        os.enivron.get('CLOENT_DEV_ORIGIN')
+        os.environ.get('CLOENT_DEV_ORIGIN')
     ]
 else:
     CORS_ALLOWED_ORIGIN_REGEXES = [
