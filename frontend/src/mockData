@@ -1,0 +1,25 @@
+export const mockUser = {
+  id: 1,
+  name: "Jane Doe",
+  username: "janedoe",
+  avatar: "https://i.pravatar.cc/150?img=1",
+  joinDate: "January 2023",
+  following: 120,
+  followers: 250,
+  bio: "Passionate runner, always chasing that runner's high!",
+  location: "New York, NY"
+};
+
+export const mockRunUps = [
+  { id: 1, name: "Morning Jog", date: "2024-11-10", participants: 5 },
+  { id: 2, name: "Evening Sprint", date: "2024-11-12", participants: 3 },
+  { id: 3, name: "Weekend Marathon", date: "2024-11-15", participants: 10 },
+  { id: 4, name: "Park Run", date: "2024-11-18", participants: 8 },
+  { id: 5, name: "City Night Run", date: "2024-11-20", participants: 15 }
+];
+
+export const mockEvents = [
+  { id: 1, name: "NYC Marathon", date: "2024-12-01", participants: 50000 },
+  { id: 2, name: "Central Park 5K", date: "2024-11-25", participants: 1000 },
+  { id: 3, name: "Brooklyn Half Marathon", date: "2025-01-15", participants: 25000 }
+];

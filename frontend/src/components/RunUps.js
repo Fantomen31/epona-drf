@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Button } from "../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Plus } from 'lucide-react';
-import styles from '../styles/RunUp.module.css';
+import styles from '../styles/RunUps.module.css';
 
 const RunUps = () => {
   const runUps = [

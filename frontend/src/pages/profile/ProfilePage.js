@@ -1,9 +1,9 @@
 import React from 'react';
+import ProfileDetails from './ProfileDetails';
 import ProfileSideMenu from './ProfileSideMenu';
-import ProfileDetails from './ProfileDetails'
-import styles from '../styles/ProfilePage.module.css';
-import RunUps from '../../components/RunUps';
 import SocialComponent from '../../components/SocialComponent';
+import RunUps from '../../components/RunUps';
+import styles from '../../styles/ProfilePage.module.css';
 
 
 const ProfilePage = ({ user }) => {

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from "@/components/ui/button";
+import { Button } from "../../components/ui/button";
 import { Home, User, Calendar, Users } from 'lucide-react';
-import styles from '../styles/ProfileSideMenu.module.css';
+import styles from '../../styles/ProfileSideMenu.module.css';
 
 const ProfileSideMenu = () => {
   return (
