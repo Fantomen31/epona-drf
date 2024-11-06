@@ -5,17 +5,18 @@ import axios from 'axios';
 import styles from '../../styles/SignInUpForm.module.css';
 
 const LogInForm = () => {
-  const [loginData, setLoginData] = useState({
+  const [logInData, setLogInData] = useState({
     username: '',
     password: '',
   });
-  const { username, password } = loginData;
+  const { username, password } = logInData;
   const [errors, setErrors] = useState({});
+  const [loginError, setLoginError] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (event) => {
-    setLoginData({
-      ...loginData,
+    setLogInData({
+      ...logInData,
       [event.target.name]: event.target.value
     });
   };
@@ -28,15 +29,29 @@ const LogInForm = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      setLoginError('');
     } else {
       try {
-        const response = await axios.post('/dj-rest-auth/login/', loginData);
+        const response = await axios.post('/dj-rest-auth/login/', logInData);
         console.log('Login successful:', response.data);
-        // Handle successful login (e.g., store token, redirect)
+        // Set the default Authorization header for future requests
         navigate('/'); // Redirect to home page or dashboard
       } catch (err) {
         console.error('Login error:', err.response?.data || err.message);
-        setErrors(err.response?.data || { non_field_errors: ['Invalid username or password.'] });
+        setErrors({});
+        if (err.response && err.response.data) {
+          if (err.response.data.non_field_errors) {
+            setLoginError(err.response.data.non_field_errors[0]);
+          } else if (err.response.data.username) {
+            setLoginError(err.response.data.username[0]);
+          } else if (err.response.data.password) {
+            setLoginError(err.response.data.password[0]);
+          } else {
+            setLoginError('An unexpected error occurred. Please try again.');
+          }
+        } else {
+          setLoginError('An unexpected error occurred. Please try again.');
+        }
       }
     }
   };
@@ -44,11 +59,9 @@ const LogInForm = () => {
   return (
     <div className={styles.formContainer}>
       <h2 className={styles.formTitle}>Log In</h2>
-      {errors.non_field_errors && (
+      {loginError && (
         <Alert variant="danger">
-          {errors.non_field_errors.map((error, index) => (
-            <p key={index}>{error}</p>
-          ))}
+          {loginError}
         </Alert>
       )}
       <Form onSubmit={handleSubmit} className={styles.form}>
