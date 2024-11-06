@@ -5,31 +5,28 @@ import axios from 'axios';
 import styles from '../../styles/SignInUpForm.module.css';
 
 const SignUpForm = () => {
-  const [formData, setFormData] = useState({
+  const [signUpData, setSignUpData] = useState({
     username: '',
-    email: '',
     password1: '',
     password2: '',
   });
+  const { username, password1, password2 } = signUpData;
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+  const handleChange = (event) => {
+    setSignUpData({
+      ...signUpData,
+      [event.target.name]: event.target.value
+    });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Form validation
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     const newErrors = {};
-    if (!formData.username) newErrors.username = 'Username is required';
-    if (!formData.email) newErrors.email = 'Email is required';
-    if (!formData.password1) newErrors.password1 = 'Password is required';
-    if (formData.password1 !== formData.password2) {
+    if (!username) newErrors.username = 'Username is required';
+    if (!password1) newErrors.password1 = 'Password is required';
+    if (password1 !== password2) {
       newErrors.password2 = 'Passwords do not match';
     }
 
@@ -37,9 +34,7 @@ const SignUpForm = () => {
       setErrors(newErrors);
     } else {
       try {
-        const url = `${process.env.REACT_APP_API_URL}/dj-rest-auth/registration/`;
-        console.log('Submitting to:', url);
-        const response = await axios.post(url, formData);
+        const response = await axios.post('/dj-rest-auth/registration/', signUpData);
         console.log('Registration successful:', response.data);
         navigate('/login');
       } catch (err) {
@@ -65,7 +60,7 @@ const SignUpForm = () => {
           <Form.Control
             type="text"
             name="username"
-            value={formData.username}
+            value={username}
             onChange={handleChange}
             isInvalid={!!errors.username}
             className={styles.formControl}
@@ -73,25 +68,12 @@ const SignUpForm = () => {
           <Form.Control.Feedback type="invalid">{errors.username}</Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group controlId="email" className={styles.formGroup}>
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            isInvalid={!!errors.email}
-            className={styles.formControl}
-          />
-          <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-        </Form.Group>
-
         <Form.Group controlId="password1" className={styles.formGroup}>
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
             name="password1"
-            value={formData.password1}
+            value={password1}
             onChange={handleChange}
             isInvalid={!!errors.password1}
             className={styles.formControl}
@@ -104,7 +86,7 @@ const SignUpForm = () => {
           <Form.Control
             type="password"
             name="password2"
-            value={formData.password2}
+            value={password2}
             onChange={handleChange}
             isInvalid={!!errors.password2}
             className={styles.formControl}

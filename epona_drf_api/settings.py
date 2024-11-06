@@ -50,7 +50,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-DEBUG = 'DEV' in os.environ
+DEBUG = 'DEBUG' in os.environ
 
 ALLOWED_HOSTS = [
    os.environ.get('ALLOWED_HOST'),
@@ -138,10 +138,9 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     os.environ.get('CLIENT_ORIGIN')
-    ]
+]
 
-CORS_ALLOW_ALL_ORIGINS = True  # For development only
-CORS_ALLOW_CREDENTIALS = True
+
 
 ROOT_URLCONF = 'epona_drf_api.urls'
 

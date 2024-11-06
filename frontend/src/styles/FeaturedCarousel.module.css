@@ -1,0 +1,61 @@
+.carousel {
+    margin-bottom: 2rem;
+  }
+  
+  .carouselItem {
+    background-color: #1E3F20;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .carouselCaption {
+    background-color: rgba(30, 63, 32, 0.8);
+    padding: 1rem;
+    border-radius: 0 0 10px 10px;
+  }
+  
+  .carouselTitle {
+    color: #F5F5F0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .carouselDescription {
+    color: #A0A0A0;
+    font-size: 1rem;
+  }
+  
+  .carouselControl {
+    width: 5%;
+    background-color: rgba(230, 126, 34, 0.6);
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .carouselControl:hover {
+    background-color: rgba(230, 126, 34, 0.8);
+  }
+  
+  .carouselControlIcon {
+    filter: invert(1);
+  }
+  
+  .carouselIndicators {
+    bottom: -40px;
+  }
+  
+  .carouselIndicator {
+    background-color: #E67E22;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 5px;
+  }
+  
+  .carouselIndicator.active {
+    background-color: #D35400;
+  }

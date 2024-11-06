@@ -10,6 +10,7 @@ import Container from 'react-bootstrap/Container';
 import MainContent from './components/MainContent';
 import SignUpForm from './pages/auth/SignUpForm';
 import LogInForm from './pages/auth/LogInForm';
+import HomePage from './components/HomePage';
 
 
 
@@ -20,7 +21,7 @@ function App() {
       <NavBar />
         <Container className={styles.app}>
           <Routes>
-            <Route path="/" element={<h1>Home</h1>} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LogInForm />} />
             <Route path="/signup" element={<SignUpForm />} />
           </Routes>
