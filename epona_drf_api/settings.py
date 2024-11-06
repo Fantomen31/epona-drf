@@ -140,6 +140,7 @@ CORS_ALLOWED_ORIGINS = [
     os.environ.get('CLIENT_ORIGIN')
 ]
 
+CSRF_TRUSTED_ORIGINS = ['https://8000-fantomen31-eponadrf-tr3makianj4.ws.codeinstitute-ide.net']
 
 
 ROOT_URLCONF = 'epona_drf_api.urls'
