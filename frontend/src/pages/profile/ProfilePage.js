@@ -1,9 +1,10 @@
 import React from 'react';
-//import ProfileSideMenu from './ProfileSideMenu';
-//import ProfileDetails from './ProfileDetails';
-//import RunUp from './RunUp';
-//import SocialComponent from './SocialComponent';
+import ProfileSideMenu from './ProfileSideMenu';
+import ProfileDetails from './ProfileDetails'
 import styles from '../styles/ProfilePage.module.css';
+import RunUps from '../../components/RunUps';
+import SocialComponent from '../../components/SocialComponent';
+
 
 const ProfilePage = ({ user }) => {
   return (
@@ -12,7 +13,7 @@ const ProfilePage = ({ user }) => {
       <main className={styles.mainContent}>
         <ProfileDetails user={user} />
         <div className={styles.bottomSection}>
-          <RunUp />
+          <RunUps />
           <SocialComponent user={user} />
         </div>
       </main>

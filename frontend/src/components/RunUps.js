@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Plus } from 'lucide-react';
 import styles from '../styles/RunUp.module.css';
 
@@ -19,12 +19,12 @@ const RunUps = () => {
       </CardHeader>
       <CardContent>
         <ScrollArea className="h-[200px] w-full rounded-md border p-4">
-          {runUps.map((runUps) => (
-            <Card key={runUps.id} className="mb-2">
+          {runUps.map((runUp) => (
+            <Card key={runUp.id} className="mb-2">
               <CardContent className="p-2">
-                <h3 className="font-semibold">{runUps.name}</h3>
-                <p className="text-sm text-muted-foreground">Date: {runUps.date}</p>
-                <p className="text-sm text-muted-foreground">Participants: {runUps.participants}</p>
+                <h3 className="font-semibold">{runUp.name}</h3>
+                <p className="text-sm text-muted-foreground">Date: {runUp.date}</p>
+                <p className="text-sm text-muted-foreground">Participants: {runUp.participants}</p>
               </CardContent>
             </Card>
           ))}
