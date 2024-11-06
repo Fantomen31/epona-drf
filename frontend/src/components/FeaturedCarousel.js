@@ -33,6 +33,7 @@ const placeholderData = [
 const FeaturedCarousel = () => {
   return (
     <div className={styles.carouselContainer}>
+      <h2 className={styles.spotlightTitle}>Trending Now</h2>
       <Carousel fade interval={5000} className={styles.carousel} indicators={true}>
         {placeholderData.map((item, index) => (
           <Carousel.Item key={index}>

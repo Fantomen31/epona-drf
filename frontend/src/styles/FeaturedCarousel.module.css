@@ -36,6 +36,15 @@
   justify-content: center;
 }
 
+.spotlightTitle {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: #f5f5dc; /* Creamy white color */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
 .captionName {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
