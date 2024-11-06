@@ -1,0 +1,28 @@
+.profileContainer {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    gap: 2rem;
+  }
+  
+  .mainContent {
+    flex-grow: 1;
+  }
+  
+  .bottomSection {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .profileContainer {
+      flex-direction: column;
+    }
+  
+    .bottomSection {
+      grid-template-columns: 1fr;
+    }
+  }

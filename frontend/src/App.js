@@ -11,6 +11,7 @@ import MainContent from './components/MainContent';
 import SignUpForm from './pages/auth/SignUpForm';
 import LogInForm from './pages/auth/LogInForm';
 import HomePage from './components/HomePage';
+import ProfilePage from './pages/profile/ProfilePage';
 
 
 
@@ -25,7 +26,8 @@ function App() {
             <Route path="/login" element={<LogInForm />} />
             <Route path="/signup" element={<SignUpForm />} />
           </Routes>
-      </Container>
+       </Container>
+       <ProfilePage />
        <MainContent />
        </div>
   </div>
