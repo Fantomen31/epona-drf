@@ -1,5 +1,5 @@
 .carouselContainer {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 2rem auto;
   padding: 0 1rem;
   position: relative;
@@ -13,7 +13,6 @@
 
 .carouselImage {
   height: 400px;
-  object-fit: cover;
   border-radius: 10px;
 }
 
