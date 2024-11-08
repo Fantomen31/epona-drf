@@ -2,28 +2,50 @@ import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignInAlt, faUserPlus, faHome } from '@fortawesome/free-solid-svg-icons';
+import { FaUser } from 'react-icons/fa';
 import logo from '../assets/logo.webp';
 import styles from '../styles/NavBar.module.css';
-import { useCurrentUser } from '../contexts/CurrentUserContext';
+import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
+import axios from 'axios';
 
 const NavBar = () => {
   const currentUser = useCurrentUser();
+  const setCurrentUser = useSetCurrentUser();
+
+  const handleLogOut = async () => {
+    try {
+      await axios.post("dj-rest-auth/logout/");
+      setCurrentUser(null);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const loggedInIcons = 
   <>
-    <NavLink to="/logout" className={styles.navLink}>
-    <FontAwesomeIcon icon="sign-in-alt" className={styles.faIcon} />
-     Log Out
+    <NavLink 
+    to="/" 
+    className={styles.navLink}
+    onClick={handleLogOut}
+    >
+      <FontAwesomeIcon icon={faSignInAlt} className={styles.faIcon} />
+      Log Out
+    </NavLink>
+
+    <NavLink to="/profile" className={styles.navLink}>
+      <FaUser className={styles.userIcon} />
     </NavLink>
   </>
   const loggedOutIcons =  (
   <>
     <NavLink  to="/login" className={styles.navLink}>
-      <FontAwesomeIcon icon="sign-in-alt" className={styles.faIcon} />
+      <FontAwesomeIcon icon={faSignInAlt} className={styles.faIcon} />
       Login
     </NavLink>
   
     <NavLink to="/signup" className={styles.navLink}>
-      <FontAwesomeIcon icon="user-plus" className={styles.faIcon} />
+      <FontAwesomeIcon icon={faUserPlus} className={styles.faIcon} />
       Sign-up
     </NavLink>
   </>
@@ -46,7 +68,7 @@ const NavBar = () => {
 
           <Nav>
             <NavLink to="/" className={styles.navLink}>
-              <FontAwesomeIcon icon="home" className={styles.faIcon} />
+              <FontAwesomeIcon icon={faHome} className={styles.faIcon} />
               Home
             </NavLink>
             {currentUser ? loggedInIcons : loggedOutIcons}

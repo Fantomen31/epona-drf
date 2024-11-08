@@ -3,7 +3,7 @@
   box-shadow: 
     0 4px 6px rgba(0, 0, 0, 0.1),
     0 1px 3px rgba(0, 0, 0, 0.08);
-  border-bottom: 1px solid #7AB55C; /* Light green border at the bottom */
+  border-bottom: 1px solid #7AB55C;
   margin: 0;
   position: fixed;
   top: 0;
@@ -61,7 +61,7 @@
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  background-color: #212a21; /* Borderless green background */
+  background-color: #212a21;
 }
 
 .navLink:hover {
@@ -72,6 +72,15 @@
 .faIcon {
   margin-right: 0.5rem;
   font-size: 1.1em;
+}
+
+.userIcon {
+  color: #E67E22;
+  font-size: 1.1em;
+}
+
+.userIcon:hover {
+  color: #F5F5F0 !important;
 }
 
 .navbarToggler {
