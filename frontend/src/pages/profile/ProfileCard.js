@@ -25,7 +25,7 @@ const ProfileCard = () => {
     <div className={styles.profileContainer}>
       <Card onClick={handleClick} className={`${styles.profileCard} ${!currentUser && styles.notLoggedIn}`}>
         <div className={styles.iconWrapper}>
-          {currentUser?.profile_image ? (
+          {currentUser?.profile_image? (
             <img 
               src={currentUser.profile_image
               } 
@@ -48,7 +48,7 @@ const ProfileCard = () => {
               Location: {currentUser?.city || 'City not specified'}
             </Card.Text>
             <Card.Text>
-              Running lvl: {currentUser?.runningLevel || 'Running level not specified'}
+              Running lvl: {currentUser?.running_level || 'Running level not specified'}
             </Card.Text>
           </div>
         </Card.Body>
