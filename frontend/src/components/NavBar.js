@@ -10,7 +10,10 @@ const NavBar = () => {
   const currentUser = useContext (CurrentUserContext)
   const loggedInIcons = 
   <>
-  {currentUser?.username}
+    <NavLink to="/logout" className={styles.navLink}>
+    <FontAwesomeIcon icon="sign-in-alt" className={styles.faIcon} />
+     Log Out
+    </NavLink>
   </>
   const loggedOutIcons =  (
   <>

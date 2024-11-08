@@ -15,6 +15,6 @@ library.add(
   faUserPlus,
   faCity,
   faUsers,
-  faFlag
+  faFlag,
   // Add other icons imported
 );

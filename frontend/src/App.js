@@ -13,6 +13,7 @@ import LogInForm from './pages/auth/LogInForm';
 import HomePage from './components/HomePage';
 import { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import ProfilePage from './pages/profile/ProfilePage';
 
 
 export const CurrentUserContext = createContext();
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LogInForm />} />
                 <Route path="/signup" element={<SignUpForm />} />
+                <Route path="/profile" element={<ProfilePage />} />
               </Routes>
             </Container>
             <MainContent />

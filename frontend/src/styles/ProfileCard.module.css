@@ -1,0 +1,134 @@
+.profileContainer {
+  width: 100%;
+  max-width: 450px;
+  margin: 4rem 0 0 auto;
+  padding: 1rem;
+  padding-right: 2rem;
+}
+
+.profileCard {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #212a21;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  width: 450px;
+  height: 150px;
+}
+
+.profileCard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #E67E22;
+}
+
+.notLoggedIn:hover {
+  border-color: #888;
+  transform: none;
+}
+
+.iconWrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #E67E22;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.profileIcon {
+  font-size: 2.5rem;
+  color: #212a21;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profileCardBody {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.profileInfo {
+  text-align: left;
+  max-width: calc(100% - 100px);
+}
+
+.profileInfo .card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.profileInfo .card-text {
+  font-size: 1rem;
+  color: white;
+  margin-bottom: 0.25rem;
+}
+
+.blurred {
+  filter: blur(4px);
+}
+
+.notLoggedIn {
+  cursor: default;
+}
+
+.loginMessage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .profileContainer {
+    margin: 4rem auto 0;
+    padding-right: 1rem;
+  }
+
+  .profileCard {
+    width: 100%;
+    height: auto;
+  }
+
+  .iconWrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .profileIcon {
+    font-size: 2rem;
+  }
+
+  .profileInfo {
+    max-width: calc(100% - 80px);
+  }
+
+  .profileInfo .card-title {
+    font-size: 1.25rem;
+  }
+
+  .profileInfo .card-text {
+    font-size: 0.9rem;
+  }
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import FeaturedCarousel from './FeaturedCarousel';
-import ProfilePage from '../pages/profile/ProfilePage';
+import ProfileCard from '../pages/profile/ProfileCard';
 
 const HomePage = () => {
 
@@ -12,7 +12,7 @@ const HomePage = () => {
           <FeaturedCarousel />
         </Col>
         <Col md={5}>
-        <ProfilePage />
+        <ProfileCard />
         </Col>
       </Row >
     </Container>
