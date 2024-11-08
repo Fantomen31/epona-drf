@@ -1,24 +1,20 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import FeaturedCarousel from './FeaturedCarousel';
+import ProfilePage from '../pages/profile/ProfilePage';
 
 const HomePage = () => {
 
   return (
     <Container fluid>
-      <Row className="mb-4">
-        <Col md={12}>
+      <Row md={12}>
+        <Col md={7}>
           <FeaturedCarousel />
         </Col>
-      </Row>
-      <Row className="mb-4">
-        <Col md={8}>
-          
+        <Col md={5}>
+        <ProfilePage />
         </Col>
-        <Col md={4}>
-          
-        </Col>
-      </Row>
+      </Row >
     </Container>
   );
 };

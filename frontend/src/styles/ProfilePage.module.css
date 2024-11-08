@@ -1,28 +1,31 @@
 .profileContainer {
-    display: flex;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    gap: 2rem;
-  }
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.profileButton {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.profileOffcanvas {
+  width: 250px !important;
+  height: 300px !important;
+  top: 100px !important;
   
-  .mainContent {
-    flex-grow: 1;
-  }
-  
-  .bottomSection {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  
-  @media (max-width: 768px) {
-    .profileContainer {
-      flex-direction: column;
-    }
-  
-    .bottomSection {
-      grid-template-columns: 1fr;
-    }
-  }
+}
+
+.coreProfileInfo {
+  text-align: center;
+}
+
+.viewProfileLink {
+  display: block;
+  margin-top: 15px;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.viewProfileLink:hover {
+  text-decoration: underline;
+}

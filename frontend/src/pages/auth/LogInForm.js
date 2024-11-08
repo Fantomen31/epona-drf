@@ -1,26 +1,28 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../../styles/SignInUpForm.module.css';
+import { SetCurrentUserContext } from '../../App';
 
-const LogInForm = () => {
+
+
+
+function LogInForm () {
+  const setCurrentUser = useContext(SetCurrentUserContext)
+
   const [logInData, setLogInData] = useState({
     username: '',
     password: '',
   });
   const { username, password } = logInData;
+
   const [errors, setErrors] = useState({});
   const [loginError, setLoginError] = useState('');
+
   const navigate = useNavigate();
 
-  const handleChange = (event) => {
-    setLogInData({
-      ...logInData,
-      [event.target.name]: event.target.value
-    });
-  };
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     const newErrors = {};
@@ -32,9 +34,9 @@ const LogInForm = () => {
       setLoginError('');
     } else {
       try {
-        const response = await axios.post('/dj-rest-auth/login/', logInData);
-        console.log('Login successful:', response.data);
-        // Set the default Authorization header for future requests
+        const {data} = await axios.post('/dj-rest-auth/login/', logInData);
+        setCurrentUser(data.user)
+        console.log('Login successful:', data.user);
         navigate('/'); // Redirect to home page or dashboard
       } catch (err) {
         console.error('Login error:', err.response?.data || err.message);
@@ -54,6 +56,13 @@ const LogInForm = () => {
         }
       }
     }
+  };
+
+  const handleChange = (event) => {
+    setLogInData({
+      ...logInData,
+      [event.target.name]: event.target.value
+    });
   };
 
   return (
