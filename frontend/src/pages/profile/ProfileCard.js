@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { FaUser } from 'react-icons/fa';
+import { FaCity, FaMapMarkerAlt, FaRunning, FaUser } from 'react-icons/fa';
 import styles from '../../styles/ProfileCard.module.css';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
@@ -27,15 +27,9 @@ const ProfileCard = () => {
         <div className={styles.iconWrapper}>
           {currentUser?.profile_image? (
             <img 
-              src={currentUser.profile_image
-              } 
+              src={currentUser.profile_image} 
               alt={`${currentUser.username}'s profile`} 
               className={styles.profileImage}
-              onError={(e) => {
-                e.target.onerror = null; 
-                e.target.style.display = 'none';
-                e.target.nextSibling.style.display = 'block';
-              }}
             />
           ) : (
             <FaUser className={styles.profileIcon} />
@@ -43,12 +37,15 @@ const ProfileCard = () => {
         </div>
         <Card.Body className={styles.profileCardBody}>
           <div className={`${styles.profileInfo} ${!currentUser && styles.blurred}`}>
-            <Card.Title>{currentUser?.username || 'User'}</Card.Title>
+          <Card.Title>{currentUser?.username || 'User'}</Card.Title>
             <Card.Text>
-              Location: {currentUser?.city || 'City not specified'}
+              <FaMapMarkerAlt className={styles.infoIcon} />  {currentUser?.location || 'Location not specified'}
             </Card.Text>
             <Card.Text>
-              Running lvl: {currentUser?.running_level || 'Running level not specified'}
+              <FaCity className={styles.infoIcon} />  {currentUser?.city || 'City not specified'}
+            </Card.Text>
+            <Card.Text>
+              <FaRunning className={styles.infoIcon} />  {currentUser?.running_level || 'Running level not specified'}
             </Card.Text>
           </div>
         </Card.Body>

@@ -17,7 +17,7 @@
   position: relative;
   overflow: hidden;
   width: 450px;
-  height: 150px;
+  height: 180px;
 }
 
 .profileCard:hover {
@@ -79,6 +79,13 @@
   font-size: 1rem;
   color: white;
   margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.infoIcon {
+  margin-right: 0.5rem;
+  color: #E67E22;
 }
 
 .blurred {
