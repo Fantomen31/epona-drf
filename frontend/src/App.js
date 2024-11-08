@@ -11,33 +11,17 @@ import MainContent from './components/MainContent';
 import SignUpForm from './pages/auth/SignUpForm';
 import LogInForm from './pages/auth/LogInForm';
 import HomePage from './components/HomePage';
-import { createContext, useEffect, useState } from 'react';
-import axios from 'axios';
+
 import ProfilePage from './pages/profile/ProfilePage';
 
 
-export const CurrentUserContext = createContext();
-export const SetCurrentUserContext = createContext();
+
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
-
-  const handleMount = async () => {
-    try {
-      const { data } = await axios.get('dj-rest-auth/user/');
-      setCurrentUser(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    handleMount();
-  }, []);
-
+  
+  
   return (
-    <CurrentUserContext.Provider value={currentUser}>
-      <SetCurrentUserContext.Provider value={setCurrentUser}>
+
         <div className={styles.appBackground}>
           <div className={styles.appDiv}>
             <NavBar />
@@ -52,8 +36,7 @@ function App() {
             <MainContent />
           </div>
         </div>
-      </SetCurrentUserContext.Provider>
-    </CurrentUserContext.Provider>
+
   );
 }
 

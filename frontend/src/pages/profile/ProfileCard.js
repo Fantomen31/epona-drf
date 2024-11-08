@@ -1,12 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa';
-import { CurrentUserContext } from '../../App';
 import styles from '../../styles/ProfileCard.module.css';
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
 const ProfileCard = () => {
-  const currentUser = useContext(CurrentUserContext);
+  const currentUser = useCurrentUser();
   const navigate = useNavigate();
 
   useEffect(() => {
