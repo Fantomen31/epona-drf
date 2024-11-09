@@ -9,6 +9,7 @@ const ProfileCard = () => {
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
 
+
   useEffect(() => {
     console.log('Current User Object:', currentUser);
   }, [currentUser]);
