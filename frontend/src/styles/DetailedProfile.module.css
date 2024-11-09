@@ -1,0 +1,148 @@
+.detailedProfile {
+    padding: 20px;
+    color: #ffffff;
+  }
+  
+  .profileCard {
+    background-color: #212a21;
+    border: none;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profileImageCol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .profileImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #4CAF50;
+  }
+  
+  .profileHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .username {
+    font-size: 0.8em;
+    color: #a0a0a0;
+    margin-left: 10px;
+  }
+  
+  .editButton {
+    text-decoration: none;
+    color: #4CAF50;
+    transition: color 0.3s ease;
+  }
+  
+  .editButton:hover {
+    color: #45a049;
+  }
+  
+  .bio {
+    margin-bottom: 15px;
+    color: #e0e0e0;
+  }
+  
+  .profileDetails p {
+    margin-bottom: 5px;
+    color: #e0e0e0;
+  }
+  
+  .profileDetails a {
+    color: #4CAF50;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .profileDetails a:hover {
+    color: #45a049;
+  }
+  
+  .profileStats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    color: #a0a0a0;
+  }
+  
+  .sectionTitle {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #4CAF50;
+  }
+  
+  .statisticsGrid {
+    margin-bottom: 30px;
+  }
+  
+  .statCard {
+    text-align: center;
+    height: 100%;
+    background-color: #2c3e2c;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .statCard h4 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    color: #4CAF50;
+  }
+  
+  .statCard p {
+    color: #e0e0e0;
+  }
+  
+  .achievementsStack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .achievementCard {
+    background-color: #2c3e2c;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .achievementCard h4 {
+    color: #4CAF50;
+  }
+  
+  .achievementCard p {
+    color: #e0e0e0;
+  }
+  
+  .trophyIcon {
+    color: #ffd700;
+    margin-right: 5px;
+  }
+  
+  @media (max-width: 768px) {
+    .profileImageCol {
+      margin-bottom: 20px;
+    }
+  
+    .profileHeader {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .editButton {
+      margin-top: 10px;
+    }
+  
+    .profileStats {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
