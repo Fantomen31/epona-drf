@@ -33,7 +33,7 @@ const NavBar = () => {
       Log Out
     </NavLink>
 
-    <NavLink to="/profile" className={styles.navLink}>
+    <NavLink to="/profiles/:id" className={styles.navLink}>
       <FaUser className={styles.userIcon} />
     </NavLink>
   </>

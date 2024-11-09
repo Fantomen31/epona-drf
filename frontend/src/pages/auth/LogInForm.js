@@ -38,7 +38,7 @@ function LogInForm () {
         const {data} = await axios.post('/dj-rest-auth/login/', logInData);
         setCurrentUser(data.user)
         console.log('Login successful:', data.user);
-        navigate('/'); // Redirect to home page or dashboard
+        navigate('/profiles/:id'); // Redirect to home page or dashboard
       } catch (err) {
         console.error('Login error:', err.response?.data || err.message);
         setErrors({});

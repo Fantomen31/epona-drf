@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './iconLibrary';
 import './api/axiosDefaults';
 
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import NavBar from './components/NavBar';
 import Container from 'react-bootstrap/Container';
@@ -16,8 +16,12 @@ import ProfilePage from './pages/profile/ProfilePage';
 
 
 
-
 function App() {
+
+  const location = useLocation();
+  
+  const showMainContent = !['/profiles'].some(path => location.pathname.startsWith(path));
+
   
   
   return (
@@ -30,10 +34,10 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LogInForm />} />
                 <Route path="/signup" element={<SignUpForm />} />
-                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profiles/:id" element={<ProfilePage />} />
               </Routes>
             </Container>
-            <MainContent />
+            {showMainContent && <MainContent />}
           </div>
         </div>
 

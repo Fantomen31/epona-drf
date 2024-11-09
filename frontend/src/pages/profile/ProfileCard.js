@@ -1,26 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect  } from 'react';
 import { Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { FaCity, FaMapMarkerAlt, FaRunning, FaUser } from 'react-icons/fa';
 import styles from '../../styles/ProfileCard.module.css';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
-const ProfileCard = () => {
+
+
+function ProfileCard () {
   const currentUser = useCurrentUser();
   const navigate = useNavigate();
 
 
   useEffect(() => {
     console.log('Current User Object:', currentUser);
+
   }, [currentUser]);
 
   const handleClick = () => {
     if (currentUser) {
-      navigate('/profile');
+      navigate('/profiles/:id');
     } else {
       navigate('/login');
     }
   };
+
 
   return (
     <div className={styles.profileContainer}>
@@ -40,13 +44,13 @@ const ProfileCard = () => {
           <div className={`${styles.profileInfo} ${!currentUser && styles.blurred}`}>
           <Card.Title>{currentUser?.username || 'User'}</Card.Title>
             <Card.Text>
-              <FaMapMarkerAlt className={styles.infoIcon} />  {currentUser?.location || 'Location not specified'}
+              <FaMapMarkerAlt className={styles.infoIcon} />  {currentUser?.location || 'Not specified'}
             </Card.Text>
             <Card.Text>
               <FaCity className={styles.infoIcon} />  {currentUser?.city || 'City not specified'}
             </Card.Text>
             <Card.Text>
-              <FaRunning className={styles.infoIcon} />  {currentUser?.running_level || 'Running level not specified'}
+              <FaRunning className={styles.infoIcon} />  {currentUser?.running_level || 'Not specified'}
             </Card.Text>
           </div>
         </Card.Body>

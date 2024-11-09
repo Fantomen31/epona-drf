@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import ProfileSideMenu from './ProfileSideMenu';
 
 
 const ProfilePage = () => {
@@ -7,9 +8,7 @@ const ProfilePage = () => {
     <Container fluid >
       <Row>
         <Col md={2} >
-          <div>
-            Profile side menu
-          </div>
+          <ProfileSideMenu />
         </Col>
         <Col md={5} >
           <Row >
