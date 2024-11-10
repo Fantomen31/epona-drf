@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaRoute, FaTrophy, FaUsers, FaCity, FaCalendarAlt, FaUser, FaRunning } from 'react-icons/fa';
+import { FaRoute, FaTrophy, FaUsers, FaCity, FaCalendarAlt, FaRunning, FaUser } from 'react-icons/fa';
 import styles from '../../styles/ProfileSideMenu.module.css';
 
 const ProfileSideMenu = () => {
@@ -35,6 +35,12 @@ const ProfileSideMenu = () => {
           <Link to="/events">
             <FaRunning className={styles.icon} />
             <span>Events</span>
+          </Link>
+        </li>
+        <li className={styles.menuItem}>
+          <Link to="/profiles/:id">
+            <FaUser className={styles.icon} />
+            <span>Profile</span>
           </Link>
         </li>
         <li className={styles.menuItem}>
