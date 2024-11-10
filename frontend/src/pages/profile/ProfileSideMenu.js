@@ -8,12 +8,16 @@ const ProfileSideMenu = () => {
     <nav className={styles.sideMenu}>
       <ul className={styles.menuList}>
         <li className={`${styles.menuItem} ${styles.disabled}`}>
+          <Link to="/routes">
           <FaRoute className={styles.icon} />
           <span>Routes</span>
+          </Link>
         </li>
         <li className={`${styles.menuItem} ${styles.disabled}`}>
+          <Link to="/routes">
           <FaTrophy className={styles.icon} />
           <span>Leaderboards</span>
+          </Link>
         </li>
         <li className={styles.menuItem}>
           <Link to="/clubs">
@@ -31,12 +35,6 @@ const ProfileSideMenu = () => {
           <Link to="/events">
             <FaRunning className={styles.icon} />
             <span>Events</span>
-          </Link>
-        </li>
-        <li className={styles.menuItem}>
-          <Link to="/profile">
-            <FaUser className={styles.icon} />
-            <span>Profile</span>
           </Link>
         </li>
         <li className={styles.menuItem}>
