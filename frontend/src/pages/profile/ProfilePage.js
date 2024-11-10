@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProfileSideMenu from './ProfileSideMenu';
 import DetailedProfile from './DetailedProfile';
+import RunUps from '../../components/RunUps';
 
 
 const ProfilePage = () => {
@@ -15,22 +16,11 @@ const ProfilePage = () => {
           <Row >
           <DetailedProfile />
           </Row>
-          <Row >
-          <div>
-            Place holder componenet
-          </div>
-          </Row>
         </Col>
+
         <Col md={5} >
           <Row >
-          <div>
-            RunUps
-          </div>
-          </Row>
-          <Row >
-          <div>
-            Place holder componenet
-          </div>
+          <RunUps />
           </Row>
         </Col>
       </Row>
