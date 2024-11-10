@@ -1,7 +1,7 @@
 import React from 'react'
-import styles from '../CityProfilePage.module.css'
+import styles from '../../styles/CityProfilePage.module.css'
 
-export default function CardGrid({ children }) {
+export default function CityCardGrid({ children }) {
   return (
     <div className={styles.cardGrid}>
       {children}

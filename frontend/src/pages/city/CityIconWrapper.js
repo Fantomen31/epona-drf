@@ -1,7 +1,7 @@
 import React from 'react'
-import styles from '../CityProfilePage.module.css'
+import styles from '../../styles/CityProfilePage.module.css'
 
-export default function IconWrapper({ icon: Icon, text }) {
+export default function CityIconWrapper({ icon: Icon, text }) {
   return (
     <div className={styles.iconWrapper}>
       <Icon className={styles.icon} />

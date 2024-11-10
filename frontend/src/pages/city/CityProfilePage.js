@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { Tabs, Tab } from 'react-bootstrap'
 import { format } from 'date-fns'
-import styles from './CityProfilePage.module.css'
-import CityHeroSection from './components/CityHeroSection'
-import CityCityOverview from './components/CityCityOverview'
-import CityCardGrid from './components/CityCardGrid'
-import CityInfoCard from './components/CityInfoCard'
-import CityCalendarSection from './components/CityCalendarSection'
-import CitySectionTitle from './components/CitySectionTitle'
+import styles from '../../styles/CityProfilePage.module.css'
+import CityHeroSection from './CityHeroSection'
+import CityOverview from './CityOverview'
+import CityCardGrid from './CityCardGrid'
+import CityInfoCard from './CityInfoCard'
+import CityCalendarSection from './CityCalenderSection'
+import CitySectionTitle from './CitySectionTitle'
 
 export default function CityProfilePage() {
   const [date, setDate] = useState(new Date())
@@ -43,7 +43,7 @@ export default function CityProfilePage() {
 
       <Tabs defaultActiveKey="overview" className="mb-3">
         <Tab eventKey="overview" title="Overview">
-          <CityCityOverview />
+          <CityOverview />
           <CitySectionTitle>Popular Routes</CitySectionTitle>
           <CityCardGrid>
             {popularRoutes.map((route, index) => (

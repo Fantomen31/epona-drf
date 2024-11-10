@@ -1,8 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
-import styles from '../CityProfilePage.module.css'
+import styles from '../../styles/CityProfilePage.module.css'
 
-export default function HeroSection({ cityName, cityStats, imageUrl }) {
+export default function CityHeroSection({ cityName, cityStats, imageUrl }) {
   return (
     <div className={styles.heroSection}>
       <Image

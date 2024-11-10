@@ -1,16 +1,16 @@
 import React from 'react'
-import { Card } from "@/components/ui/card"
+import { Card } from 'react-bootstrap'
 import { ArrowUp } from "lucide-react"
-import styles from '../CityProfilePage.module.css'
-import SectionTitle from './SectionTitle'
-import IconWrapper from './IconWrapper'
+import styles from '../../styles/CityProfilePage.module.css'
+import CitySectionTitle from './CitySectionTitle'
+import CityIconWrapper from './CityIconWrapper'
 
 export default function CityOverview() {
   return (
     <>
-      <SectionTitle>City Details</SectionTitle>
+      <CitySectionTitle>City Details</CitySectionTitle>
       <Card className={styles.card}>
-        <div className={styles.cardContent}>
+        <Card.Body className={styles.cardContent}>
           <div className={styles.cardGrid}>
             <div>
               <p className={styles.cardText}>Country</p>
@@ -29,31 +29,31 @@ export default function CityOverview() {
               <p className={styles.cardTitle}>Mediterranean</p>
             </div>
           </div>
-        </div>
+        </Card.Body>
       </Card>
 
-      <SectionTitle>City Health</SectionTitle>
+      <CitySectionTitle>City Health</CitySectionTitle>
       <div className={styles.cardGrid}>
         <Card className={styles.card}>
-          <div className={styles.cardContent}>
+          <Card.Body className={styles.cardContent}>
             <p className={styles.cardText}>Total Miles Run</p>
             <p className={styles.cardTitle}>7.7M</p>
-            <IconWrapper icon={ArrowUp} text="+2%" />
-          </div>
+            <CityIconWrapper icon={ArrowUp} text="+2%" />
+          </Card.Body>
         </Card>
         <Card className={styles.card}>
-          <div className={styles.cardContent}>
+          <Card.Body className={styles.cardContent}>
             <p className={styles.cardText}>Total Runners</p>
             <p className={styles.cardTitle}>1M</p>
-            <IconWrapper icon={ArrowUp} text="+3%" />
-          </div>
+            <CityIconWrapper icon={ArrowUp} text="+3%" />
+          </Card.Body>
         </Card>
         <Card className={styles.card}>
-          <div className={styles.cardContent}>
+          <Card.Body className={styles.cardContent}>
             <p className={styles.cardText}>Total Runs</p>
             <p className={styles.cardTitle}>1M</p>
-            <IconWrapper icon={ArrowUp} text="+5%" />
-          </div>
+            <CityIconWrapper icon={ArrowUp} text="+5%" />
+          </Card.Body>
         </Card>
       </div>
     </>

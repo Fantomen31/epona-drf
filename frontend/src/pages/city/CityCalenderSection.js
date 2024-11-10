@@ -1,25 +1,24 @@
 import React from 'react'
-import { Card } from "@/components/ui/card"
-import { Calendar } from "@/components/ui/calendar"
+import { Card } from 'react-bootstrap'
 import { CalendarIcon } from "lucide-react"
 import { format } from 'date-fns'
-import styles from '../CityProfilePage.module.css'
+import styles from '../../styles/CityProfilePage.module.css'
 
-export default function CalendarSection({ date, setDate }) {
+export default function CityCalendarSection({ date, setDate }) {
   return (
     <div className={styles.calendarWrapper}>
       <Card className={styles.card}>
-        <div className={styles.cardContent}>
+        <Card.Body className={styles.cardContent}>
           <Calendar
             mode="single"
             selected={date}
             onSelect={(newDate) => newDate && setDate(newDate)}
             className={styles.calendar}
           />
-        </div>
+        </Card.Body>
       </Card>
       <Card className={styles.card}>
-        <div className={styles.cardContent}>
+        <Card.Body className={styles.cardContent}>
           <h3 className={styles.cardTitle}>Events on {format(date, 'MMMM d, yyyy')}</h3>
           <ul className={styles.eventList}>
             <li className={styles.eventItem}>
@@ -44,7 +43,7 @@ export default function CalendarSection({ date, setDate }) {
               </div>
             </li>
           </ul>
-        </div>
+        </Card.Body>
       </Card>
     </div>
   )

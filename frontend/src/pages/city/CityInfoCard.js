@@ -1,12 +1,11 @@
 import React from 'react'
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Card, Button } from 'react-bootstrap'
 import Image from 'next/image'
 import { Users, Calendar, Route } from "lucide-react"
-import styles from '../CityProfilePage.module.css'
-import IconWrapper from './IconWrapper'
+import styles from '../../styles/CityProfilePage.module.css'
+import CityIconWrapper from './CityIconWrapper'
 
-export default function InfoCard({ type, data }) {
+export default function CityInfoCard({ type, data }) {
   switch (type) {
     case 'route':
       return (
@@ -19,16 +18,16 @@ export default function InfoCard({ type, data }) {
               fill
             />
           </div>
-          <div className={styles.cardContent}>
-            <h3 className={styles.cardTitle}>{data.name}</h3>
-            <IconWrapper icon={Route} text={data.distance} />
-          </div>
+          <Card.Body className={styles.cardContent}>
+            <Card.Title className={styles.cardTitle}>{data.name}</Card.Title>
+            <CityIconWrapper icon={Route} text={data.distance} />
+          </Card.Body>
         </Card>
       )
     case 'club':
       return (
         <Card className={styles.card}>
-          <div className={`${styles.cardContent} flex items-center`}>
+          <Card.Body className={`${styles.cardContent} d-flex align-items-center`}>
             <div className="relative h-16 w-16 overflow-hidden rounded-full mr-4">
               <Image
                 src={data.image}
@@ -38,10 +37,10 @@ export default function InfoCard({ type, data }) {
               />
             </div>
             <div>
-              <h3 className={styles.cardTitle}>{data.name}</h3>
-              <IconWrapper icon={Users} text={data.members} />
+              <Card.Title className={styles.cardTitle}>{data.name}</Card.Title>
+              <CityIconWrapper icon={Users} text={data.members} />
             </div>
-          </div>
+          </Card.Body>
         </Card>
       )
     case 'event':
@@ -55,23 +54,23 @@ export default function InfoCard({ type, data }) {
               fill
             />
           </div>
-          <div className={styles.cardContent}>
-            <h3 className={styles.cardTitle}>{data.name}</h3>
-            <IconWrapper icon={Users} text={data.participants} />
+          <Card.Body className={styles.cardContent}>
+            <Card.Title className={styles.cardTitle}>{data.name}</Card.Title>
+            <CityIconWrapper icon={Users} text={data.participants} />
             <Button className={styles.button}>Register</Button>
-          </div>
+          </Card.Body>
         </Card>
       )
     case 'runup':
       return (
         <Card className={styles.card}>
-          <div className={styles.cardContent}>
-            <h3 className={styles.cardTitle}>{data.name}</h3>
-            <IconWrapper icon={Calendar} text={data.date} />
-            <IconWrapper icon={Route} text={`${data.distance}, Pace: ${data.pace}`} />
-            <IconWrapper icon={Users} text={`${data.participants} participants`} />
+          <Card.Body className={styles.cardContent}>
+            <Card.Title className={styles.cardTitle}>{data.name}</Card.Title>
+            <CityIconWrapper icon={Calendar} text={data.date} />
+            <CityIconWrapper icon={Route} text={`${data.distance}, Pace: ${data.pace}`} />
+            <CityIconWrapper icon={Users} text={`${data.participants} participants`} />
             <Button className={styles.button}>Join RunUp</Button>
-          </div>
+          </Card.Body>
         </Card>
       )
     default:
