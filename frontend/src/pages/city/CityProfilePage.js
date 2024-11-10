@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { Tabs, Tab } from 'react-bootstrap'
 import { format } from 'date-fns'
 import styles from './CityProfilePage.module.css'
-import HeroSection from './components/HeroSection'
-import CityOverview from './components/CityOverview'
-import CardGrid from './components/CardGrid'
-import InfoCard from './components/InfoCard'
-import CalendarSection from './components/CalendarSection'
-import SectionTitle from './components/SectionTitle'
+import CityHeroSection from './components/CityHeroSection'
+import CityCityOverview from './components/CityCityOverview'
+import CityCardGrid from './components/CityCardGrid'
+import CityInfoCard from './components/CityInfoCard'
+import CityCalendarSection from './components/CityCalendarSection'
+import CitySectionTitle from './components/CitySectionTitle'
 
 export default function CityProfilePage() {
   const [date, setDate] = useState(new Date())
@@ -35,89 +35,75 @@ export default function CityProfilePage() {
 
   return (
     <div className={styles.cityProfileContainer}>
-      <HeroSection
+      <CityHeroSection
         cityName="San Francisco"
         cityStats="7.7M miles run in this city • 100,000 runners"
         imageUrl="/placeholder.svg?height=400&width=800"
       />
 
-      <Tabs defaultValue="overview" className="w-full">
-        <TabsList className={styles.tabsList}>
-          <TabsTrigger value="overview" className={styles.tabsTrigger}>Overview</TabsTrigger>
-          <TabsTrigger value="routes" className={styles.tabsTrigger}>Routes</TabsTrigger>
-          <TabsTrigger value="clubs" className={styles.tabsTrigger}>Clubs</TabsTrigger>
-          <TabsTrigger value="events" className={styles.tabsTrigger}>Events</TabsTrigger>
-          <TabsTrigger value="runups" className={styles.tabsTrigger}>RunUps</TabsTrigger>
-          <TabsTrigger value="calendar" className={styles.tabsTrigger}>Calendar</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="overview" className={styles.tabsContent}>
-          <CityOverview />
-          <SectionTitle>Popular Routes</SectionTitle>
-          <CardGrid>
+      <Tabs defaultActiveKey="overview" className="mb-3">
+        <Tab eventKey="overview" title="Overview">
+          <CityCityOverview />
+          <CitySectionTitle>Popular Routes</CitySectionTitle>
+          <CityCardGrid>
             {popularRoutes.map((route, index) => (
-              <InfoCard key={index} type="route" data={route} />
+              <CityInfoCard key={index} type="route" data={route} />
             ))}
-          </CardGrid>
-          <SectionTitle>Local Clubs</SectionTitle>
-          <CardGrid>
+          </CityCardGrid>
+          <CitySectionTitle>Local Clubs</CitySectionTitle>
+          <CityCardGrid>
             {localClubs.map((club, index) => (
-              <InfoCard key={index} type="club" data={club} />
+              <CityInfoCard key={index} type="club" data={club} />
             ))}
-          </CardGrid>
-          <SectionTitle>Upcoming Events</SectionTitle>
-          <CardGrid>
+          </CityCardGrid>
+          <CitySectionTitle>Upcoming Events</CitySectionTitle>
+          <CityCardGrid>
             {upcomingEvents.map((event, index) => (
-              <InfoCard key={index} type="event" data={event} />
+              <CityInfoCard key={index} type="event" data={event} />
             ))}
-          </CardGrid>
-        </TabsContent>
-
-        <TabsContent value="routes" className={styles.tabsContent}>
-          <SectionTitle>Popular Running Routes</SectionTitle>
-          <CardGrid>
+          </CityCardGrid>
+        </Tab>
+        <Tab eventKey="routes" title="Routes">
+          <CitySectionTitle>Popular Running Routes</CitySectionTitle>
+          <CityCardGrid>
             {popularRoutes.map((route, index) => (
-              <InfoCard key={index} type="route" data={route} />
+              <CityInfoCard key={index} type="route" data={route} />
             ))}
-          </CardGrid>
-        </TabsContent>
-
-        <TabsContent value="clubs" className={styles.tabsContent}>
-          <SectionTitle>Running Clubs in San Francisco</SectionTitle>
-          <CardGrid>
+          </CityCardGrid>
+        </Tab>
+        <Tab eventKey="clubs" title="Clubs">
+          <CitySectionTitle>Running Clubs in San Francisco</CitySectionTitle>
+          <CityCardGrid>
             {localClubs.map((club, index) => (
-              <InfoCard key={index} type="club" data={club} />
+              <CityInfoCard key={index} type="club" data={club} />
             ))}
-          </CardGrid>
-        </TabsContent>
-
-        <TabsContent value="events" className={styles.tabsContent}>
-          <SectionTitle>Upcoming Running Events</SectionTitle>
-          <CardGrid>
+          </CityCardGrid>
+        </Tab>
+        <Tab eventKey="events" title="Events">
+          <CitySectionTitle>Upcoming Running Events</CitySectionTitle>
+          <CityCardGrid>
             {upcomingEvents.map((event, index) => (
-              <InfoCard key={index} type="event" data={event} />
+              <CityInfoCard key={index} type="event" data={event} />
             ))}
-          </CardGrid>
-        </TabsContent>
-
-        <TabsContent value="runups" className={styles.tabsContent}>
-          <SectionTitle>Upcoming RunUps</SectionTitle>
-          <CardGrid>
+          </CityCardGrid>
+        </Tab>
+        <Tab eventKey="runups" title="RunUps">
+          <CitySectionTitle>Upcoming RunUps</CitySectionTitle>
+          <CityCardGrid>
             {[
               { name: "Golden Gate Park Morning Run", date: "May 15, 2023", time: "7:00 AM", distance: "5K", pace: "9:30 min/mile", participants: 15 },
               { name: "Embarcadero Sunset Jog", date: "May 16, 2023", time: "6:30 PM", distance: "4 miles", pace: "10:00 min/mile", participants: 10 },
               { name: "Presidio Trail Adventure", date: "May 17, 2023", time: "8:00 AM", distance: "6 miles", pace: "11:00 min/mile", participants: 8 },
               { name: "Marina Green Speed Work", date: "May 18, 2023", time: "6:00 PM", distance: "3 miles", pace: "8:00 min/mile", participants: 12 },
             ].map((runup, index) => (
-              <InfoCard key={index} type="runup" data={runup} />
+              <CityInfoCard key={index} type="runup" data={runup} />
             ))}
-          </CardGrid>
-        </TabsContent>
-
-        <TabsContent value="calendar" className={styles.tabsContent}>
-          <SectionTitle>City Running Calendar</SectionTitle>
-          <CalendarSection date={date} setDate={setDate} />
-        </TabsContent>
+          </CityCardGrid>
+        </Tab>
+        <Tab eventKey="calendar" title="Calendar">
+          <CitySectionTitle>City Running Calendar</CitySectionTitle>
+          <CityCalendarSection date={date} setDate={setDate} />
+        </Tab>
       </Tabs>
     </div>
   )
