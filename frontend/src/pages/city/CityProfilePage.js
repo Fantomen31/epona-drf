@@ -1,27 +1,20 @@
-'use client'
-
-import React from 'react'
-import { Card } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import Image from "next/image"
-import Link from "next/link"
-import { ArrowUp, MapPin, Users, Calendar as CalendarIcon, Clock, Route } from "lucide-react"
-import styles from '../styles/CityProfilePage.module.css'
+import React, { useState } from 'react';
+import { Card, Button, Tabs, Tab } from 'react-bootstrap';
+import { ArrowUp, Users, Calendar as CalendarIcon, Clock, Route } from 'lucide-react';
+import { format } from 'date-fns';
+import styles from '../../styles/CityProfilePage.module.css';
 
 export default function CityProfilePage() {
-  const [date, setDate] = React.useState(new Date())
+  const [date, setDate] = useState(new Date());
 
   return (
     <div className={styles.cityProfileContainer}>
       {/* Hero Section */}
       <div className={styles.heroSection}>
-        <Image
+        <img
           src="/placeholder.svg?height=400&width=800"
           alt="San Francisco skyline"
           className={styles.heroImage}
-          fill
         />
         <div className={styles.heroOverlay} />
         <div className={styles.heroContent}>
@@ -31,22 +24,13 @@ export default function CityProfilePage() {
       </div>
 
       {/* Navigation */}
-      <Tabs defaultValue="overview" className="w-full">
-        <TabsList className={styles.tabsList}>
-          <TabsTrigger value="overview" className={styles.tabsTrigger}>Overview</TabsTrigger>
-          <TabsTrigger value="routes" className={styles.tabsTrigger}>Routes</TabsTrigger>
-          <TabsTrigger value="clubs" className={styles.tabsTrigger}>Clubs</TabsTrigger>
-          <TabsTrigger value="events" className={styles.tabsTrigger}>Events</TabsTrigger>
-          <TabsTrigger value="runups" className={styles.tabsTrigger}>RunUps</TabsTrigger>
-          <TabsTrigger value="calendar" className={styles.tabsTrigger}>Calendar</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="overview" className={styles.tabsContent}>
+      <Tabs defaultActiveKey="overview" className="mb-3">
+        <Tab eventKey="overview" title="Overview">
           {/* City Details Section */}
           <section>
             <h2 className={styles.sectionTitle}>City Details</h2>
             <Card className={styles.card}>
-              <div className={styles.cardContent}>
+              <Card.Body className={styles.cardContent}>
                 <div className={styles.cardGrid}>
                   <div>
                     <p className={styles.cardText}>Country</p>
@@ -65,7 +49,7 @@ export default function CityProfilePage() {
                     <p className={styles.cardTitle}>Mediterranean</p>
                   </div>
                 </div>
-              </div>
+              </Card.Body>
             </Card>
           </section>
 
@@ -74,34 +58,34 @@ export default function CityProfilePage() {
             <h2 className={styles.sectionTitle}>City Health</h2>
             <div className={styles.cardGrid}>
               <Card className={styles.card}>
-                <div className={styles.cardContent}>
+                <Card.Body className={styles.cardContent}>
                   <p className={styles.cardText}>Total Miles Run</p>
                   <p className={styles.cardTitle}>7.7M</p>
                   <div className={styles.iconWrapper}>
                     <ArrowUp className={styles.icon} />
                     <span className={styles.cardText}>+2%</span>
                   </div>
-                </div>
+                </Card.Body>
               </Card>
               <Card className={styles.card}>
-                <div className={styles.cardContent}>
+                <Card.Body className={styles.cardContent}>
                   <p className={styles.cardText}>Total Runners</p>
                   <p className={styles.cardTitle}>1M</p>
                   <div className={styles.iconWrapper}>
                     <ArrowUp className={styles.icon} />
                     <span className={styles.cardText}>+3%</span>
                   </div>
-                </div>
+                </Card.Body>
               </Card>
               <Card className={styles.card}>
-                <div className={styles.cardContent}>
+                <Card.Body className={styles.cardContent}>
                   <p className={styles.cardText}>Total Runs</p>
                   <p className={styles.cardTitle}>1M</p>
                   <div className={styles.iconWrapper}>
                     <ArrowUp className={styles.icon} />
                     <span className={styles.cardText}>+5%</span>
                   </div>
-                </div>
+                </Card.Body>
               </Card>
             </div>
           </section>
@@ -116,19 +100,13 @@ export default function CityProfilePage() {
                 { name: "Lands End Trail", distance: "3.4 miles", image: "/placeholder.svg?height=200&width=300" },
                 { name: "Chrissy Field", distance: "3.1 miles", image: "/placeholder.svg?height=200&width=300" },
               ].map((route, i) => (
-                <Link key={i} href="#" className={`${styles.card} group relative overflow-hidden rounded-lg h-48`}>
-                  <Image
-                    src={route.image}
-                    alt={route.name}
-                    className="object-cover transition-transform group-hover:scale-105"
-                    fill
-                  />
-                  <div className={styles.heroOverlay} />
-                  <div className={styles.cardContent}>
-                    <h3 className={styles.cardTitle}>{route.name}</h3>
-                    <p className={styles.cardText}>{route.distance}</p>
-                  </div>
-                </Link>
+                <Card key={i} className={`${styles.card} ${styles.imageCard}`}>
+                  <Card.Img variant="top" src={route.image} alt={route.name} />
+                  <Card.ImgOverlay>
+                    <Card.Title>{route.name}</Card.Title>
+                    <Card.Text>{route.distance}</Card.Text>
+                  </Card.ImgOverlay>
+                </Card>
               ))}
             </div>
           </section>
@@ -143,20 +121,15 @@ export default function CityProfilePage() {
                 { name: "Golden Gate Triathlon Club", members: "300 members", image: "/placeholder.svg?height=100&width=100" },
                 { name: "DSE Runners", members: "1,000 members", image: "/placeholder.svg?height=100&width=100" },
               ].map((club, i) => (
-                <Link key={i} href="#" className={`${styles.card} flex items-center gap-4 p-4 hover:bg-[#3d5a4c]`}>
-                  <div className="relative h-16 w-16 overflow-hidden rounded-full">
-                    <Image
-                      src={club.image}
-                      alt={club.name}
-                      className="object-cover"
-                      fill
-                    />
-                  </div>
-                  <div>
-                    <h3 className={styles.cardTitle}>{club.name}</h3>
-                    <p className={styles.cardText}>{club.members}</p>
-                  </div>
-                </Link>
+                <Card key={i} className={styles.card}>
+                  <Card.Body className="d-flex align-items-center">
+                    <img src={club.image} alt={club.name} className={styles.clubImage} />
+                    <div>
+                      <Card.Title>{club.name}</Card.Title>
+                      <Card.Text>{club.members}</Card.Text>
+                    </div>
+                  </Card.Body>
+                </Card>
               ))}
             </div>
           </section>
@@ -171,25 +144,19 @@ export default function CityProfilePage() {
                 { name: "Golden Gate Park 10K", participants: "5,000 runners", image: "/placeholder.svg?height=200&width=300" },
                 { name: "Escape from Alcatraz Triathlon", participants: "2,000 triathletes", image: "/placeholder.svg?height=200&width=300" },
               ].map((event, i) => (
-                <Link key={i} href="#" className={`${styles.card} group relative overflow-hidden rounded-lg h-48`}>
-                  <Image
-                    src={event.image}
-                    alt={event.name}
-                    className="object-cover transition-transform group-hover:scale-105"
-                    fill
-                  />
-                  <div className={styles.heroOverlay} />
-                  <div className={styles.cardContent}>
-                    <h3 className={styles.cardTitle}>{event.name}</h3>
-                    <p className={styles.cardText}>{event.participants}</p>
-                  </div>
-                </Link>
+                <Card key={i} className={`${styles.card} ${styles.imageCard}`}>
+                  <Card.Img variant="top" src={event.image} alt={event.name} />
+                  <Card.ImgOverlay>
+                    <Card.Title>{event.name}</Card.Title>
+                    <Card.Text>{event.participants}</Card.Text>
+                  </Card.ImgOverlay>
+                </Card>
               ))}
             </div>
           </section>
-        </TabsContent>
+        </Tab>
 
-        <TabsContent value="routes" className={styles.tabsContent}>
+        <Tab eventKey="routes" title="Routes">
           <h2 className={styles.sectionTitle}>Popular Running Routes</h2>
           <div className={styles.cardGrid}>
             {[
@@ -201,8 +168,8 @@ export default function CityProfilePage() {
               { name: "Golden Gate Park Loop", distance: "6.8 miles", elevation: "150 ft" },
             ].map((route, index) => (
               <Card key={index} className={styles.card}>
-                <div className={styles.cardContent}>
-                  <h3 className={styles.cardTitle}>{route.name}</h3>
+                <Card.Body>
+                  <Card.Title>{route.name}</Card.Title>
                   <div className={styles.iconWrapper}>
                     <Route className={styles.icon} />
                     <span className={styles.cardText}>{route.distance}</span>
@@ -212,13 +179,13 @@ export default function CityProfilePage() {
                     <span className={styles.cardText}>{route.elevation} elevation gain</span>
                   </div>
                   <Button className={styles.button}>View Route</Button>
-                </div>
+                </Card.Body>
               </Card>
             ))}
           </div>
-        </TabsContent>
+        </Tab>
 
-        <TabsContent value="clubs" className={styles.tabsContent}>
+        <Tab eventKey="clubs" title="Clubs">
           <h2 className={styles.sectionTitle}>Running Clubs in San Francisco</h2>
           <div className={styles.cardGrid}>
             {[
@@ -230,8 +197,8 @@ export default function CityProfilePage() {
               { name: "November Project SF", members: 600, founded: 2013 },
             ].map((club, index) => (
               <Card key={index} className={styles.card}>
-                <div className={styles.cardContent}>
-                  <h3 className={styles.cardTitle}>{club.name}</h3>
+                <Card.Body>
+                  <Card.Title>{club.name}</Card.Title>
                   <div className={styles.iconWrapper}>
                     <Users className={styles.icon} />
                     <span className={styles.cardText}>{club.members} members</span>
@@ -241,13 +208,13 @@ export default function CityProfilePage() {
                     <span className={styles.cardText}>Founded in {club.founded}</span>
                   </div>
                   <Button className={styles.button}>Join Club</Button>
-                </div>
+                </Card.Body>
               </Card>
             ))}
           </div>
-        </TabsContent>
+        </Tab>
 
-        <TabsContent value="events" className={styles.tabsContent}>
+        <Tab eventKey="events" title="Events">
           <h2 className={styles.sectionTitle}>Upcoming Running Events</h2>
           <div className={styles.cardGrid}>
             {[
@@ -259,8 +226,8 @@ export default function CityProfilePage() {
               { name: "Across the Bay 12K", date: "June 11, 2023", participants: 4000, distance: "12K" },
             ].map((event, index) => (
               <Card key={index} className={styles.card}>
-                <div className={styles.cardContent}>
-                  <h3 className={styles.cardTitle}>{event.name}</h3>
+                <Card.Body>
+                  <Card.Title>{event.name}</Card.Title>
                   <div className={styles.iconWrapper}>
                     <CalendarIcon className={styles.icon} />
                     <span className={styles.cardText}>{event.date}</span>
@@ -274,13 +241,13 @@ export default function CityProfilePage() {
                     <span className={styles.cardText}>{event.distance}</span>
                   </div>
                   <Button className={styles.button}>Register</Button>
-                </div>
+                </Card.Body>
               </Card>
             ))}
           </div>
-        </TabsContent>
+        </Tab>
 
-        <TabsContent value="runups" className={styles.tabsContent}>
+        <Tab eventKey="runups" title="RunUps">
           <h2 className={styles.sectionTitle}>Upcoming RunUps</h2>
           <div className={styles.cardGrid}>
             {[
@@ -292,8 +259,8 @@ export default function CityProfilePage() {
               { name: "Mission Bay Loop", date: "May 20, 2023", time: "9:00 AM", distance: "5K", pace: "9:00 min/mile", participants: 20 },
             ].map((runup, index) => (
               <Card key={index} className={styles.card}>
-                <div className={styles.cardContent}>
-                  <h3 className={styles.cardTitle}>{runup.name}</h3>
+                <Card.Body>
+                  <Card.Title>{runup.name}</Card.Title>
                   <div className={styles.iconWrapper}>
                     <CalendarIcon className={styles.icon} />
                     <span className={styles.cardText}>{runup.date}</span>
@@ -311,28 +278,28 @@ export default function CityProfilePage() {
                     <span className={styles.cardText}>{runup.participants} participants</span>
                   </div>
                   <Button className={styles.button}>Join RunUp</Button>
-                </div>
+                </Card.Body>
               </Card>
             ))}
           </div>
-        </TabsContent>
+        </Tab>
 
-        <TabsContent value="calendar" className={styles.tabsContent}>
+        <Tab eventKey="calendar" title="Calendar">
           <h2 className={styles.sectionTitle}>City Running Calendar</h2>
           <div className={styles.calendarWrapper}>
             <Card className={styles.card}>
-              <div className={styles.cardContent}>
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  className={styles.calendar}
+              <Card.Body>
+                <input 
+                  type="date" 
+                  value={date.toISOString().split('T')[0]}
+                  onChange={(e) => setDate(new Date(e.target.value))}
+                  className={styles.calendarInput}
                 />
-              </div>
+              </Card.Body>
             </Card>
             <Card className={styles.card}>
-              <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>Events on {date.toDateString()}</h3>
+              <Card.Body>
+                <h3 className={styles.cardTitle}>Events on {format(date, 'MMMM d, yyyy')}</h3>
                 <ul className={styles.eventList}>
                   <li className={styles.eventItem}>
                     <CalendarIcon className={styles.eventIcon} />
@@ -356,10 +323,10 @@ export default function CityProfilePage() {
                     </div>
                   </li>
                 </ul>
-              </div>
+              </Card.Body>
             </Card>
           </div>
-        </TabsContent>
+        </Tab>
       </Tabs>
     </div>
   )

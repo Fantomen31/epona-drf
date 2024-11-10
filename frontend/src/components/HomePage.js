@@ -3,7 +3,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 import FeaturedCarousel from './FeaturedCarousel';
 import ProfileCard from '../pages/profile/ProfileCard';
 import RunUps from './RunUps';
-import MainContent from './MainContent';
 
 const HomePage = () => {
 
@@ -22,7 +21,6 @@ const HomePage = () => {
         </Row>
         </Col>
       </Row >
-      < MainContent />
     </Container>
   );
 };
