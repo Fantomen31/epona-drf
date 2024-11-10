@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import FeaturedCarousel from './FeaturedCarousel';
 import ProfileCard from '../pages/profile/ProfileCard';
+import RunUps from './RunUps';
 
 const HomePage = () => {
 
@@ -12,7 +13,12 @@ const HomePage = () => {
           <FeaturedCarousel />
         </Col>
         <Col md={5}>
+        <Row>
         <ProfileCard />
+        </Row>
+        <Row>
+          <RunUps variant="home"/>
+        </Row>
         </Col>
       </Row >
     </Container>

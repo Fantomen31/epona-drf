@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Card, Button, Modal, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaPlus } from 'react-icons/fa';
-import styles from '../styles/RunUps.module.css';
+import stylesHome from '../styles/RunUpsHomePage.module.css';
+import stylesProfile from '../styles/RunUpsProfile.module.css';
 
-const RunUps = () => {
+const RunUps = ({ variant = 'profile' }) => {
   const [showModal, setShowModal] = useState(false);
+  const styles = variant === 'home' ? stylesHome : stylesProfile;
 
-  // Placeholder data for RunUps
   const runUps = [
     { id: 1, distance: '5km', pace: '5:30 /km', location: 'Golden Gate Park', startTime: '2023-05-15T07:00:00' },
     { id: 2, distance: '10km', pace: '6:00 /km', location: 'Embarcadero', startTime: '2023-05-16T18:30:00' },
@@ -21,7 +22,6 @@ const RunUps = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission logic here
     console.log('Form submitted');
     handleClose();
   };
@@ -30,7 +30,7 @@ const RunUps = () => {
     <div className={styles.runUpsWrapper}>
       <Card className={styles.runUpsCard}>
         <Card.Header className={styles.cardHeader}>
-          <h3>Upcoming RunUps</h3>
+          <h3> RunUps</h3>
         </Card.Header>
         <Card.Body className={styles.cardBody}>
           <div className={styles.runUpsList}>
@@ -39,22 +39,35 @@ const RunUps = () => {
                 <div className={styles.runUpItem}>
                   <div className={styles.runUpDetails}>
                     <h4>{runUp.distance} RunUp</h4>
-                    <p><FaMapMarkerAlt /> {runUp.location}</p>
-                    <p><FaClock /> {new Date(runUp.startTime).toLocaleString()}</p>
-                    <p><FaRoad /> Distance: {runUp.distance}</p>
-                    <p><FaTachometerAlt /> Pace: {runUp.pace}</p>
+                    <div className={styles.detailsRow}>
+                      <p><FaMapMarkerAlt /> {runUp.location}</p>
+                      <p><FaClock /> {new Date(runUp.startTime).toLocaleString()}</p>
+                    </div>
+                    <div className={styles.detailsRow}>
+                      <p><FaRoad /> Distance: {runUp.distance}</p>
+                      <p><FaTachometerAlt /> Pace: {runUp.pace}</p>
+                    </div>
                   </div>
-                  <Button variant="success" className={styles.joinButton}>Join Run</Button>
+                  <Button variant="success" className={styles.joinButton}>Join</Button>
                 </div>
               </Link>
             ))}
           </div>
+          {variant === 'home' && (
+            <div className={styles.hostButtonWrapper}>
+              <Button variant="primary" onClick={handleShow} className={styles.hostButton}>
+                <FaPlus /> Host RunUp
+              </Button>
+            </div>
+          )}
         </Card.Body>
-        <Card.Footer className={styles.cardFooter}>
-          <Button variant="primary" onClick={handleShow} className={styles.hostButton}>
-            <FaPlus /> Host RunUp
-          </Button>
-        </Card.Footer>
+        {variant === 'profile' && (
+          <Card.Footer className={styles.cardFooter}>
+            <Button variant="primary" onClick={handleShow} className={styles.hostButton}>
+              <FaPlus /> Host RunUp
+            </Button>
+          </Card.Footer>
+        )}
       </Card>
 
       <Modal show={showModal} onHide={handleClose} className={styles.modal}>
