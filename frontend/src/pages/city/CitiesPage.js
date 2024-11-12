@@ -33,20 +33,25 @@ const CitiesPage = () => {
     <div className={styles.pageWrapper}>
       <Container fluid className={styles.citiesContainer}>
         <div className={styles.contentWrapper}>
+          <div className={styles.sidebarWrapper}>
+            <ProfileSideMenu />
+          </div>
           <div className={styles.mainContent}>
-            <h1 className={styles.pageTitle}>Explore Running Cities</h1>
-            <Form className={styles.searchForm}>
-              <Form.Group controlId="citySearch">
-                <Form.Control
-                  type="text"
-                  placeholder="Search cities..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className={styles.searchInput}
-                />
-              </Form.Group>
-            </Form>
-            <Row xs={1} md={2} lg={4} className={styles.cityGrid}>
+            <div className={styles.stickyHeader}>
+              <h1 className={styles.pageTitle}>Explore Running Cities</h1>
+              <Form className={styles.searchForm}>
+                <Form.Group controlId="citySearch">
+                  <Form.Control
+                    type="text"
+                    placeholder="Search cities..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className={styles.searchInput}
+                  />
+                </Form.Group>
+              </Form>
+            </div>
+            <Row xs={1} md={2} lg={3} className={styles.cityGrid}>
               {filteredCities.map(city => (
                 <Col key={city.id} className={styles.cityCol}>
                   <Card className={styles.cityCard}>
@@ -75,9 +80,6 @@ const CitiesPage = () => {
                 </Col>
               ))}
             </Row>
-          </div>
-          <div className={styles.sidebarWrapper}>
-            <ProfileSideMenu />
           </div>
         </div>
       </Container>

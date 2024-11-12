@@ -15,6 +15,7 @@ import HomePage from './components/HomePage';
 import ProfilePage from './pages/profile/ProfilePage';
 import CitiesPage from './pages/city/CitiesPage';
 import CityProfilePage from './pages/city/CityProfilePage';
+import ClubsPage from './pages/club/ClubsPage';
 
 
 
@@ -38,6 +39,8 @@ function App() {
                 <Route path="/profiles/:id" element={<ProfilePage />} />
                 <Route path="/cities" element={<CitiesPage />} />
                 <Route path="/cities/:id" element={<CityProfilePage />} />
+                <Route path="/clubs" element={<ClubsPage />} />
+
               </Routes>
             </Container>
             {showMainContent && <MainContent />}

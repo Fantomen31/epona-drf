@@ -1,6 +1,7 @@
 .pageWrapper {
   min-height: 100vh;
   background-color: var(--dark-green);
+  padding-top: 60px; /* Adjust this value to match your navbar height */
 }
 
 .citiesContainer {
@@ -10,7 +11,7 @@
 .contentWrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: calc(100vh - 60px); /* Subtract navbar height */
 }
 
 .mainContent {
@@ -20,6 +21,14 @@
 
 .sidebarWrapper {
   width: 100%;
+}
+
+.stickyHeader {
+  position: sticky;
+  top: 60px; /* This should match the navbar height */
+  background-color: var(--dark-green);
+  padding: 20px 0;
+  z-index: 100; /* Ensure this is lower than the navbar's z-index */
 }
 
 .pageTitle {
@@ -127,5 +136,10 @@
   .sidebarWrapper {
     width: 16.667%;
     order: 1;
+  }
+
+  .stickyHeader {
+    width: 100%; /* Match the width of mainContent */
+    left: 16.667%; /* Offset by the width of the sidebar */
   }
 }

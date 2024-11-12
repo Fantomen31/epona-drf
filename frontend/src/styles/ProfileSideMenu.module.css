@@ -8,6 +8,7 @@
     padding: 1rem;
     overflow-y: auto;
     border: 1px solid #7AB55C;
+    z-index: 900;
   }
   
   .menuList {

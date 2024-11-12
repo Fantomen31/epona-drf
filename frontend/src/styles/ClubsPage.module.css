@@ -1,0 +1,145 @@
+.pageWrapper {
+    min-height: 100vh;
+    background-color: var(--dark-green);
+    padding-top: 60px; /* Adjust this value to match your navbar height */
+  }
+  
+  .clubsContainer {
+    padding: 20px;
+  }
+  
+  .contentWrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 60px); /* Subtract navbar height */
+  }
+  
+  .mainContent {
+    flex: 1;
+    width: 100%;
+  }
+  
+  .sidebarWrapper {
+    width: 100%;
+  }
+  
+  .stickyHeader {
+    position: sticky;
+    top: 60px; /* This should match the navbar height */
+    background-color: var(--dark-green);
+    padding: 20px 0;
+    z-index: 100; /* Ensure this is lower than the navbar's z-index */
+  }
+  
+  .pageTitle {
+    color: var(--creamy-white);
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .searchForm {
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .searchInput {
+    background-color: var(--light-green);
+    border: none;
+    color: var(--creamy-white);
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 100%;
+  }
+  
+  .searchInput::placeholder {
+    color: rgba(245, 245, 220, 0.7);
+  }
+  
+  .clubGrid {
+    margin: 0 -10px;
+  }
+  
+  .clubCol {
+    padding: 10px;
+  }
+  
+  .clubCard {
+    background-color: var(--light-green);
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+  }
+  
+  .clubCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(255, 140, 0, 0.3);
+  }
+  
+  .clubName {
+    color: var(--creamy-white);
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+  }
+  
+  .clubCity {
+    color: var(--orange);
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .clubStats {
+    margin-bottom: 15px;
+  }
+  
+  .statItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    color: var(--creamy-white);
+  }
+  
+  .statIcon {
+    color: var(--orange);
+    margin-right: 10px;
+    width: 20px;
+  }
+  
+  .viewClubLink {
+    display: inline-block;
+    background-color: var(--orange);
+    color: var(--dark-green);
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .viewClubLink:hover {
+    background-color: #ff9f33;
+    color: var(--dark-green);
+  }
+  
+  @media (min-width: 768px) {
+    .contentWrapper {
+      flex-direction: row;
+    }
+  
+    .mainContent {
+      width: 83.333%;
+      order: 2;
+    }
+  
+    .sidebarWrapper {
+      width: 16.667%;
+      order: 1;
+    }
+  
+    .stickyHeader {
+      width: 100%; /* Match the width of mainContent */
+      left: 16.667%; /* Offset by the width of the sidebar */
+    }
+  }
