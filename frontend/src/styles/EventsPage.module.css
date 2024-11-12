@@ -1,0 +1,118 @@
+.eventsContainer {
+    background-color: var(--dark-green);
+    min-height: 100vh;
+    padding: 0;
+  }
+  
+  .sidebarColumn {
+    background-color: var(--light-green);
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  .pageTitle {
+    color: var(--creamy-white);
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .searchForm {
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .searchInput {
+    background-color: var(--light-green);
+    border: none;
+    color: var(--creamy-white);
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 100%;
+  }
+  
+  .searchInput::placeholder {
+    color: rgba(245, 245, 220, 0.7);
+  }
+  
+  .eventGrid {
+    margin: 0 -10px;
+  }
+  
+  .eventCol {
+    padding: 10px;
+  }
+  
+  .eventCard {
+    background-color: var(--light-green);
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+  }
+  
+  .eventCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(255, 140, 0, 0.3);
+  }
+  
+  .eventName {
+    color: var(--creamy-white);
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+  }
+  
+  .eventCity {
+    color: var(--orange);
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .eventStats {
+    margin-bottom: 15px;
+  }
+  
+  .statItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    color: var(--creamy-white);
+  }
+  
+  .statIcon {
+    color: var(--orange);
+    margin-right: 10px;
+    width: 20px;
+  }
+  
+  .viewEventLink {
+    display: inline-block;
+    background-color: var(--orange);
+    color: var(--dark-green);
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .viewEventLink:hover {
+    background-color: #ff9f33;
+    color: var(--dark-green);
+  }
+  
+  @media (max-width: 767px) {
+    .sidebarColumn {
+      min-height: auto;
+      margin-bottom: 20px;
+    }
+  
+    .pageTitle {
+      font-size: 2rem;
+    }
+  
+    .eventCard {
+      margin-bottom: 20px;
+    }
+  }
