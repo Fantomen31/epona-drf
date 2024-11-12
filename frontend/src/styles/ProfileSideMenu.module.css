@@ -4,9 +4,10 @@
     left: 0;
     bottom: 0;
     width: 250px;
-    background-color: #212a21;
+    background-color: #191e19;
     padding: 1rem;
     overflow-y: auto;
+    border: 1px solid #7AB55C;
   }
   
   .menuList {

@@ -1,74 +1,131 @@
+.pageWrapper {
+  min-height: 100vh;
+  background-color: var(--dark-green);
+}
+
 .citiesContainer {
-    padding: 2rem 0;
+  padding: 20px;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainContent {
+  flex: 1;
+  width: 100%;
+}
+
+.sidebarWrapper {
+  width: 100%;
+}
+
+.pageTitle {
+  color: var(--creamy-white);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.searchForm {
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.searchInput {
+  background-color: var(--light-green);
+  border: none;
+  color: var(--creamy-white);
+  padding: 10px 15px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.searchInput::placeholder {
+  color: rgba(245, 245, 220, 0.7);
+}
+
+.cityGrid {
+  margin: 0 -10px;
+}
+
+.cityCol {
+  padding: 10px;
+}
+
+.cityCard {
+  background-color: var(--light-green);
+  border: none;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.cityCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(255, 140, 0, 0.3);
+}
+
+.cityName {
+  color: var(--creamy-white);
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.cityCountry {
+  color: var(--orange);
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.cityStats {
+  margin-bottom: 15px;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  color: var(--creamy-white);
+}
+
+.statIcon {
+  color: var(--orange);
+  margin-right: 10px;
+  width: 20px;
+}
+
+.viewCityLink {
+  display: inline-block;
+  background-color: var(--orange);
+  color: var(--dark-green);
+  padding: 8px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.viewCityLink:hover {
+  background-color: #ff9f33;
+  color: var(--dark-green);
+}
+
+@media (min-width: 768px) {
+  .contentWrapper {
+    flex-direction: row;
   }
-  
-  .pageTitle {
-    text-align: center;
-    margin-bottom: 2rem;
+
+  .mainContent {
+    width: 83.333%;
+    order: 2;
   }
-  
-  .searchForm {
-    max-width: 500px;
-    margin: 0 auto 2rem;
+
+  .sidebarWrapper {
+    width: 16.667%;
+    order: 1;
   }
-  
-  .searchInput {
-    border-radius: 20px;
-  }
-  
-  .cityGrid {
-    gap: 1.5rem;
-  }
-  
-  .cityCol {
-    margin-bottom: 1.5rem;
-  }
-  
-  .cityCard {
-    height: 100%;
-    transition: transform 0.2s;
-  }
-  
-  .cityCard:hover {
-    transform: translateY(-5px);
-  }
-  
-  .cityName {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .cityCountry {
-    color: #666;
-    margin-bottom: 1rem;
-  }
-  
-  .cityStats {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-  
-  .statItem {
-    display: flex;
-    align-items: center;
-  }
-  
-  .statIcon {
-    margin-right: 0.5rem;
-    color: #28a745;
-  }
-  
-  .viewCityLink {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background-color: #28a745;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.2s;
-  }
-  
-  .viewCityLink:hover {
-    background-color: #218838;
-  }
+}

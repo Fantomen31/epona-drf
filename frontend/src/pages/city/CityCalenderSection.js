@@ -1,8 +1,10 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
+import Calendar from 'react-calendar'
 import { CalendarIcon } from "lucide-react"
 import { format } from 'date-fns'
 import styles from '../../styles/CityProfilePage.module.css'
+import 'react-calendar/dist/Calendar.css' 
 
 export default function CityCalendarSection({ date, setDate }) {
   return (
@@ -10,9 +12,8 @@ export default function CityCalendarSection({ date, setDate }) {
       <Card className={styles.card}>
         <Card.Body className={styles.cardContent}>
           <Calendar
-            mode="single"
-            selected={date}
-            onSelect={(newDate) => newDate && setDate(newDate)}
+            onChange={setDate}
+            value={date}
             className={styles.calendar}
           />
         </Card.Body>
