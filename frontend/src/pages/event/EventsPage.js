@@ -9,7 +9,6 @@ import ProfileSideMenu from '../profile/ProfileSideMenu';
 const EventsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Mock data for events
   const events = [
     { id: 1, name: "San Francisco Marathon", city: "San Francisco", date: "July 23, 2023", participants: 25000, distance: "26.2 miles" },
     { id: 2, name: "Bay to Breakers", city: "San Francisco", date: "May 21, 2023", participants: 50000, distance: "12K" },
@@ -27,59 +26,63 @@ const EventsPage = () => {
   );
 
   return (
-    <Container fluid className={styles.eventsContainer}>
-      <Row>
-        <Col md={2} className={styles.sidebarColumn}>
-          <ProfileSideMenu />
-        </Col>
-        <Col md={10}>
-          <h1 className={styles.pageTitle}>Explore Running Events</h1>
-          <Form className={styles.searchForm}>
-            <Form.Group controlId="eventSearch">
-              <Form.Control
-                type="text"
-                placeholder="Search events..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className={styles.searchInput}
-              />
-            </Form.Group>
-          </Form>
-          <Row xs={1} md={2} lg={3} className={styles.eventGrid}>
-            {filteredEvents.map(event => (
-              <Col key={event.id} className={styles.eventCol}>
-                <Card className={styles.eventCard}>
-                  <Card.Body>
-                    <Card.Title className={styles.eventName}>{event.name}</Card.Title>
-                    <Card.Subtitle className={styles.eventCity}>
-                      <FontAwesomeIcon icon={faMapMarkerAlt} className={styles.statIcon} />
-                      {event.city}
-                    </Card.Subtitle>
-                    <div className={styles.eventStats}>
-                      <div className={styles.statItem}>
-                        <FontAwesomeIcon icon={faCalendarAlt} className={styles.statIcon} />
-                        <span>{event.date}</span>
+    <div className={styles.pageWrapper}>
+      <Container fluid className={styles.eventsContainer}>
+        <div className={styles.contentWrapper}>
+          <div className={styles.sidebarWrapper}>
+            <ProfileSideMenu />
+          </div>
+          <div className={styles.mainContent}>
+            <div className={styles.stickyHeader}>
+              <h1 className={styles.pageTitle}>Explore Running Events</h1>
+              <Form className={styles.searchForm}>
+                <Form.Group controlId="eventSearch">
+                  <Form.Control
+                    type="text"
+                    placeholder="Search events..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className={styles.searchInput}
+                  />
+                </Form.Group>
+              </Form>
+            </div>
+            <Row xs={1} md={2} lg={3} className={styles.eventGrid}>
+              {filteredEvents.map(event => (
+                <Col key={event.id} className={styles.eventCol}>
+                  <Card className={styles.eventCard}>
+                    <Card.Body>
+                      <Card.Title className={styles.eventName}>{event.name}</Card.Title>
+                      <Card.Subtitle className={styles.eventCity}>
+                        <FontAwesomeIcon icon={faMapMarkerAlt} className={styles.statIcon} />
+                        {event.city}
+                      </Card.Subtitle>
+                      <div className={styles.eventStats}>
+                        <div className={styles.statItem}>
+                          <FontAwesomeIcon icon={faCalendarAlt} className={styles.statIcon} />
+                          <span>{event.date}</span>
+                        </div>
+                        <div className={styles.statItem}>
+                          <FontAwesomeIcon icon={faUsers} className={styles.statIcon} />
+                          <span>{event.participants.toLocaleString()} participants</span>
+                        </div>
+                        <div className={styles.statItem}>
+                          <FontAwesomeIcon icon={faRunning} className={styles.statIcon} />
+                          <span>{event.distance}</span>
+                        </div>
                       </div>
-                      <div className={styles.statItem}>
-                        <FontAwesomeIcon icon={faUsers} className={styles.statIcon} />
-                        <span>{event.participants.toLocaleString()} participants</span>
-                      </div>
-                      <div className={styles.statItem}>
-                        <FontAwesomeIcon icon={faRunning} className={styles.statIcon} />
-                        <span>{event.distance}</span>
-                      </div>
-                    </div>
-                    <Link to={`/events/${event.id}`} className={styles.viewEventLink}>
-                      View Event Details
-                    </Link>
-                  </Card.Body>  
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+                      <Link to={`/events/${event.id}`} className={styles.viewEventLink}>
+                        View Event Details
+                      </Link>
+                    </Card.Body>  
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </div>
+        </div>
+      </Container>
+    </div>
   );
 };
 

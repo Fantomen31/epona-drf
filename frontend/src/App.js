@@ -44,7 +44,6 @@ function App() {
                 <Route path="/clubs" element={<ClubsPage />} />
                 <Route path="/clubs/:id" element={<ClubProfilePage />} />
                 <Route path="/events" element={<EventsPage />} />
-
               </Routes>
             </Container>
             {showMainContent && <MainContent />}
