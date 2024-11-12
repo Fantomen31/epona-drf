@@ -1,0 +1,155 @@
+.eventProfileContainer {
+    background-color: var(--dark-green);
+    min-height: 100vh;
+    padding: 0;
+  }
+  
+  .sidebarColumn {
+    background-color: var(--light-green);
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  .mainContent {
+    padding: 20px;
+  }
+  
+  .heroSection {
+    position: relative;
+    height: 400px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .heroImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .heroOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+  }
+  
+  .heroContent {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    color: var(--creamy-white);
+  }
+  
+  .eventName {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .eventDate {
+    font-size: 1.5rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: var(--creamy-white);
+  }
+  
+  .eventOverview {
+    background-color: var(--light-green);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .eventDetails {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .detailItem {
+    display: flex;
+    align-items: center;
+    color: var(--creamy-white);
+  }
+  
+  .icon {
+    color: var(--orange);
+    margin-right: 10px;
+    width: 20px;
+  }
+  
+  .eventDescription {
+    color: var(--creamy-white);
+    line-height: 1.6;
+  }
+  
+  .registrationSection {
+    background-color: var(--light-green);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .registrationPrice {
+    font-size: 1.2rem;
+    color: var(--creamy-white);
+    margin-bottom: 15px;
+  }
+  
+  .registerButton {
+    background-color: var(--orange);
+    border: none;
+    color: var(--dark-green);
+    font-weight: bold;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .registerButton:hover {
+    background-color: #ff9f33;
+  }
+  
+  .mapSection {
+    background-color: var(--light-green);
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .courseMap {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  @media (max-width: 767px) {
+    .sidebarColumn {
+      min-height: auto;
+      margin-bottom: 20px;
+    }
+  
+    .heroSection {
+      height: 300px;
+    }
+  
+    .eventName {
+      font-size: 2.5rem;
+    }
+  
+    .eventDate {
+      font-size: 1.2rem;
+    }
+  
+    .eventDetails {
+      grid-template-columns: 1fr;
+    }
+  }

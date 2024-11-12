@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
 import styles from '../../styles/EventProfilePage.module.css';
 import ProfileSideMenu from '../profile/ProfileSideMenu';
 import EventHeroSection from './EventHeroSection';
@@ -9,7 +8,6 @@ import EventRegistration from './EventRegistration';
 import EventMap from './EventMap';
 
 const EventProfilePage = () => {
-  const { id } = useParams();
 
   // Mock event data (in a real app, you'd fetch this based on the id)
   const event = {
