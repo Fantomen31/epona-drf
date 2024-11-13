@@ -1,7 +1,8 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProfileCard from '../pages/profile/ProfileCard';
-import RunUps from './RunUps';
+import RunUpsStories from '../pages/runup/RunUpStories';
+
 
 const HomePage = () => {
 
@@ -9,7 +10,7 @@ const HomePage = () => {
     <Container fluid>
       <Row md={12}>
         <Col md={7}>
-        <RunUps variant="home"/>
+        <RunUpsStories />
         </Col>
         <Col md={5}>
         <ProfileCard />
