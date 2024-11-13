@@ -10,8 +10,11 @@ import ClubMembers from './ClubMembers'
 import ClubEvents from './ClubEvents'
 import ClubRoutes from './ClubRoutes'
 import ClubGroupFeed from './ClubGroupFeed'
+import ClubMembershipButton from './ClubMembershipButton'
 
 export default function ClubProfilePage() {
+  const clubId = 1; // This would typically come from a route parameter
+
   return (
     <Container fluid className={styles.clubProfileContainer}>
       <Row>
@@ -24,6 +27,10 @@ export default function ClubProfilePage() {
             clubStats="1,200 members • 50,000 miles run • Founded in 2010"
             imageUrl="/placeholder.svg?height=400&width=800"
           />
+          
+          <div className={styles.membershipButtonContainer}>
+            <ClubMembershipButton clubId={clubId} />
+          </div>
 
           <Tabs defaultActiveKey="overview" className={`mb-3 ${styles.clubTabs}`}>
             <Tab eventKey="overview" title="Overview">

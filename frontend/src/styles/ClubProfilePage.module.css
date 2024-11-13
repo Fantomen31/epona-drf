@@ -276,4 +276,41 @@
     .postFormActions > * {
       margin-bottom: 10px;
     }
+
+
+.membershipButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.joinClubButton, .leaveClubButton {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.joinClubButton {
+  background-color: var(--orange);
+  color: var(--dark-green);
+}
+
+.joinClubButton:hover {
+  background-color: #ff9f33;
+}
+
+.leaveClubButton {
+  background-color: var(--dark-green);
+  color: var(--creamy-white);
+  border: 2px solid var(--orange);
+}
+
+.leaveClubButton:hover {
+  background-color: var(--light-green);
+}
+
   }
