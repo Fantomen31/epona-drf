@@ -20,6 +20,7 @@ import ClubProfilePage from './pages/club/ClubProfilePage';
 import EventsPage from './pages/event/EventsPage';
 import EventProfilePage from './pages/event/EventProfilePage';
 import RunUpsPage from './pages/runup/RunUpsPage';
+import RunUpProfile from './pages/runup/RunUpProfile';
 
 
 
@@ -49,6 +50,8 @@ function App() {
                 <Route path="/events" element={<EventsPage />} />
                 <Route path="/events/:id" element={<EventProfilePage />} />
                 <Route path="/runups" element={<RunUpsPage />} />
+                <Route path="/runups/:id" element={<RunUpProfile />} />
+
               </Routes>
             </Container>
             {showMainContent && <MainContent />}

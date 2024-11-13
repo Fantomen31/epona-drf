@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser } from 'react-icons/fa';
-import styles from '../styles/RunUpProfile.module.css';
+import styles from '../../styles/RunUpProfile.module.css';
 
 const RunUpProfile = () => {
   const { id } = useParams();
