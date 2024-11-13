@@ -1,0 +1,128 @@
+.runUpProfileContainer {
+    background-color: var(--dark-green);
+    color: var(--creamy-white);
+    min-height: 100vh;
+  }
+  
+  .sideMenuColumn {
+    background-color: var(--light-green);
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    width: 16.666667%;
+  }
+  
+  .mainContentColumn {
+    margin-left: 16.666667%;
+    padding: 20px;
+  }
+  
+  .runUpTitle {
+    color: var(--orange);
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+  
+  .runUpDetails {
+    background-color: var(--light-green);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+  
+  .runUpDetails p {
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+  }
+  
+  .participantsSection,
+  .commentsSection {
+    background-color: var(--light-green);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+  
+  .participantsSection h3,
+  .commentsSection h3 {
+    color: var(--orange);
+    margin-bottom: 15px;
+  }
+  
+  .participantsList {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .participantsList li {
+    margin-bottom: 5px;
+  }
+  
+  .commentsList {
+    margin-bottom: 20px;
+  }
+  
+  .comment {
+    background-color: var(--dark-green);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .commentUser {
+    font-weight: bold;
+    color: var(--orange);
+  }
+  
+  .commentText {
+    margin-top: 5px;
+  }
+  
+  .commentTimestamp {
+    font-size: 0.8rem;
+    color: rgba(245, 245, 240, 0.7);
+    margin-top: 5px;
+  }
+  
+  .commentForm textarea {
+    background-color: var(--dark-green);
+    border: 1px solid var(--creamy-white);
+    color: var(--creamy-white);
+    margin-bottom: 10px;
+  }
+  
+  .commentForm textarea:focus {
+    background-color: var(--dark-green);
+    border-color: var(--orange);
+    box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.25);
+    color: var(--creamy-white);
+  }
+  
+  .submitButton,
+  .joinButton {
+    background-color: var(--orange);
+    border: none;
+    color: var(--dark-green);
+    font-weight: bold;
+  }
+  
+  .submitButton:hover,
+  .joinButton:hover {
+    background-color: #d35400;
+    color: var(--dark-green);
+  }
+  
+  .actionSection {
+    margin-bottom: 30px;
+  }
+  
+  .mapPlaceholder {
+    background-color: var(--light-green);
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    color: var(--creamy-white);
+  }
