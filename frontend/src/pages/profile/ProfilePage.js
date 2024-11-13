@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProfileSideMenu from './ProfileSideMenu';
 import DetailedProfile from './DetailedProfile';
-import RunUps from '../runup/RunUpsCard';
+import RunUps from '../runup/RunUps.js';
 
 
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import styles from '../styles/RunUpsPage.module.css';
+import styles from '../../styles/RunUpsPage.module.css';
 
 const RunUpsPage = () => {
   const [runUps, setRunUps] = useState([]);

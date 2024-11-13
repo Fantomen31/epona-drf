@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProfileCard from '../pages/profile/ProfileCard';
-import RunUps from '../pages/runup/RunUpsCard';
+import RunUps from '../pages/runup/RunUps.js';
 
 
 const HomePage = () => {
