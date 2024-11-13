@@ -1,0 +1,22 @@
+.modal {
+    color: var(--dark-green);
+  }
+  
+  .modalHeader {
+    background-color: var(--dark-green);
+    color: var(--creamy-white);
+  }
+  
+  .modalBody {
+    background-color: var(--light-green);
+  }
+  
+  .submitButton {
+    background-color: var(--orange);
+    border: none;
+    color: var(--dark-green);
+  }
+  
+  .submitButton:hover {
+    background-color: #ff9f33;
+  }

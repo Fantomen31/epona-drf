@@ -1,0 +1,39 @@
+.runUpWallWrapper {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .runUpWallCard {
+    background-color: var(--light-green);
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .cardHeader {
+    background-color: var(--dark-green);
+    color: var(--creamy-white);
+    padding: 1rem;
+  }
+  
+  .cardBody {
+    padding: 1rem;
+    color: var(--creamy-white);
+  }
+  
+  .runUpDetails {
+    margin-bottom: 2rem;
+  }
+  
+  .commentsSection {
+    background-color: var(--dark-green);
+    padding: 1rem;
+    border-radius: 10px;
+  }
+  
+  .comment {
+    background-color: var(--light-green);
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+  }

@@ -1,0 +1,58 @@
+.runUpsStoriesWrapper {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .runUpStoryCard {
+    background-color: var(--light-green);
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .cardHeader {
+    background-color: var(--dark-green);
+    color: var(--creamy-white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  .cardBody {
+    padding: 1rem;
+  }
+  
+  .storyNavigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .runUpStory {
+    text-align: center;
+    color: var(--creamy-white);
+  }
+  
+  .navButton {
+    background: none;
+    border: none;
+    color: var(--orange);
+    font-size: 1.5rem;
+  }
+  
+  .joinButton {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  .hostButton {
+    background-color: var(--orange);
+    border: none;
+    color: var(--dark-green);
+  }
+  
+  .hostButton:hover {
+    background-color: #ff9f33;
+  }
