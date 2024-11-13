@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProfileSideMenu from './ProfileSideMenu';
 import DetailedProfile from './DetailedProfile';
-import RunUps from '../../components/RunUps';
+//import RunUps from '../../components/RunUps';
 
 
 const ProfilePage = () => {
@@ -20,7 +20,7 @@ const ProfilePage = () => {
 
         <Col md={5} >
           <Row >
-          <RunUps />
+          <div>RunUps</div>
           </Row>
         </Col>
       </Row>

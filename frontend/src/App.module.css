@@ -1,3 +1,10 @@
+:root {
+  --dark-green: #191e19;
+  --light-green: #212a21;
+  --creamy-white: #F5F5F0;
+  --orange: #ff9f33;
+}
+
 .appBackground {
   background-color: #b2c1b0;
   border-radius: 10px;

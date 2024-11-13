@@ -1,10 +1,3 @@
-:root {
-  --dark-green: #1a3a3a;
-  --light-green: #2c5a5a;
-  --creamy-white: #f5f5dc;
-  --orange: #ff8c00;
-}
-
 body {
   background-color: var(--dark-green);
   color: var(--creamy-white);
