@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import ProfileSideMenu from '../profile/ProfileSideMenu';
 import styles from '../../styles/RunUpsPage.module.css';
 
 const RunUpsPage = () => {
@@ -61,67 +62,74 @@ const RunUpsPage = () => {
   };
 
   return (
-    <Container className={styles.runUpsPageContainer}>
-      <h1 className={styles.pageTitle}>RunUps in Your City</h1>
-      <Row className={styles.filterSection}>
-        <Col md={3}>
-          <Form.Group controlId="paceFilter">
-            <Form.Label>Pace</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="pace" 
-              value={filters.pace} 
-              onChange={handleFilterChange} 
-              placeholder="e.g., 5:30 /km"
-            />
-          </Form.Group>
+    <Container fluid className={styles.runUpsPageContainer}>
+      <Row>
+        <Col md={2}>
+          <ProfileSideMenu />
         </Col>
-        <Col md={3}>
-          <Form.Group controlId="distanceFilter">
-            <Form.Label>Distance</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="distance" 
-              value={filters.distance} 
-              onChange={handleFilterChange} 
-              placeholder="e.g., 5km"
-            />
-          </Form.Group>
+        <Col md={10} className={styles.mainContentColumn}>
+          <h1 className={styles.pageTitle}>RunUps in Your City</h1>
+          <Row className={styles.filterSection}>
+            <Col md={3}>
+              <Form.Group controlId="paceFilter">
+                <Form.Label>Pace</Form.Label>
+                <Form.Control 
+                  type="text" 
+                  name="pace" 
+                  value={filters.pace} 
+                  onChange={handleFilterChange} 
+                  placeholder="e.g., 5:30 /km"
+                />
+              </Form.Group>
+            </Col>
+            <Col md={3}>
+              <Form.Group controlId="distanceFilter">
+                <Form.Label>Distance</Form.Label>
+                <Form.Control 
+                  type="text" 
+                  name="distance" 
+                  value={filters.distance} 
+                  onChange={handleFilterChange} 
+                  placeholder="e.g., 5km"
+                />
+              </Form.Group>
+            </Col>
+            <Col md={3}>
+              <Form.Group controlId="timeFrameFilter">
+                <Form.Label>Time Frame</Form.Label>
+                <Form.Control 
+                  type="text" 
+                  name="timeFrame" 
+                  value={filters.timeFrame} 
+                  onChange={handleFilterChange} 
+                  placeholder="e.g., This week"
+                />
+              </Form.Group>
+            </Col>
+            <Col md={3} className="d-flex align-items-end">
+              <Button variant="primary" onClick={applyFilters} className={styles.filterButton}>
+                Apply Filters
+              </Button>
+            </Col>
+          </Row>
+          <Row className={styles.runUpsList}>
+            {filteredRunUps.map((runUp) => (
+              <Col key={runUp.id} md={6} lg={4} className={styles.runUpCol}>
+                <Link to={`/runups/${runUps.id}`} className={styles.runUpLink}>
+                  <div className={styles.runUpCard}>
+                    <h3>{runUp.distance} RunUp</h3>
+                    <p><FaUser /> Host: {runUp.host}</p>
+                    <p><FaMapMarkerAlt /> {runUp.location}</p>
+                    <p><FaClock /> {formatDate(runUp.startTime)}</p>
+                    <p><FaRoad /> Distance: {runUp.distance}</p>
+                    <p><FaTachometerAlt /> Pace: {runUp.pace}</p>
+                    <Button variant="success" className={styles.joinButton}>Join RunUp</Button>
+                  </div>
+                </Link>
+              </Col>
+            ))}
+          </Row>
         </Col>
-        <Col md={3}>
-          <Form.Group controlId="timeFrameFilter">
-            <Form.Label>Time Frame</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="timeFrame" 
-              value={filters.timeFrame} 
-              onChange={handleFilterChange} 
-              placeholder="e.g., This week"
-            />
-          </Form.Group>
-        </Col>
-        <Col md={3} className="d-flex align-items-end">
-          <Button variant="primary" onClick={applyFilters} className={styles.filterButton}>
-            Apply Filters
-          </Button>
-        </Col>
-      </Row>
-      <Row className={styles.runUpsList}>
-        {filteredRunUps.map((runUp) => (
-          <Col key={runUp.id} md={6} lg={4} className={styles.runUpCol}>
-            <Link to={`/runup/${runUp.id}`} className={styles.runUpLink}>
-              <div className={styles.runUpCard}>
-                <h3>{runUp.distance} RunUp</h3>
-                <p><FaUser /> Host: {runUp.host}</p>
-                <p><FaMapMarkerAlt /> {runUp.location}</p>
-                <p><FaClock /> {formatDate(runUp.startTime)}</p>
-                <p><FaRoad /> Distance: {runUp.distance}</p>
-                <p><FaTachometerAlt /> Pace: {runUp.pace}</p>
-                <Button variant="success" className={styles.joinButton}>Join RunUp</Button>
-              </div>
-            </Link>
-          </Col>
-        ))}
       </Row>
     </Container>
   );
