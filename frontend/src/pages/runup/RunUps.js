@@ -26,7 +26,7 @@ const RunUps = () => {
   return (
     <Card className={styles.runUpsCard}>
       <Card.Header className={styles.cardHeader}>
-        <h3>RunUps</h3>
+        <h3>Upcoming RunUps</h3>
       </Card.Header>
       <Card.Body className={styles.cardBody}>
         <div className={styles.runUpsList}>
@@ -37,7 +37,7 @@ const RunUps = () => {
                   <h4>{runUp.distance} RunUp</h4>
                   <p><FaUser /> Host: {runUp.host}</p>
                   <p><FaMapMarkerAlt /> {runUp.location}</p>
-                  <p><FaClock /> {formatDate(runUp.startTime)}</p> 
+                  <p><FaClock /> {formatDate(runUp.startTime)}</p>
                   <p><FaRoad /> Distance: {runUp.distance}</p>
                   <p><FaTachometerAlt /> Pace: {runUp.pace}</p>
                 </div>
@@ -49,7 +49,7 @@ const RunUps = () => {
       </Card.Body>
       <Card.Footer className={styles.cardFooter}>
         <Link to="/runups" className={styles.viewAllLink}>
-          <Button variant="primary">View All RunUps</Button>
+          <Button variant="primary" className={styles.viewAllButton}>View All RunUps</Button>
         </Link>
       </Card.Footer>
     </Card>
