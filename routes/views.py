@@ -29,10 +29,7 @@ class RouteReviewCreateUpdateView(generics.CreateAPIView, generics.UpdateAPIView
     def get_object(self):
         route_id = self.kwargs.get('pk')
         user = self.request.user.profile
-        try:
-            return RouteReview.objects.get(route_id=route_id, user=user)
-        except RouteReview.DoesNotExist:
-            return None
+        return RouteReview.objects.filter(route_id=route_id, user=user).first()
 
     def create(self, request, *args, **kwargs):
         route_id = self.kwargs.get('pk')
@@ -67,7 +64,7 @@ class RoutesByCity(generics.ListAPIView):
     def get_queryset(self):
         city_name = self.request.query_params.get('city', None)
         if city_name is not None:
-            return Route.objects.filter(city__name=city_name)
+            return Route.objects.filter(city__name__iexact=city_name)
         return Route.objects.none()
 
     def list(self, request, *args, **kwargs):

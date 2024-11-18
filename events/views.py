@@ -1,5 +1,5 @@
-from rest_framework import viewsets, permissions, filters, status
-from rest_framework.decorators import action
+from rest_framework import generics, permissions, filters, status
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Event, EventRace
@@ -11,7 +11,7 @@ class IsOrganizerOrReadOnly(permissions.BasePermission):
             return True
         return request.user in obj.organizers.all() or request.user.is_staff
 
-class EventViewSet(viewsets.ModelViewSet):
+class EventList(generics.ListCreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOrganizerOrReadOnly]
@@ -20,30 +20,39 @@ class EventViewSet(viewsets.ModelViewSet):
     search_fields = ['name', 'description', 'city__name', 'city__country', 'event_type']
     ordering_fields = ['date', 'price', 'difficulty_level', 'event_type']
 
-    @action(detail=True, methods=['post'])
-    def register(self, request, pk=None):
-        event = self.get_object()
-        if event.register_participant(request.user):
-            return Response({'status': 'registered'})
-        return Response({'status': 'already registered'}, status=status.HTTP_400_BAD_REQUEST)
-
-    @action(detail=True, methods=['post'])
-    def unregister(self, request, pk=None):
-        event = self.get_object()
-        if event.unregister_participant(request.user):
-            return Response({'status': 'unregistered'})
-        return Response({'status': 'not registered'}, status=status.HTTP_400_BAD_REQUEST)
-
-    def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return EventDetailSerializer
-        return EventSerializer
-
     def perform_create(self, serializer):
         serializer.save(organizers=[self.request.user])
 
-class EventRaceViewSet(viewsets.ModelViewSet):
-    queryset = EventRace.objects.all()
+class EventDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventDetailSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOrganizerOrReadOnly]
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def event_register(request, pk):
+    try:
+        event = Event.objects.get(pk=pk)
+    except Event.DoesNotExist:
+        return Response({'error': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    if event.register_participant(request.user):
+        return Response({'status': 'registered'})
+    return Response({'status': 'already registered'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def event_unregister(request, pk):
+    try:
+        event = Event.objects.get(pk=pk)
+    except Event.DoesNotExist:
+        return Response({'error': 'Event not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    if event.unregister_participant(request.user):
+        return Response({'status': 'unregistered'})
+    return Response({'status': 'not registered'}, status=status.HTTP_400_BAD_REQUEST)
+
+class EventRaceList(generics.ListCreateAPIView):
     serializer_class = EventRaceSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOrganizerOrReadOnly]
 
@@ -53,3 +62,11 @@ class EventRaceViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         event = Event.objects.get(pk=self.kwargs['event_pk'])
         serializer.save(event=event)
+
+class EventRaceDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = EventRace.objects.all()
+    serializer_class = EventRaceSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOrganizerOrReadOnly]
+
+    def get_queryset(self):
+        return EventRace.objects.filter(event_id=self.kwargs['event_pk'])
