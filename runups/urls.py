@@ -1,10 +1,9 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import RunUpViewSet
-
-router = DefaultRouter()
-router.register(r'runups', RunUpViewSet)
+from django.urls import path
+from .views import RunUpList, RunUpDetail, RunUpJoin, RunUpLeave
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', RunUpList.as_view(), name='runup-list'),
+    path('<int:pk>/', RunUpDetail.as_view(), name='runup-detail'),
+    path('<int:pk>/join/', RunUpJoin.as_view(), name='runup-join'),
+    path('<int:pk>/leave/', RunUpLeave.as_view(), name='runup-leave'),
 ]

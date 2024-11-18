@@ -1,12 +1,11 @@
-from rest_framework import viewsets, permissions, status
-from rest_framework.decorators import action
+from rest_framework import generics, permissions, status
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import RunUp
 from .serializers import RunUpSerializer
 from django.db.models import Q
 
-class RunUpViewSet(viewsets.ModelViewSet):
-    queryset = RunUp.objects.all()
+class RunUpList(generics.ListCreateAPIView):
     serializer_class = RunUpSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -24,7 +23,7 @@ class RunUpViewSet(viewsets.ModelViewSet):
         if user.is_authenticated:
             queryset = queryset.filter(
                 Q(visibility='OPEN') |
-                #Q(visibility='CLOSED', host__in=user.following.all()) | # Commented out untill following function is built
+                #Q(visibility='CLOSED', host__in=user.following.all()) | # Commented out until following function is built
                 Q(host=user)
             ).distinct()
         else:
@@ -32,18 +31,37 @@ class RunUpViewSet(viewsets.ModelViewSet):
 
         return queryset
 
-    @action(detail=True, methods=['post'])
-    def join(self, request, pk=None):
-        runup = self.get_object()
+class RunUpDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = RunUp.objects.all()
+    serializer_class = RunUpSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class RunUpJoin(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        try:
+            runup = RunUp.objects.get(pk=pk)
+        except RunUp.DoesNotExist:
+            return Response({'status': 'runup not found'}, status=status.HTTP_404_NOT_FOUND)
+
         if request.user in runup.participants.all():
             return Response({'status': 'already joined'}, status=status.HTTP_400_BAD_REQUEST)
+        
         runup.participants.add(request.user)
         return Response({'status': 'joined'}, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['post'])
-    def leave(self, request, pk=None):
-        runup = self.get_object()
+class RunUpLeave(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        try:
+            runup = RunUp.objects.get(pk=pk)
+        except RunUp.DoesNotExist:
+            return Response({'status': 'runup not found'}, status=status.HTTP_404_NOT_FOUND)
+
         if request.user not in runup.participants.all():
             return Response({'status': 'not joined'}, status=status.HTTP_400_BAD_REQUEST)
+        
         runup.participants.remove(request.user)
         return Response({'status': 'left'}, status=status.HTTP_200_OK)
