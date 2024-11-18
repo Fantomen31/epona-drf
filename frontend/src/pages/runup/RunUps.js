@@ -26,7 +26,7 @@ const RunUps = () => {
   return (
     <Card className={styles.runUpsCard}>
       <Card.Header className={styles.cardHeader}>
-        <h3>Upcoming RunUps</h3>
+        <h3> RunUps</h3>
       </Card.Header>
       <Card.Body className={styles.cardBody}>
         <div className={styles.runUpsList}>
