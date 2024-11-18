@@ -141,10 +141,14 @@ MIDDLEWARE = [
 
 
 CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
     os.environ.get('CLIENT_ORIGIN')
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://8000-fantomen31-eponadrf-tr3makianj4.ws.codeinstitute-ide.net']
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-fantomen31-eponadrf-tr3makianj4.ws.codeinstitute-ide.net',
+    'http://localhost:3000'
+]
 
 
 ROOT_URLCONF = 'epona_drf_api.urls'

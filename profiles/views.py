@@ -1,12 +1,13 @@
-from rest_framework import viewsets, permissions
+from rest_framework import generics, permissions
 from .models import Profile
 from .serializers import ProfileSerializer
 from epona_drf_api.permissions import IsOwnerOrReadOnly
+from django.db.models import Q
 
-class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all().order_by('-created_at')
+class ProfileList(generics.ListCreateAPIView):
+    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -17,3 +18,8 @@ class ProfileViewSet(viewsets.ModelViewSet):
         if username is not None:
             queryset = queryset.filter(user__username=username)
         return queryset.order_by('-created_at')
+
+class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
