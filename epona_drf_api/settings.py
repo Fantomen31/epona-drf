@@ -142,6 +142,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    "https://3000-fantomen31-eponadrf-tr3makianj4.ws.codeinstitute-ide.net",
     os.environ.get('CLIENT_ORIGIN')
 ]
 
