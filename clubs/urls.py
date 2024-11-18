@@ -1,14 +1,13 @@
-from django.urls import path, include
-from rest_framework_nested import routers
-from .views import ClubViewSet, ClubRunUpViewSet
-
-router = routers.DefaultRouter()
-router.register(r'clubs', ClubViewSet)
-
-clubs_router = routers.NestedSimpleRouter(router, r'clubs', lookup='club')
-clubs_router.register(r'runups', ClubRunUpViewSet, basename='club-runups')
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('api/', include(router.urls)),
-    path('api/', include(clubs_router.urls)),
+    path('', views.ClubList.as_view(), name='club-list'),
+    path('<int:pk>/', views.ClubDetail.as_view(), name='club-detail'),
+    path('<int:pk>/request-membership/', views.request_membership, name='club-request-membership'),
+    path('<int:pk>/process-join-request/', views.process_join_request, name='club-process-join-request'),
+    path('<int:club_pk>/runups/', views.ClubRunUpList.as_view(), name='club-runup-list'),
+    path('<int:club_pk>/runups/<int:pk>/', views.ClubRunUpDetail.as_view(), name='club-runup-detail'),
+    path('<int:club_pk>/runups/<int:pk>/join/', views.join_runup, name='club-runup-join'),
+    path('<int:club_pk>/runups/<int:pk>/leave/', views.leave_runup, name='club-runup-leave'),
 ]

@@ -18,9 +18,7 @@ from django.contrib import admin
 from .views import root_route
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework_nested import routers
 from cities.views import CityViewSet
-from clubs.views import ClubViewSet, ClubRunUpViewSet
 
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -40,14 +38,9 @@ router = DefaultRouter()
 
 # Register viewsets with the default router
 router.register(r'cities', CityViewSet)
-router.register(r'clubs', ClubViewSet)
-
-# Create a nested router for club runups
-clubs_router = routers.NestedSimpleRouter(router, r'clubs', lookup='club')
-clubs_router.register(r'runups', ClubRunUpViewSet, basename='club-runups')
 
 # Combine all router URLs
-all_router_urls = router.urls + clubs_router.urls 
+all_router_urls = router.urls
 
 urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
@@ -57,7 +50,8 @@ urlpatterns = [
     path('api/profiles/', include('profiles.urls')),
     path('api/runups/', include('runups.urls')), 
     path('api/routes/', include('routes.urls')),
-    path('api/events/', include('events.urls')),  # This line now includes the events URLs without using a router
+    path('api/events/', include('events.urls')),
+    path('api/clubs/', include('clubs.urls')),  # Include club URLs here
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     path('', root_route, name='api-root'),
