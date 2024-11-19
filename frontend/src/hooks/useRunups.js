@@ -1,24 +1,17 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { axiosReq } from '../api/axiosDefaults';
 
 export const useRunups = () => {
   const [cities, setCities] = useState([]);
   const [runups, setRunups] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   const fetchCities = useCallback(async () => {
     try {
-      const cachedCities = localStorage.getItem('cities');
-      if (cachedCities) {
-        setCities(JSON.parse(cachedCities));
-        return;
-      }
-
       const { data } = await axiosReq.get('/api/cities/');
       if (data && Array.isArray(data.results)) {
         setCities(data.results);
-        localStorage.setItem('cities', JSON.stringify(data.results));
       } else {
         console.error('Received unexpected data structure for cities:', data);
         setCities([]);
@@ -26,24 +19,6 @@ export const useRunups = () => {
     } catch (err) {
       console.error('Error fetching cities:', err);
       setError('Failed to fetch cities. Please try again later.');
-    }
-  }, []);
-
-  const fetchRunups = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data } = await axiosReq.get('/api/runups/');
-      if (data && Array.isArray(data.results)) {
-        setRunups(data.results);
-      } else {
-        console.error('Received unexpected data structure for runups:', data);
-        setRunups([]);
-      }
-    } catch (err) {
-      console.error('Error fetching runups:', err);
-      setError('Failed to fetch runups. Please try again later.');
-    } finally {
-      setLoading(false);
     }
   }, []);
 
@@ -64,10 +39,24 @@ export const useRunups = () => {
     }
   }, []);
 
-  useEffect(() => {
-    fetchCities();
-    fetchRunups();
-  }, [fetchCities, fetchRunups]);
+  const fetchRunups = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { data } = await axiosReq.get('/api/runups/');
+      if (data && Array.isArray(data.results)) {
+        setRunups(data.results);
+      } else {
+        console.error('Received unexpected data structure for runups:', data);
+        setRunups([]);
+      }
+    } catch (err) {
+      console.error('Error fetching runups:', err);
+      setError('Failed to fetch runups. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
-  return { cities, runups, error, loading, createRunup, fetchRunups };
+  return { cities, runups, loading, error, createRunup, fetchRunups, fetchCities };
 };

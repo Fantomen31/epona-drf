@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Card, Button, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser, FaPlus } from 'react-icons/fa';
@@ -10,10 +10,14 @@ import styles from '../../styles/RunUps.module.css';
 
 const RunUps = () => {
   const [showModal, setShowModal] = useState(false);
-  const { runups, loading, error, fetchRunups } = useRunups();
+  const { runups, loading, error, fetchRunups, createRunup } = useRunups();
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchRunups();
+  }, [fetchRunups]);
 
   const handleHostRunup = useCallback(async () => {
     if (currentUser) {
@@ -24,7 +28,7 @@ const RunUps = () => {
         setCurrentUser(data);
         setShowModal(true);
       } catch (err) {
-        console.log(err);
+        console.error('Error authenticating user:', err);
         navigate('/login');
       }
     }
@@ -34,25 +38,35 @@ const RunUps = () => {
     if (currentUser) {
       // TODO: Implement join runup API call
       console.log(`Joining runup with id: ${runupId}`);
+      // After joining, refetch runups to update the list
+      await fetchRunups();
     } else {
       try {
         const { data } = await axiosRes.get('dj-rest-auth/user/');
         setCurrentUser(data);
         // TODO: Implement join runup API call
         console.log(`Joining runup with id: ${runupId}`);
+        // After joining, refetch runups to update the list
+        await fetchRunups();
       } catch (err) {
-        console.log(err);
+        console.error('Error authenticating user:', err);
         navigate('/login');
       }
     }
-  }, [currentUser, setCurrentUser, navigate]);
+  }, [currentUser, setCurrentUser, navigate, fetchRunups]);
 
   const handleCloseModal = useCallback(() => setShowModal(false), []);
 
-  const handleRunupCreated = useCallback(() => {
-    fetchRunups();
-    handleCloseModal();
-  }, [fetchRunups, handleCloseModal]);
+  const handleRunupCreated = useCallback(async (newRunupData) => {
+    const result = await createRunup(newRunupData);
+    if (result.success) {
+      handleCloseModal();
+      await fetchRunups(); // Refetch runups after creating a new one
+    } else {
+      // Handle error (you might want to show an error message to the user)
+      console.error(result.message);
+    }
+  }, [createRunup, fetchRunups, handleCloseModal]);
 
   const formatDate = useCallback((dateString) => {
     const date = new Date(dateString);
