@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Card, Button } from 'react-bootstrap';
+import React, { useState, useCallback } from 'react';
+import { Card, Button, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser, FaPlus } from 'react-icons/fa';
 import { useCurrentUser, useSetCurrentUser } from '../../contexts/CurrentUserContext';
 import { useRunups } from '../../hooks/useRunups';
-import HostRunupModal from '../runup/HostRunupModal';
+import HostRunupModal from './HostRunupModal';
 import { axiosRes } from '../../api/axiosDefaults';
 import styles from '../../styles/RunUps.module.css';
 
 const RunUps = () => {
   const [showModal, setShowModal] = useState(false);
-  const { runups, fetchRunups } = useRunups();
+  const { runups, loading, error, fetchRunups } = useRunups();
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchRunups();
-  }, [fetchRunups]);
-
-  const handleHostRunup = async () => {
+  const handleHostRunup = useCallback(async () => {
     if (currentUser) {
       setShowModal(true);
     } else {
@@ -32,15 +28,33 @@ const RunUps = () => {
         navigate('/login');
       }
     }
-  };
+  }, [currentUser, setCurrentUser, navigate]);
 
-  const handleCloseModal = () => setShowModal(false);
+  const handleJoinRunup = useCallback(async (runupId) => {
+    if (currentUser) {
+      // TODO: Implement join runup API call
+      console.log(`Joining runup with id: ${runupId}`);
+    } else {
+      try {
+        const { data } = await axiosRes.get('dj-rest-auth/user/');
+        setCurrentUser(data);
+        // TODO: Implement join runup API call
+        console.log(`Joining runup with id: ${runupId}`);
+      } catch (err) {
+        console.log(err);
+        navigate('/login');
+      }
+    }
+  }, [currentUser, setCurrentUser, navigate]);
 
-  const handleRunupCreated = () => {
+  const handleCloseModal = useCallback(() => setShowModal(false), []);
+
+  const handleRunupCreated = useCallback(() => {
     fetchRunups();
-  };
+    handleCloseModal();
+  }, [fetchRunups, handleCloseModal]);
 
-  const formatDate = (dateString) => {
+  const formatDate = useCallback((dateString) => {
     const date = new Date(dateString);
     return date.toLocaleString('en-US', { 
       weekday: 'short', 
@@ -50,7 +64,21 @@ const RunUps = () => {
       minute: '2-digit',
       hour12: false 
     });
-  };
+  }, []);
+
+  if (error) {
+    return <div className="text-center">{error}</div>;
+  }
+
+  if (loading) {
+    return (
+      <div className="text-center">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
 
   return (
     <Card className={styles.runUpsCard}>
@@ -60,26 +88,30 @@ const RunUps = () => {
       <Card.Body className={styles.cardBody}>
         <div className={styles.runUpsList}>
           {runups.map((runUp) => (
-            <Link key={runUp.id} to={`/runups/${runUp.id}`} className={styles.runUpLink}>
-              <div className={styles.runUpItem}>
-                <div className={styles.runUpDetails}>
-                  <div className={styles.runUpHeader}>
-                    <h4>{runUp.distance}km RunUp - <FaUser/> {runUp.host.username} </h4> 
+            <div key={runUp.id} className={styles.runUpItem}>
+              <div className={styles.runUpDetails}>
+                <div className={styles.runUpHeader}>
+                  <h4>{runUp.distance}km RunUp - <FaUser/> {runUp.host.username} </h4> 
+                </div>
+                <div className={styles.runUpInfo}>
+                  <div className={styles.infoColumn}>
+                    <p><FaMapMarkerAlt className={styles.infoIcon} /> {runUp.location}</p>
+                    <p><FaClock className={styles.infoIcon} /> {formatDate(runUp.date_time)}</p>
                   </div>
-                  <div className={styles.runUpInfo}>
-                    <div className={styles.infoColumn}>
-                      <p><FaMapMarkerAlt className={styles.infoIcon} /> {runUp.location}</p>
-                      <p><FaClock className={styles.infoIcon} /> {formatDate(runUp.date_time)}</p>
-                    </div>
-                    <div className={styles.infoColumn}>
-                      <p><FaRoad className={styles.infoIcon} /> Distance: {runUp.distance}km</p>
-                      <p><FaTachometerAlt className={styles.infoIcon} /> Pace: {runUp.pace}</p>
-                    </div>
+                  <div className={styles.infoColumn}>
+                    <p><FaRoad className={styles.infoIcon} /> Distance: {runUp.distance}km</p>
+                    <p><FaTachometerAlt className={styles.infoIcon} /> Pace: {runUp.pace}</p>
                   </div>
                 </div>
-                <Button variant="success" className={styles.joinButton}>Join RunUp</Button>
               </div>
-            </Link>
+              <Button 
+                variant="success" 
+                className={styles.joinButton}
+                onClick={() => handleJoinRunup(runUp.id)}
+              >
+                Join RunUp
+              </Button>
+            </div>
           ))}
         </div>
       </Card.Body>
