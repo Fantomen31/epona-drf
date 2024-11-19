@@ -1,14 +1,16 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser, FaPlus } from 'react-icons/fa';
 import styles from '../../styles/RunUps.module.css';
 
 const RunUps = () => {
   const runUps = [
-    { id: 1, distance: '5km', pace: '5:30 /km', location: 'Golden Gate Park', startTime: '2023-11-13T17:00:00', host: 'John Doe' },
-    { id: 2, distance: '10km', pace: '6:00 /km', location: 'Embarcadero', startTime: '2023-11-14T18:30:00', host: 'Jane Smith' },
-    { id: 3, distance: '15km', pace: '5:45 /km', location: 'Presidio', startTime: '2023-11-15T06:30:00', host: 'Mike Johnson' },
+    { id: 1, distance: '5K', pace: '5:30 /km', location: 'Golden Gate Park', startTime: '2023-11-13T17:00:00', host: 'John Doe' },
+    { id: 2, distance: '10K', pace: '6:00 /km', location: 'Embarcadero', startTime: '2023-11-14T18:30:00', host: 'Jane Smith' },
+    { id: 3, distance: '15K', pace: '5:45 /km', location: 'Presidio', startTime: '2023-11-15T06:30:00', host: 'Mike Johnson' },
+    { id: 3, distance: '15K', pace: '5:45 /km', location: 'Presidio', startTime: '2023-11-15T06:30:00', host: 'Mike Johnson' },
+    { id: 3, distance: '15K', pace: '5:45 /km', location: 'Presidio', startTime: '2023-11-15T06:30:00', host: 'Mike Johnson' },
   ];
 
   const formatDate = (dateString) => {
@@ -26,20 +28,27 @@ const RunUps = () => {
   return (
     <Card className={styles.runUpsCard}>
       <Card.Header className={styles.cardHeader}>
-        <h3> RunUps</h3>
+        <h3>RunUps</h3>
       </Card.Header>
       <Card.Body className={styles.cardBody}>
         <div className={styles.runUpsList}>
           {runUps.map((runUp) => (
-            <Link key={runUp.id} to={`/runups/${runUps.id}`} className={styles.runUpLink}>
+            <Link key={runUp.id} to={`/runups/${runUp.id}`} className={styles.runUpLink}>
               <div className={styles.runUpItem}>
                 <div className={styles.runUpDetails}>
-                  <h4>{runUp.distance} RunUp</h4>
-                  <p><FaUser /> Host: {runUp.host}</p>
-                  <p><FaMapMarkerAlt /> {runUp.location}</p>
-                  <p><FaClock /> {formatDate(runUp.startTime)}</p>
-                  <p><FaRoad /> Distance: {runUp.distance}</p>
-                  <p><FaTachometerAlt /> Pace: {runUp.pace}</p>
+                  <div className={styles.runUpHeader}>
+                    <h4>{runUp.distance} RunUp - <FaUser/> {runUp.host} </h4> 
+                  </div>
+                  <div className={styles.runUpInfo}>
+                    <div className={styles.infoColumn}>
+                      <p><FaMapMarkerAlt className={styles.infoIcon} /> {runUp.location}</p>
+                      <p><FaClock className={styles.infoIcon} /> {formatDate(runUp.startTime)}</p>
+                    </div>
+                    <div className={styles.infoColumn}>
+                      <p><FaRoad className={styles.infoIcon} /> Distance: {runUp.distance}</p>
+                      <p><FaTachometerAlt className={styles.infoIcon} /> Pace: {runUp.pace}</p>
+                    </div>
+                  </div>
                 </div>
                 <Button variant="success" className={styles.joinButton}>Join RunUp</Button>
               </div>
@@ -50,6 +59,11 @@ const RunUps = () => {
       <Card.Footer className={styles.cardFooter}>
         <Link to="/runups" className={styles.viewAllLink}>
           <Button variant="primary" className={styles.viewAllButton}>View All RunUps</Button>
+        </Link>
+        <Link to="/host-runup" className={styles.hostRunUpLink}>
+          <Button variant="success" className={styles.hostButton}>
+            <FaPlus /> Host RunUp
+          </Button>
         </Link>
       </Card.Footer>
     </Card>

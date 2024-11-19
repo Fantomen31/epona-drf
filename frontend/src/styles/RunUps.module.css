@@ -1,21 +1,23 @@
-.runUpsWrapper {
-  padding: 20px;
+:root {
+  --dark-green: #191e19;
+  --light-green: #212a21;
+  --orange: #e67e22;
+  --creamy-white: #f5e6d3;
 }
 
 .runUpsCard {
   background-color: var(--dark-green);
   border: none;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .cardHeader {
   background-color: var(--dark-green);
-  border-bottom: 1px solid var(--orange);
+  border-bottom: 1px solid #7AB55C;
   padding: 15px 20px;
 }
 
 .cardHeader h3 {
-  color: var(--orange);
+  color: var(--creamy-white);
   margin: 0;
 }
 
@@ -50,19 +52,47 @@
   flex-grow: 1;
 }
 
-.runUpDetails h4 {
-  color: var(--orange);
+.runUpHeader {
+  display: flex;
+  align-items: center;
   margin-bottom: 10px;
 }
 
-.runUpDetails p {
+.runUpHeader h4 {
+  color: var(--orange);
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.hostInfo {
+  display: flex;
+  align-items: center;
+  color: var(--creamy-white);
+  margin-left: 15px;
+}
+
+.hostInfo .infoIcon {
+  margin-right: 5px;
+  color: var(--orange);
+}
+
+.runUpInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.infoColumn {
+  flex: 1;
+}
+
+.infoColumn p {
   color: var(--creamy-white);
   margin-bottom: 5px;
   display: flex;
   align-items: center;
 }
 
-.runUpDetails p svg {
+.infoIcon {
   margin-right: 5px;
   color: var(--orange);
 }
@@ -75,78 +105,21 @@
 }
 
 .joinButton:hover {
-  background-color: #d35400;
+  background-color: #7AB55C;
 }
 
 .cardFooter {
   background-color: var(--dark-green);
-  border-top: 1px solid var(--orange);
+  border-top: 1px solid #7AB55C;
   padding: 15px 20px;
-}
-
-.hostButton {
-  background-color: var(--orange);
-  border: none;
-  color: var(--dark-green);
-  transition: background-color 0.3s ease;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.hostButton svg {
-  margin-right: 5px;
-}
-
-.hostButton:hover {
-  background-color: #d35400;
-}
-
-.modal {
-  color: var(--creamy-white);
-}
-
-.modalHeader {
-  background-color: var(--light-green);
-  border-bottom: 1px solid var(--orange);
-}
-
-.modalHeader .modal-title {
-  color: var(--orange);
-}
-
-.modalBody {
-  background-color: var(--dark-green);
-}
-
-.modalBody .form-label {
-  color: var(--orange);
-}
-
-.modalBody .form-control {
-  background-color: var(--light-green);
-  border: 1px solid var(--orange);
-  color: var(--creamy-white);
-}
-
-.modalBody .form-control:focus {
-  box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.25);
-}
-
-.submitButton {
-  background-color: var(--orange);
-  border: none;
-  color: var(--dark-green);
-  transition: background-color 0.3s ease;
-}
-
-.submitButton:hover {
-  background-color: #d35400;
+  justify-content: space-between;
 }
 
 .viewAllLink {
   text-decoration: none;
+  flex: 2;
+  margin-right: 10px;
 }
 
 .viewAllButton {
@@ -163,17 +136,38 @@
   background-color: #d35400;
 }
 
+.hostRunUpLink {
+  text-decoration: none;
+  flex: 1;
+}
+
+.hostButton {
+  background-color: #27ae60;
+  border: none;
+  color: var(--dark-green);
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 43px;
+}
+
+.hostButton svg {
+  margin-right: 5px;
+}
+
 /* Scrollbar styling */
 .runUpsList::-webkit-scrollbar {
   width: 8px;
 }
 
 .runUpsList::-webkit-scrollbar-track {
-  background: var(--light-green);
+  background: var(--dark-green);
 }
 
 .runUpsList::-webkit-scrollbar-thumb {
-  background-color: var(--orange);
+  background-color: var(--light-green);
   border-radius: 4px;
 }
 
