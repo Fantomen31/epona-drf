@@ -116,10 +116,15 @@
   justify-content: space-between;
 }
 
-.viewAllLink {
-  text-decoration: none;
+.viewAllLinkWrapper {
   flex: 2;
   margin-right: 10px;
+}
+
+.viewAllLink {
+  text-decoration: none;
+  display: block;
+  width: 100%;
 }
 
 .viewAllButton {
@@ -136,8 +141,7 @@
   background-color: #d35400;
 }
 
-.hostRunUpLink {
-  text-decoration: none;
+.hostButtonWrapper {
   flex: 1;
 }
 
@@ -151,6 +155,10 @@
   justify-content: center;
   width: 100%;
   height: 43px;
+}
+
+.hostButton:hover {
+  background-color: #2ecc71;
 }
 
 .hostButton svg {
