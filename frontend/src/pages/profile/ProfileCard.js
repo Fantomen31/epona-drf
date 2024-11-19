@@ -49,6 +49,17 @@ function ProfileCard() {
               <span>{userProfile?.running_level_display || 'Not specified'}</span>
             </Card.Text>
           </div>
+          <div className={styles.statsContainer}>
+            <div className={styles.statItem}>
+              <span>{userProfile?.followers_count || 0} Followers</span>
+            </div>
+            <div className={styles.statItem}>
+              <span>{userProfile?.following_count || 0} Following</span>
+            </div>
+            <div className={styles.statItem}>
+              <span>{userProfile?.clubs_count || 0} Clubs</span>
+            </div>
+          </div>
         </Card.Body>
       </Card>
     </div>
