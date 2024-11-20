@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { axiosReq, axiosRes } from '../api/axiosDefaults';
 import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
@@ -11,6 +11,10 @@ export const useRunups = () => {
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchCities();
+  }, []);
 
   const fetchCities = useCallback(async () => {
     try {

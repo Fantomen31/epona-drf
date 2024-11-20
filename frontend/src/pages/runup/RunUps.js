@@ -10,6 +10,7 @@ const RunUps = () => {
   const [showModal, setShowModal] = useState(false);
   const { 
     runups, 
+    cities,
     loading, 
     error, 
     fetchRunups, 
@@ -22,6 +23,7 @@ const RunUps = () => {
   useEffect(() => {
     fetchRunups();
   }, [fetchRunups]);
+  
 
   const handleOpenModal = useCallback(async () => {
     const canHost = await handleHostRunup();
@@ -108,6 +110,7 @@ const RunUps = () => {
           show={showModal} 
           handleClose={handleCloseModal} 
           onRunupCreated={handleRunupCreated}
+          cities={cities}
         />
       )}
     </Card>

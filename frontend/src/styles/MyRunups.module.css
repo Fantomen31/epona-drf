@@ -1,0 +1,16 @@
+/* styles/MyRunups.module.css */
+.myRunupsCard {
+    margin-top: 20px;
+  }
+  
+  .runupCard {
+    margin-bottom: 10px;
+  }
+  
+  .viewButton {
+    margin-right: 10px;
+  }
+  
+  .joinLeaveButton {
+    float: right;
+  }

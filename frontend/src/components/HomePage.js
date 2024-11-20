@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProfileCard from '../pages/profile/ProfileCard';
 import RunUps from '../pages/runup/RunUps.js';
+import MyRunups from '../pages/runup/MyRunups.js';
 
 
 const HomePage = () => {
@@ -14,6 +15,7 @@ const HomePage = () => {
         </Col>
         <Col md={5}>
         <ProfileCard />
+        <MyRunups />
         </Col>
       </Row >
     </Container>
