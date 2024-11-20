@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProfileSideMenu from './ProfileSideMenu';
 import DetailedProfile from './DetailedProfile';
-import RunUps from '../runup/RunUps.js';
+import MyRunups from '../runup/MyRunups.js';
 
 
 
@@ -21,7 +21,7 @@ const ProfilePage = () => {
 
         <Col md={5} >
           <Row >
-          <RunUps />
+          <MyRunups inProfilePage={true} />
           </Row>
         </Col>
       </Row>

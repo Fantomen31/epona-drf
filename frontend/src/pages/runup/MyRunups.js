@@ -1,3 +1,4 @@
+// components/MyRunups.js
 import React, { useState } from 'react';
 import { Card, Tab, Nav, Button, Alert, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -8,7 +9,7 @@ import { useRunupActions } from '../../hooks/useRunupActions';
 import styles from '../../styles/MyRunups.module.css';
 import { FaRunning, FaMapMarkerAlt, FaClock, FaUser } from 'react-icons/fa';
 
-const MyRunups = () => {
+const MyRunups = ({ inProfilePage = false }) => {
   const currentUser = useCurrentUser();
   const { runups, loading, error, hasMore, loadMore, formatDate } = useRunups();
   const { handleJoinLeaveRunup, handleDeleteRunup } = useRunupActions(() => loadMore());
@@ -66,8 +67,8 @@ const MyRunups = () => {
       hasMore={hasMore}
       loader={<Spinner animation="border" role="status" className={styles.spinner} />}
       endMessage={<p className={styles.endMessage}>No more runups to load.</p>}
-      className={styles.runUpsList}
-      height={200}
+      className={`${styles.runUpsList} ${inProfilePage ? styles.profilePageRunUpsList : ''}`}
+      height={inProfilePage ? undefined : 200}
     >
       {runupsToRender.map(runup => (
         <RunupCard key={runup.id} runup={runup} isHosted={isHosted} />
@@ -84,14 +85,14 @@ const MyRunups = () => {
   }
 
   return (
-    <div className={styles.myRunupsContainer}>
-      <Card className={styles.myRunupsCard}>
+    <div className={`${styles.myRunupsContainer} ${inProfilePage ? styles.profilePageContainer : ''}`}>
+      <Card className={`${styles.myRunupsCard} ${inProfilePage ? styles.profilePageCard : ''}`}>
         <Card.Header className={styles.cardHeader}>
           <h3>My RunUps</h3>
         </Card.Header>
-        <Card.Body className={styles.cardBody}>
+        <Card.Body className={`${styles.cardBody} ${inProfilePage ? styles.profilePageCardBody : ''}`}>
           <Tab.Container activeKey={activeTab} onSelect={(k) => setActiveTab(k)}>
-            <Nav variant="tabs" className={styles.tabNav}>
+            <Nav variant="tabs" className={`${styles.tabNav} ${inProfilePage ? styles.profilePageTabNav : ''}`}>
               <Nav.Item>
                 <Nav.Link eventKey="hosted" className={styles.tabLink}>Hosted</Nav.Link>
               </Nav.Item>
@@ -102,7 +103,7 @@ const MyRunups = () => {
                 <Nav.Link eventKey="history" disabled className={styles.tabLink}>History</Nav.Link>
               </Nav.Item>
             </Nav>
-            <Tab.Content className={styles.tabContent}>
+            <Tab.Content className={`${styles.tabContent} ${inProfilePage ? styles.profilePageTabContent : ''}`}>
               <Tab.Pane eventKey="hosted">
                 {hostedRunups.length > 0 ? (
                   renderRunups(hostedRunups, true)
