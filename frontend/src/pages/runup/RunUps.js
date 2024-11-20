@@ -15,7 +15,7 @@ const RunUps = () => {
     error, 
     fetchRunups, 
     createRunup, 
-    handleJoinRunup, 
+    handleJoinLeaveRunup, 
     handleHostRunup, 
     formatDate 
   } = useRunups();
@@ -24,7 +24,6 @@ const RunUps = () => {
     fetchRunups();
   }, [fetchRunups]);
   
-
   const handleOpenModal = useCallback(async () => {
     const canHost = await handleHostRunup();
     if (canHost) {
@@ -83,11 +82,11 @@ const RunUps = () => {
                 </div>
               </div>
               <Button 
-                variant="success" 
+                variant={runUp.is_joined ? "danger" : "success"}
                 className={styles.joinButton}
-                onClick={() => handleJoinRunup(runUp.id)}
+                onClick={() => handleJoinLeaveRunup(runUp.id, runUp.is_joined ? 'leave' : 'join')}
               >
-                Join RunUp
+                {runUp.is_joined ? 'Leave' : 'Join'} RunUp
               </Button>
             </div>
           ))}

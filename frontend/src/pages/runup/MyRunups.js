@@ -1,47 +1,23 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Card, Tab, Nav, Button, Alert } from 'react-bootstrap';
+import React from 'react';
+import { Card, Tab, Nav, Button, Alert, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { axiosReq } from '../../api/axiosDefaults';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import { useRunups } from '../../hooks/useRunups';
 import styles from '../../styles/MyRunups.module.css';
 
 const MyRunups = () => {
   const currentUser = useCurrentUser();
-  const [hostedRunups, setHostedRunups] = useState([]);
-  const [joinedRunups, setJoinedRunups] = useState([]);
-  const [error, setError] = useState('');
+  const { runups, loading, error, handleJoinLeaveRunup, formatDate } = useRunups();
 
-  const fetchRunups = useCallback(async () => {
-    try {
-      const { data } = await axiosReq.get('/api/runups/');
-      const hosted = data.results.filter(runup => runup.host.id === currentUser?.id);
-      const joined = data.results.filter(runup => runup.is_joined);
-      setHostedRunups(hosted);
-      setJoinedRunups(joined);
-    } catch (err) {
-      setError('Failed to fetch runups. Please try again.');
-    }
-  }, [currentUser]);
-
-  useEffect(() => {
-    fetchRunups();
-  }, [fetchRunups]);
-
-  const handleJoinLeaveRunup = async (runupId, action) => {
-    try {
-      await axiosReq.post(`/api/runups/${runupId}/${action}/`);
-      fetchRunups();
-    } catch (err) {
-      setError(`Failed to ${action} runup. Please try again.`);
-    }
-  };
+  const hostedRunups = runups.filter(runup => runup.host.id === currentUser?.id);
+  const joinedRunups = runups.filter(runup => runup.is_joined && runup.host.id !== currentUser?.id);
 
   const RunupCard = ({ runup, isHosted }) => (
     <Card className={styles.runupCard}>
       <Card.Body>
         <Card.Title>{runup.distance}km RunUp</Card.Title>
         <Card.Text>
-          <strong>Time:</strong> {new Date(runup.date_time).toLocaleString()}<br />
+          <strong>Time:</strong> {formatDate(runup.date_time)}<br />
           <strong>Location:</strong> {runup.location}<br />
           <strong>Pace:</strong> {runup.pace}
         </Card.Text>
@@ -61,11 +37,24 @@ const MyRunups = () => {
     </Card>
   );
 
+  if (loading) {
+    return (
+      <div className="text-center">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <Alert variant="danger">{error}</Alert>;
+  }
+
   return (
     <Card className={styles.myRunupsCard}>
       <Card.Header>My RunUps</Card.Header>
       <Card.Body>
-        {error && <Alert variant="danger">{error}</Alert>}
         <Tab.Container defaultActiveKey="hosted">
           <Nav variant="tabs">
             <Nav.Item>

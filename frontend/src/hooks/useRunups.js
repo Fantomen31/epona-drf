@@ -12,9 +12,6 @@ export const useRunups = () => {
   const setCurrentUser = useSetCurrentUser();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchCities();
-  }, []);
 
   const fetchCities = useCallback(async () => {
     try {
@@ -67,21 +64,32 @@ export const useRunups = () => {
     }
   }, []);
 
-  const handleJoinRunup = useCallback(async (runupId) => {
+  useEffect(() => {
+    fetchCities();
+    fetchRunups();
+  }, [fetchCities, fetchRunups]);
+
+  const handleJoinLeaveRunup = useCallback(async (runupId, action) => {
     if (currentUser) {
-      // TODO: Implement join runup API call
-      console.log(`Joining runup with id: ${runupId}`);
-      await fetchRunups();
+      try {
+        await axiosReq.post(`/api/runups/${runupId}/${action}/`);
+        await fetchRunups();
+        return { success: true, message: `Successfully ${action}ed runup` };
+      } catch (err) {
+        console.error(`Error ${action}ing runup:`, err);
+        return { success: false, message: `Failed to ${action} runup. Please try again.` };
+      }
     } else {
       try {
         const { data } = await axiosRes.get('dj-rest-auth/user/');
         setCurrentUser(data);
-        // TODO: Implement join runup API call
-        console.log(`Joining runup with id: ${runupId}`);
+        await axiosReq.post(`/api/runups/${runupId}/${action}/`);
         await fetchRunups();
+        return { success: true, message: `Successfully ${action}ed runup` };
       } catch (err) {
         console.error('Error authenticating user:', err);
         navigate('/login');
+        return { success: false, message: 'Please log in to join or leave runups.' };
       }
     }
   }, [currentUser, setCurrentUser, navigate, fetchRunups]);
@@ -122,7 +130,7 @@ export const useRunups = () => {
     createRunup, 
     fetchRunups, 
     fetchCities, 
-    handleJoinRunup, 
+    handleJoinLeaveRunup, 
     handleHostRunup, 
     formatDate 
   };
