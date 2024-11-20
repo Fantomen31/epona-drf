@@ -38,7 +38,7 @@ export const useRunups = () => {
       let errorMessage = 'Failed to create runup. Please try again.';
       if (err.response && err.response.data) {
         errorMessage = Object.entries(err.response.data)
-          .map(([key, value]) => `${key}: ${value.join(', ')}`)
+          .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`)
           .join('; ');
       }
       return { success: false, message: errorMessage };

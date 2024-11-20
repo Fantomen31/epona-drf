@@ -13,7 +13,7 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
     distance: '',
     pace: '',
     duration: '',
-    privacy: 'public' // Default to public
+    privacy: 'public' 
   });
 
   const [showResultModal, setShowResultModal] = useState(false);
@@ -40,7 +40,7 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
       ...runupData,
       date_time: `${runupData.date}T${runupData.time}`,
       duration: parseInt(runupData.duration, 10),
-      visibility: runupData.privacy // Map privacy to visibility field expected by API
+      visibility: runupData.privacy === 'public' ? 'OPEN' : 'CLOSED'
     };
     delete formattedData.date;
     delete formattedData.time;
@@ -51,10 +51,7 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
     setResultMessage(result.message);
     setShowResultModal(true);
     if (result.success) {
-      // TODO: Implement onRunupCreated in parent component
-      // if (onRunupCreated && typeof onRunupCreated === 'function') {
-      //   onRunupCreated();
-      // }
+      onRunupCreated(result.data);
       handleClose();
     }
   };

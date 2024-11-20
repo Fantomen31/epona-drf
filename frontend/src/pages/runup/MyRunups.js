@@ -9,8 +9,14 @@ const MyRunups = () => {
   const currentUser = useCurrentUser();
   const { runups, loading, error, handleJoinLeaveRunup, formatDate } = useRunups();
 
-  const hostedRunups = runups.filter(runup => runup.host.id === currentUser?.id);
-  const joinedRunups = runups.filter(runup => runup.is_joined && runup.host.id !== currentUser?.id);
+  console.log('Current user:', currentUser);
+  console.log('All runups:', runups);
+
+  const hostedRunups = runups.filter(runup => runup.host.username === currentUser?.username);
+  const joinedRunups = runups.filter(runup => runup.is_joined && runup.host.username !== currentUser?.username);
+
+  console.log('Hosted runups:', hostedRunups);
+  console.log('Joined runups:', joinedRunups);
 
   const RunupCard = ({ runup, isHosted }) => (
     <Card className={styles.runupCard}>
@@ -19,7 +25,8 @@ const MyRunups = () => {
         <Card.Text>
           <strong>Time:</strong> {formatDate(runup.date_time)}<br />
           <strong>Location:</strong> {runup.location}<br />
-          <strong>Pace:</strong> {runup.pace}
+          <strong>Pace:</strong> {runup.pace}<br />
+          <strong>Host:</strong> {runup.host.username}
         </Card.Text>
         <Link to={`/runup/${runup.id}`} className={styles.viewButton}>
           View Details
@@ -69,14 +76,22 @@ const MyRunups = () => {
           </Nav>
           <Tab.Content>
             <Tab.Pane eventKey="hosted">
-              {hostedRunups.map(runup => (
-                <RunupCard key={runup.id} runup={runup} isHosted={true} />
-              ))}
+              {hostedRunups.length > 0 ? (
+                hostedRunups.map(runup => (
+                  <RunupCard key={runup.id} runup={runup} isHosted={true} />
+                ))
+              ) : (
+                <p>You haven't hosted any RunUps yet. (Current username: {currentUser?.username})</p>
+              )}
             </Tab.Pane>
             <Tab.Pane eventKey="joined">
-              {joinedRunups.map(runup => (
-                <RunupCard key={runup.id} runup={runup} isHosted={false} />
-              ))}
+              {joinedRunups.length > 0 ? (
+                joinedRunups.map(runup => (
+                  <RunupCard key={runup.id} runup={runup} isHosted={false} />
+                ))
+              ) : (
+                <p>You haven't joined any RunUps yet.</p>
+              )}
             </Tab.Pane>
             <Tab.Pane eventKey="history">
               <p>RunUps history will be available soon.</p>
