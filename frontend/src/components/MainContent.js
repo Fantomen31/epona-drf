@@ -15,46 +15,47 @@ const MainContent = () => {
 
   return (
     <div className={styles2.content}>
-    <Container fluid >
-      <Row>
-        <Col md={6}>
-          <Tabs 
-          defaultActiveKey="cities" 
-          onSelect={handleSelect} 
-          className={styles.customNav}
-          >
-            <Tab 
-            eventKey="cities" 
-            title={<><FontAwesomeIcon icon="city" /> Cities</>}
+      <Container fluid>
+        <Row>
+          <Col md={6}>
+            <Tabs 
+              defaultActiveKey="cities" 
+              onSelect={handleSelect} 
+              className={styles.customNav}
             >
-            </Tab>
+              <Tab 
+                eventKey="cities" 
+                title={<><FontAwesomeIcon icon="city" /> Cities</>}
+              >
+              </Tab>
 
-            <Tab 
-            eventKey="clubs" 
-            title={<><FontAwesomeIcon icon="users" /> Clubs</>}
-            >
-            </Tab>
+              <Tab 
+                eventKey="clubs" 
+                title={<><FontAwesomeIcon icon="users" /> Clubs</>}
+              >
+              </Tab>
 
-            <Tab 
-            eventKey="events" 
-            title={<><FontAwesomeIcon icon="flag" /> Events</>}
-            >
-            </Tab>
-          </Tabs>
-        </Col>
+              <Tab 
+                eventKey="events" 
+                title={<><FontAwesomeIcon icon="flag" /> Events</>}
+                disabled
+              >
+              </Tab>
+            </Tabs>
+          </Col>
 
-        <Col md={6}>
-        <Container>
-          <SearchBar className={styles.searchBar} />
-        </Container>
-        </Col>
+          <Col md={6}>
+            <Container>
+              <SearchBar className={styles.searchBar} />
+            </Container>
+          </Col>
         </Row>
        
         <Col md={12}>
           <CardGrid category={activeTab} />
         </Col>
       
-    </Container>
+      </Container>
     </div>
   );
 };

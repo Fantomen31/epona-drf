@@ -25,7 +25,7 @@ const ProfileSideMenu = () => {
             <span>Cities</span>
           </Link>
         </li>
-        <li className={styles.menuItem}>
+        <li className={`${styles.menuItem} ${styles.disabled}`}>
           <Link to="/events">
             <FaFlag className={styles.icon} />
             <span>Events</span>

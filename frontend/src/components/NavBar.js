@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { NavLink, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignInAlt, faUserPlus, faHome, faSignOutAlt, faUser, faCity, faRunning, faRoute, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSignInAlt, faUserPlus, faHome, faSignOutAlt, faUser, faCity, faRunning, faCalendarAlt, faUsers } from '@fortawesome/free-solid-svg-icons';
 import logo from '../assets/logo.webp';
 import styles from '../styles/NavBar.module.css';
 import { useCurrentUser, useSetCurrentUser } from '../contexts/CurrentUserContext';
@@ -28,7 +28,7 @@ const NavBar = () => {
     if (path.includes('/cities')) return faCity;
     if (path.includes('/clubs')) return faRunning;
     if (path.includes('/events')) return faCalendarAlt;
-    if (path.includes('/routes')) return faRoute;
+    if (path.includes('/runups')) return faUsers;
     return faUser;
   };
 
@@ -60,16 +60,12 @@ const NavBar = () => {
           Cities
         </NavDropdown.Item>
         <NavDropdown.Item as={NavLink} to="/clubs" className={styles.dropdownItem} activeClassName={styles.active}>
-          <FontAwesomeIcon icon={faRunning} className={styles.faIcon} />
+          <FontAwesomeIcon icon={faUsers} className={styles.faIcon} />
           Clubs
         </NavDropdown.Item>
-        <NavDropdown.Item as={NavLink} to="/events" className={styles.dropdownItem} activeClassName={styles.active}>
-          <FontAwesomeIcon icon={faCalendarAlt} className={styles.faIcon} />
-          Events
-        </NavDropdown.Item>
-        <NavDropdown.Item as={NavLink} to="/routes" className={styles.dropdownItem} activeClassName={styles.active}>
-          <FontAwesomeIcon icon={faRoute} className={styles.faIcon} />
-          Routes
+        <NavDropdown.Item as={NavLink} to="/runups" className={styles.dropdownItem} activeClassName={styles.active}>
+          <FontAwesomeIcon icon={faRunning} className={styles.faIcon} />
+          RunUps
         </NavDropdown.Item>
       </NavDropdown>
     </>

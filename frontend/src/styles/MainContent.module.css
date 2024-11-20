@@ -48,3 +48,14 @@
 .searchBar {
   margin-top: 10px;
 }
+
+.customNav :global(.nav-item .nav-link.disabled) {
+  color: #6c757d !important;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.customNav :global(.nav-item .nav-link.disabled:hover) {
+  color: #6c757d !important;
+  border-bottom: 2px solid transparent;
+}
