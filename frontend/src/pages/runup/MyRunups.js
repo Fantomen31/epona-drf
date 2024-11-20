@@ -13,7 +13,7 @@ const MyRunups = () => {
   console.log('All runups:', runups);
 
   const hostedRunups = runups.filter(runup => runup.host.username === currentUser?.username);
-  const joinedRunups = runups.filter(runup => runup.is_joined && runup.host.username !== currentUser?.username);
+  const joinedRunups = runups.filter(runup => runup.is_joined && runup.host.id !== currentUser?.id);
 
   console.log('Hosted runups:', hostedRunups);
   console.log('Joined runups:', joinedRunups);
