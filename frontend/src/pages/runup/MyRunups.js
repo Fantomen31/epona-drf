@@ -1,39 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Tab, Nav, Button, Alert, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import { useRunups } from '../../hooks/useRunups';
 import { useRunupActions } from '../../hooks/useRunupActions';
 import styles from '../../styles/MyRunups.module.css';
+import { FaRunning, FaMapMarkerAlt, FaClock, FaUser } from 'react-icons/fa';
 
 const MyRunups = () => {
   const currentUser = useCurrentUser();
-  const { runups, loading, error, formatDate } = useRunups();
-  const { handleJoinLeaveRunup, handleDeleteRunup } = useRunupActions(() => {
-    // You need to implement fetchRunups here or pass it from a parent component
-    // For now, I'll leave it as a placeholder
-    console.log('Fetching runups...');
-  });
-
-  console.log('Current user:', currentUser);
-  console.log('All runups:', runups);
+  const { runups, loading, error, hasMore, loadMore, formatDate } = useRunups();
+  const { handleJoinLeaveRunup, handleDeleteRunup } = useRunupActions(() => loadMore());
+  const [activeTab, setActiveTab] = useState('hosted');
 
   const hostedRunups = runups.filter(runup => runup.host.username === currentUser?.username);
   const joinedRunups = runups.filter(runup => runup.is_joined && runup.host.id !== currentUser?.id);
 
-  console.log('Hosted runups:', hostedRunups);
-  console.log('Joined runups:', joinedRunups);
-
   const RunupCard = ({ runup, isHosted }) => (
-    <Card className={styles.runupCard}>
-      <Card.Body>
-        <Card.Title>{runup.distance}km RunUp</Card.Title>
-        <Card.Text>
-          <strong>Time:</strong> {formatDate(runup.date_time)}<br />
-          <strong>Location:</strong> {runup.location}<br />
-          <strong>Pace:</strong> {runup.pace}<br />
-          <strong>Host:</strong> {runup.host.username}
-        </Card.Text>
+    <div className={styles.runUpItem}>
+      <div className={styles.runUpDetails}>
+        <div className={styles.runUpHeader}>
+          <h4>{runup.distance}km RunUp</h4>
+          <div className={styles.hostInfo}>
+            <FaUser className={styles.infoIcon} />
+            <span>{runup.host.username}</span>
+          </div>
+        </div>
+        <div className={styles.runUpInfo}>
+          <p><FaClock className={styles.infoIcon} /> {formatDate(runup.date_time)}</p>
+          <p><FaMapMarkerAlt className={styles.infoIcon} /> {runup.location}</p>
+          <p><FaRunning className={styles.infoIcon} /> {runup.pace}</p>
+        </div>
+      </div>
+      <div className={styles.actionButtons}>
         <Link to={`/runup/${runup.id}`} className={styles.viewButton}>
           View Details
         </Link>
@@ -55,18 +55,28 @@ const MyRunups = () => {
             Delete RunUp
           </Button>
         )}
-      </Card.Body>
-    </Card>
+      </div>
+    </div>
   );
 
-  if (loading) {
-    return (
-      <div className="text-center">
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      </div>
-    );
+  const renderRunups = (runupsToRender, isHosted) => (
+    <InfiniteScroll
+      dataLength={runupsToRender.length}
+      next={loadMore}
+      hasMore={hasMore}
+      loader={<Spinner animation="border" role="status" className={styles.spinner} />}
+      endMessage={<p className={styles.endMessage}>No more runups to load.</p>}
+      className={styles.runUpsList}
+      height={200}
+    >
+      {runupsToRender.map(runup => (
+        <RunupCard key={runup.id} runup={runup} isHosted={isHosted} />
+      ))}
+    </InfiniteScroll>
+  );
+
+  if (loading && runups.length === 0) {
+    return <Spinner animation="border" role="status" className={styles.spinner} />;
   }
 
   if (error) {
@@ -74,47 +84,47 @@ const MyRunups = () => {
   }
 
   return (
-    <Card className={styles.myRunupsCard}>
-      <Card.Header>My RunUps</Card.Header>
-      <Card.Body>
-        <Tab.Container defaultActiveKey="hosted">
-          <Nav variant="tabs">
-            <Nav.Item>
-              <Nav.Link eventKey="hosted">Hosted RunUps</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="joined">Joined RunUps</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="history" disabled>RunUps History</Nav.Link>
-            </Nav.Item>
-          </Nav>
-          <Tab.Content>
-            <Tab.Pane eventKey="hosted">
-              {hostedRunups.length > 0 ? (
-                hostedRunups.map(runup => (
-                  <RunupCard key={runup.id} runup={runup} isHosted={true} />
-                ))
-              ) : (
-                <p>You haven't hosted any RunUps yet. (Current username: {currentUser?.username})</p>
-              )}
-            </Tab.Pane>
-            <Tab.Pane eventKey="joined">
-              {joinedRunups.length > 0 ? (
-                joinedRunups.map(runup => (
-                  <RunupCard key={runup.id} runup={runup} isHosted={false} />
-                ))
-              ) : (
-                <p>You haven't joined any RunUps yet.</p>
-              )}
-            </Tab.Pane>
-            <Tab.Pane eventKey="history">
-              <p>RunUps history will be available soon.</p>
-            </Tab.Pane>
-          </Tab.Content>
-        </Tab.Container>
-      </Card.Body>
-    </Card>
+    <div className={styles.myRunupsContainer}>
+      <Card className={styles.myRunupsCard}>
+        <Card.Header className={styles.cardHeader}>
+          <h3>My RunUps</h3>
+        </Card.Header>
+        <Card.Body className={styles.cardBody}>
+          <Tab.Container activeKey={activeTab} onSelect={(k) => setActiveTab(k)}>
+            <Nav variant="tabs" className={styles.tabNav}>
+              <Nav.Item>
+                <Nav.Link eventKey="hosted" className={styles.tabLink}>Hosted</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="joined" className={styles.tabLink}>Joined</Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey="history" disabled className={styles.tabLink}>History</Nav.Link>
+              </Nav.Item>
+            </Nav>
+            <Tab.Content className={styles.tabContent}>
+              <Tab.Pane eventKey="hosted">
+                {hostedRunups.length > 0 ? (
+                  renderRunups(hostedRunups, true)
+                ) : (
+                  <p className={styles.noRunupsMessage}>You haven't hosted any RunUps yet.</p>
+                )}
+              </Tab.Pane>
+              <Tab.Pane eventKey="joined">
+                {joinedRunups.length > 0 ? (
+                  renderRunups(joinedRunups, false)
+                ) : (
+                  <p className={styles.noRunupsMessage}>You haven't joined any RunUps yet.</p>
+                )}
+              </Tab.Pane>
+              <Tab.Pane eventKey="history">
+                <p className={styles.noRunupsMessage}>RunUps history will be available soon.</p>
+              </Tab.Pane>
+            </Tab.Content>
+          </Tab.Container>
+        </Card.Body>
+      </Card>
+    </div>
   );
 };
 

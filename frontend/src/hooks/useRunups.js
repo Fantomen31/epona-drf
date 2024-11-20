@@ -8,10 +8,11 @@ export const useRunups = () => {
   const [runups, setRunups] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
   const currentUser = useCurrentUser();
   const setCurrentUser = useSetCurrentUser();
   const navigate = useNavigate();
-
 
   const fetchCities = useCallback(async () => {
     try {
@@ -45,16 +46,23 @@ export const useRunups = () => {
     }
   }, []);
 
-  const fetchRunups = useCallback(async () => {
+  const fetchRunups = useCallback(async (pageNumber = 1) => {
     setLoading(true);
     setError(null);
     try {
-      const { data } = await axiosReq.get('/api/runups/');
+      const { data } = await axiosReq.get(`/api/runups/?page=${pageNumber}`);
       if (data && Array.isArray(data.results)) {
-        setRunups(data.results);
+        if (pageNumber === 1) {
+          setRunups(data.results);
+        } else {
+          setRunups(prevRunups => [...prevRunups, ...data.results]);
+        }
+        setHasMore(!!data.next);
+        setPage(pageNumber);
       } else {
         console.error('Received unexpected data structure for runups:', data);
         setRunups([]);
+        setHasMore(false);
       }
     } catch (err) {
       console.error('Error fetching runups:', err);
@@ -63,6 +71,12 @@ export const useRunups = () => {
       setLoading(false);
     }
   }, []);
+
+  const loadMore = useCallback(() => {
+    if (hasMore && !loading) {
+      fetchRunups(page + 1);
+    }
+  }, [hasMore, loading, fetchRunups, page]);
 
   useEffect(() => {
     fetchCities();
@@ -73,7 +87,7 @@ export const useRunups = () => {
     if (currentUser) {
       try {
         await axiosReq.post(`/api/runups/${runupId}/${action}/`);
-        await fetchRunups();
+        await fetchRunups(1);
         return { success: true, message: `Successfully ${action}ed runup` };
       } catch (err) {
         console.error(`Error ${action}ing runup:`, err);
@@ -84,7 +98,7 @@ export const useRunups = () => {
         const { data } = await axiosRes.get('dj-rest-auth/user/');
         setCurrentUser(data);
         await axiosReq.post(`/api/runups/${runupId}/${action}/`);
-        await fetchRunups();
+        await fetchRunups(1);
         return { success: true, message: `Successfully ${action}ed runup` };
       } catch (err) {
         console.error('Error authenticating user:', err);
@@ -127,11 +141,13 @@ export const useRunups = () => {
     runups, 
     loading, 
     error, 
+    hasMore,
     createRunup, 
     fetchRunups, 
     fetchCities, 
     handleJoinLeaveRunup, 
     handleHostRunup, 
-    formatDate 
+    formatDate,
+    loadMore
   };
 };

@@ -1,16 +1,239 @@
 /* styles/MyRunups.module.css */
+:root {
+  --dark-green: #191e19;
+  --light-green: #212a21;
+  --orange: #e67e22;
+  --creamy-white: #f5e6d3;
+  --autumn-light-dark-green: #7AB55C;
+}
+
+.myRunupsContainer {
+  width: 100%;
+  max-width: 350px;
+  margin: 1rem auto 0;
+  padding: 0.3rem;
+}
+
 .myRunupsCard {
-    margin-top: 20px;
+  background-color: var(--light-green);
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: white;
+  overflow: hidden;
+  width: 450px;
+  transition: all 0.3s ease;
+}
+
+.myRunupsCard:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cardHeader {
+  background-color: var(--dark-green);
+  border-bottom: 1px solid var(--autumn-light-dark-green);
+  padding: 0.75rem;
+}
+
+.cardHeader h3 {
+  color: var(--creamy-white);
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.cardBody {
+  padding: 0;
+}
+
+.runUpsList {
+  height: 200px;
+  overflow-y: auto;
+}
+
+.runUpItem {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--autumn-light-dark-green);
+  transition: background-color 0.3s ease;
+}
+
+.runUpItem:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.runUpDetails {
+  margin-bottom: 0.5rem;
+}
+
+.runUpHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.runUpHeader h4 {
+  color: var(--orange);
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.hostInfo {
+  display: flex;
+  align-items: center;
+  color: var(--creamy-white);
+  font-size: 0.8rem;
+}
+
+.runUpInfo p {
+  color: var(--creamy-white);
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.infoIcon {
+  margin-right: 0.5rem;
+  color: var(--orange);
+  font-size: 0.9rem;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.viewButton, .joinLeaveButton, .deleteButton {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.viewButton {
+  background-color: var(--orange);
+  color: var(--dark-green);
+  text-decoration: none;
+}
+
+.viewButton:hover {
+  background-color: #d35400;
+}
+
+.joinLeaveButton {
+  background-color: #27ae60;
+  color: var(--dark-green);
+}
+
+.joinLeaveButton:hover {
+  background-color: #2ecc71;
+}
+
+.deleteButton {
+  background-color: #c0392b;
+  color: var(--creamy-white);
+}
+
+.deleteButton:hover {
+  background-color: #e74c3c;
+}
+
+.tabNav {
+  border-bottom: 1px solid var(--autumn-light-dark-green);
+}
+
+.tabNav :global(.nav-item) {
+  margin-right: 2px;
+}
+
+.tabNav :global(.nav-link) {
+  color: var(--creamy-white) !important;
+  background-color: transparent;
+  border: none;
+  padding: 8px 12px;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 2px solid transparent;
+  font-size: 0.8rem;
+}
+
+.tabNav :global(.nav-link:hover) {
+  color: var(--orange) !important;
+  background-color: transparent !important;
+  border-bottom: 2px solid var(--orange);
+}
+
+.tabNav :global(.nav-link.active) {
+  color: var(--orange) !important;
+  background-color: transparent !important;
+  border-bottom: 3px solid var(--orange);
+}
+
+.tabContent {
+  background: rgba(209, 246, 209, 0.1) !important;
+  padding: 0.5rem;
+  border-radius: 0 0 10px 10px;
+}
+
+.spinner {
+  display: block;
+  margin: 10px auto;
+  color: var(--orange);
+}
+
+.endMessage, .noRunupsMessage {
+  text-align: center;
+  color: var(--creamy-white);
+  padding: 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* Scrollbar styling */
+.runUpsList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.runUpsList::-webkit-scrollbar-track {
+  background: var(--dark-green);
+}
+
+.runUpsList::-webkit-scrollbar-thumb {
+  background-color: var(--light-green);
+  border-radius: 2px;
+}
+
+.runUpsList::-webkit-scrollbar-thumb:hover {
+  background-color: var(--orange);
+}
+
+@media (max-width: 768px) {
+  .myRunupsContainer {
+    margin: 2rem auto 0;
+    padding: 1rem;
   }
-  
-  .runupCard {
-    margin-bottom: 10px;
+
+  .myRunupsCard {
+    width: 100%;
   }
-  
-  .viewButton {
-    margin-right: 10px;
+
+  .actionButtons {
+    flex-wrap: wrap;
   }
-  
-  .joinLeaveButton {
-    float: right;
+
+  .viewButton, .joinLeaveButton, .deleteButton {
+    margin-top: 0.5rem;
+    padding: 0.4rem;
+    font-size: 0.7rem;
+    flex: 1;
+    margin-right: 0.25rem;
   }
+
+  .viewButton:last-child, .joinLeaveButton:last-child, .deleteButton:last-child {
+    margin-right: 0;
+  }
+}
