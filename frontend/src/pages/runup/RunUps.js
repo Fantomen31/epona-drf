@@ -1,59 +1,34 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Card, Button, Spinner } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser, FaPlus } from 'react-icons/fa';
-import { useCurrentUser, useSetCurrentUser } from '../../contexts/CurrentUserContext';
 import { useRunups } from '../../hooks/useRunups';
 import HostRunupModal from './HostRunupModal';
-import { axiosRes } from '../../api/axiosDefaults';
 import styles from '../../styles/RunUps.module.css';
 
 const RunUps = () => {
   const [showModal, setShowModal] = useState(false);
-  const { runups, loading, error, fetchRunups, createRunup } = useRunups();
-  const currentUser = useCurrentUser();
-  const setCurrentUser = useSetCurrentUser();
-  const navigate = useNavigate();
+  const { 
+    runups, 
+    loading, 
+    error, 
+    fetchRunups, 
+    createRunup, 
+    handleJoinRunup, 
+    handleHostRunup, 
+    formatDate 
+  } = useRunups();
 
   useEffect(() => {
     fetchRunups();
   }, [fetchRunups]);
 
-  const handleHostRunup = useCallback(async () => {
-    if (currentUser) {
+  const handleOpenModal = useCallback(async () => {
+    const canHost = await handleHostRunup();
+    if (canHost) {
       setShowModal(true);
-    } else {
-      try {
-        const { data } = await axiosRes.get('dj-rest-auth/user/');
-        setCurrentUser(data);
-        setShowModal(true);
-      } catch (err) {
-        console.error('Error authenticating user:', err);
-        navigate('/login');
-      }
     }
-  }, [currentUser, setCurrentUser, navigate]);
-
-  const handleJoinRunup = useCallback(async (runupId) => {
-    if (currentUser) {
-      // TODO: Implement join runup API call
-      console.log(`Joining runup with id: ${runupId}`);
-      // After joining, refetch runups to update the list
-      await fetchRunups();
-    } else {
-      try {
-        const { data } = await axiosRes.get('dj-rest-auth/user/');
-        setCurrentUser(data);
-        // TODO: Implement join runup API call
-        console.log(`Joining runup with id: ${runupId}`);
-        // After joining, refetch runups to update the list
-        await fetchRunups();
-      } catch (err) {
-        console.error('Error authenticating user:', err);
-        navigate('/login');
-      }
-    }
-  }, [currentUser, setCurrentUser, navigate, fetchRunups]);
+  }, [handleHostRunup]);
 
   const handleCloseModal = useCallback(() => setShowModal(false), []);
 
@@ -61,24 +36,11 @@ const RunUps = () => {
     const result = await createRunup(newRunupData);
     if (result.success) {
       handleCloseModal();
-      await fetchRunups(); // Refetch runups after creating a new one
+      await fetchRunups();
     } else {
-      // Handle error (you might want to show an error message to the user)
       console.error(result.message);
     }
   }, [createRunup, fetchRunups, handleCloseModal]);
-
-  const formatDate = useCallback((dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleString('en-US', { 
-      weekday: 'short', 
-      day: '2-digit', 
-      month: 'short', 
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: false 
-    });
-  }, []);
 
   if (error) {
     return <div className="text-center">{error}</div>;
@@ -136,7 +98,7 @@ const RunUps = () => {
           </Link>
         </div>
         <div className={styles.hostButtonWrapper}>
-          <Button variant="success" className={styles.hostButton} onClick={handleHostRunup}>
+          <Button variant="success" className={styles.hostButton} onClick={handleOpenModal}>
             <FaPlus /> Host RunUp
           </Button>
         </div>
