@@ -3,11 +3,17 @@ import { Card, Tab, Nav, Button, Alert, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import { useRunups } from '../../hooks/useRunups';
+import { useRunupActions } from '../../hooks/useRunupActions';
 import styles from '../../styles/MyRunups.module.css';
 
 const MyRunups = () => {
   const currentUser = useCurrentUser();
-  const { runups, loading, error, handleJoinLeaveRunup, formatDate } = useRunups();
+  const { runups, loading, error, formatDate } = useRunups();
+  const { handleJoinLeaveRunup, handleDeleteRunup } = useRunupActions(() => {
+    // You need to implement fetchRunups here or pass it from a parent component
+    // For now, I'll leave it as a placeholder
+    console.log('Fetching runups...');
+  });
 
   console.log('Current user:', currentUser);
   console.log('All runups:', runups);
@@ -38,6 +44,15 @@ const MyRunups = () => {
             className={styles.joinLeaveButton}
           >
             {runup.is_joined ? 'Leave' : 'Join'} RunUp
+          </Button>
+        )}
+        {isHosted && (
+          <Button
+            variant="danger"
+            onClick={() => handleDeleteRunup(runup.id)}
+            className={styles.deleteButton}
+          >
+            Delete RunUp
           </Button>
         )}
       </Card.Body>

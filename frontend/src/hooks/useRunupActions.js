@@ -14,5 +14,17 @@ export const useRunupActions = (fetchRunups) => {
     }
   }, [fetchRunups]);
 
-  return { handleJoinLeaveRunup };
+  const handleDeleteRunup = useCallback(async (runupId) => {
+    try {
+      await axiosReq.delete(`/api/runups/${runupId}/`);
+      console.log('Delete runup response: Success');
+      await fetchRunups();
+      return { success: true, message: 'Successfully deleted runup' };
+    } catch (err) {
+      console.error('Error deleting runup:', err);
+      return { success: false, message: 'Failed to delete runup. Please try again.' };
+    }
+  }, [fetchRunups]);
+
+  return { handleJoinLeaveRunup, handleDeleteRunup };
 };
