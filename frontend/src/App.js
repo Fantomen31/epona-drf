@@ -21,6 +21,8 @@ import EventsPage from './pages/event/EventsPage';
 import EventProfilePage from './pages/event/EventProfilePage';
 import RunUpsPage from './pages/runup/RunUpsPage';
 import RunUpProfile from './pages/runup/RunUpProfile';
+import EditProfilePage from './pages/profile/EditProfilePage';
+import DetailedProfile from './pages/profile/DetailedProfile';
 
 
 
@@ -51,6 +53,8 @@ function App() {
                 <Route path="/events/:id" element={<EventProfilePage />} />
                 <Route path="/runups" element={<RunUpsPage />} />
                 <Route path="/runups/:id" element={<RunUpProfile />} />
+                <Route path="/profile" element={<DetailedProfile />} />
+                <Route path="/edit-profile" element={<EditProfilePage />} />
 
               </Routes>
             </Container>
