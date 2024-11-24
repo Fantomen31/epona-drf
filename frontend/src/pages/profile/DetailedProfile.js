@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Row, Col, Button, Alert, Image } from 'react-bootstrap';
+import { Card, Row, Col, Button, Image } from 'react-bootstrap';
 import { FaEdit, FaMapMarkerAlt, FaRunning, FaUsers, FaTrophy, FaCity } from 'react-icons/fa';
 import styles from '../../styles/DetailedProfile.module.css';
 import { useUserProfile } from '../../hooks/useUserProfile';
