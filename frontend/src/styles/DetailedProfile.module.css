@@ -1,148 +1,216 @@
 .detailedProfile {
-    padding: 20px;
-    color: #F5F5F0;
-  }
-  
-  .profileCard {
-    background-color: #191e19;
-    border: none;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #F5F5F0;
+}
+
+.profileCard {
+  background-color: #212a21;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.profileImageCol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.iconWrapper {
+  width: 120px;
+  height: 120px;
+  border: 3px solid #E67E22;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profileIcon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  color: #212a21;
+  background-color: #E67E22;
+}
+
+.profileHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profileHeader h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #F5F5F0;
+}
+
+.editButton {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #E67E22;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.editButton:hover {
+  color: #4CAF50;
+  transform: scale(1.05);
+}
+
+.editButton svg {
+  margin-right: 5px;
+}
+
+.bio {
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+}
+
+.profileDetails p {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+}
+
+.profileDetails svg {
+  margin-right: 8px;
+  font-size: 1rem;
+  color: #E67E22;
+}
+
+.statsContainer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 15px;
+}
+
+.statItem {
+  margin-right: 15px;
+  font-size: 0.9rem;
+  color: #F5F5F0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.statItem span {
+  font-weight: bold;
+  color: #E67E22;
+  transition: all 0.3s ease;
+}
+
+.statItem:hover span {
+  color: #4CAF50;
+}
+
+.sectionTitle {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+  color: #E67E22;
+}
+
+.statisticsGrid {
+  margin-bottom: 25px;
+}
+
+.statCard {
+  height: 100%;
+  padding: 12px;
+  text-align: center;
+  background-color: #2c3e2c;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.statCard h4 {
+  margin-bottom: 5px;
+  font-size: 1.2em;
+  color: #E67E22;
+}
+
+.statCard p {
+  font-size: 0.9rem;
+  color: #e0e0e0;
+}
+
+.achievementsStack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.achievementCard {
+  padding: 12px;
+  background-color: #2c3e2c;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.achievementCard h4 {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  color: #E67E22;
+}
+
+.achievementCard p {
+  margin-top: 5px;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+}
+
+.trophyIcon {
+  margin-right: 8px;
+  font-size: 1.1rem;
+  color: #ffd700;
+}
+
+@media (max-width: 768px) {
   .profileImageCol {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-bottom: 15px;
   }
-  
-  .profileImage {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #4CAF50;
+
+  .iconWrapper {
+    width: 100px;
+    height: 100px;
   }
-  
+
+  .profileIcon {
+    font-size: 2.5rem;
+  }
+
   .profileHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .username {
-    font-size: 0.8em;
-    color: #a0a0a0;
-    margin-left: 10px;
-  }
-  
-  .editButton {
-    text-decoration: none;
-    color: #4CAF50;
-    transition: color 0.3s ease;
-  }
-  
-  .editButton:hover {
-    color: #45a049;
-  }
-  
-  .bio {
-    margin-bottom: 15px;
-    color: #e0e0e0;
-  }
-  
-  .profileDetails p {
-    margin-bottom: 5px;
-    color: #e0e0e0;
-  }
-  
-  .profileDetails a {
-    color: #4CAF50;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  
-  .profileDetails a:hover {
-    color: #45a049;
-  }
-  
-  .profileStats {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-    color: #a0a0a0;
-  }
-  
-  .sectionTitle {
-    margin-top: 30px;
-    margin-bottom: 15px;
-    color: #4CAF50;
-  }
-  
-  .statisticsGrid {
-    margin-bottom: 30px;
-  }
-  
-  .statCard {
-    text-align: center;
-    height: 100%;
-    background-color: #2c3e2c;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .statCard h4 {
-    font-size: 1.5em;
-    margin-bottom: 5px;
-    color: #4CAF50;
-  }
-  
-  .statCard p {
-    color: #e0e0e0;
-  }
-  
-  .achievementsStack {
-    display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: flex-start;
   }
-  
-  .achievementCard {
-    background-color: #2c3e2c;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .editButton {
+    margin-top: 8px;
   }
-  
-  .achievementCard h4 {
-    color: #4CAF50;
+
+  .statsContainer {
+    flex-wrap: wrap;
   }
-  
-  .achievementCard p {
-    color: #e0e0e0;
+
+  .statItem {
+    margin-bottom: 8px;
   }
-  
-  .trophyIcon {
-    color: #ffd700;
-    margin-right: 5px;
-  }
-  
-  @media (max-width: 768px) {
-    .profileImageCol {
-      margin-bottom: 20px;
-    }
-  
-    .profileHeader {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .editButton {
-      margin-top: 10px;
-    }
-  
-    .profileStats {
-      flex-direction: column;
-      gap: 10px;
-    }
-  }
+}

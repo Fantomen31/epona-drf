@@ -79,7 +79,7 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
           <Form.Label>New Profile Image</Form.Label>
           <div className={styles.imagePreviewContainer}>
             <Image 
-              src={imageFile ? URL.createObjectURL(imageFile) : userProfile.profile_image || "/placeholder.svg?height=150&width=150"} 
+              src={imageFile ? URL.createObjectURL(imageFile) :  "/placeholder.svg?height=150&width=150"} 
               alt=" " 
               className={styles.imagePreview} 
               roundedCircle
@@ -169,9 +169,12 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
             className={styles.formControl}
           >
             <option value="">Select a level</option>
-            <option value="1">Beginner</option>
-            <option value="2">Intermediate</option>
-            <option value="3">Advanced</option>
+            <option value="1">Novice</option>
+            <option value="2">Beginner</option>
+            <option value="3">Intermediate</option>
+            <option value="4">Advanced</option>
+            <option value="5">Professional</option>
+            
           </Form.Control>
           {errors.running_level?.map((message, idx) => (
             <Alert variant="warning" key={idx}>
