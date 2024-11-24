@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import EditProfileForm from './EditProfileForm';
 import { useUserProfile } from '../../hooks/useUserProfile';
 import styles from '../../styles/EditProfilePage.module.css';
+import EditProfileForm from './EditProfileForm';
 import ProfileSideMenu from './ProfileSideMenu';
 
 const EditProfilePage = () => {
