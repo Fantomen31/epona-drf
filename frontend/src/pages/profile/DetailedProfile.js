@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Row, Col, Button, Form, Alert } from 'react-bootstrap';
-import { FaEdit, FaMapMarkerAlt, FaRunning, FaUsers, FaTrophy } from 'react-icons/fa';
+import { FaEdit, FaMapMarkerAlt, FaRunning, FaUsers } from 'react-icons/fa';
 import styles from '../../styles/DetailedProfile.module.css';
 import { useProfileData } from '../../hooks/useProfileData';
 import { useProfileUpdate } from '../../hooks/useProfileUpdate';
@@ -124,17 +124,6 @@ const DetailedProfile = () => {
           </Row>
         </Card.Body>
       </Card>
-
-      {/* Keep the statistics and achievements sections as placeholders for now */}
-      <h3 className={styles.sectionTitle}>Statistics</h3>
-      <Row className={styles.statisticsGrid}>
-        {/* ... (keep the existing statistics code) */}
-      </Row>
-
-      <h3 className={styles.sectionTitle}>Achievements</h3>
-      <div className={styles.achievementsStack}>
-        {/* ... (keep the existing achievements code) */}
-      </div>
     </div>
   );
 };
