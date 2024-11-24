@@ -1,18 +1,17 @@
 import { useState } from 'react';
 import { axiosReq } from '../api/axiosDefaults';
 
-export const useProfileUpdate = (setProfile) => {
+export const useProfileUpdate = () => {
   const [updateError, setUpdateError] = useState(null);
 
-  const updateProfile = async (profileData) => {
+  const updateProfile = async (profileId, profileData) => {
     try {
-      const { data } = await axiosReq.put(`/api/profiles/${profileData.id}/`, profileData);
-      setProfile(data);
-      return true;
+      const { data } = await axiosReq.put(`/api/profiles/${profileId}/`, profileData);
+      return { success: true, data };
     } catch (err) {
       setUpdateError('Failed to update profile');
       console.error(err);
-      return false;
+      return { success: false, error: err.response?.data };
     }
   };
 
