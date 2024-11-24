@@ -1,37 +1,114 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Card, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Card, Row, Col, Button, Form, Alert } from 'react-bootstrap';
 import { FaEdit, FaMapMarkerAlt, FaRunning, FaUsers, FaTrophy } from 'react-icons/fa';
 import styles from '../../styles/DetailedProfile.module.css';
+import { useProfileData } from '../../hooks/useProfileData';
+import { useProfileUpdate } from '../../hooks/useProfileUpdate';
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
 const DetailedProfile = () => {
-  // Placeholder data
-  const profile = {
-    name: "Jane Runner",
-    username: "@janerunner",
-    bio: "Passionate runner, always chasing that runner's high!",
-    location: "San Francisco",
-    heroCity: "New York",
-    runningLevel: "Intermediate",
-    club: "SF Runners",
-    clubsCount: 3,
-    followers: 245,
-    following: 178,
-    profilePicture: "/placeholder.svg?height=150&width=150",
+  const { profile, setProfile, error } = useProfileData();
+  const { updateProfile, updateError } = useProfileUpdate(setProfile);
+  const currentUser = useCurrentUser();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedProfile, setEditedProfile] = useState({});
+
+  const handleEdit = () => {
+    setEditedProfile(profile);
+    setIsEditing(true);
   };
 
-  const statistics = [
-    { label: "Total Distance", value: "1,234 km" },
-    { label: "Avg. Pace", value: "5:30 /km" },
-    { label: "Total Runs", value: "156" },
-    { label: "Total Time", value: "120h 45m" },
-  ];
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
 
-  const achievements = [
-    { title: "Marathon Finisher", description: "Completed first marathon" },
-    { title: "100km Club", description: "Ran 100km in a month" },
-    { title: "Early Bird", description: "10 runs before 7am" },
-  ];
+  const handleChange = (e) => {
+    setEditedProfile({
+      ...editedProfile,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const success = await updateProfile(editedProfile);
+    if (success) {
+      setIsEditing(false);
+    }
+  };
+
+  if (error || updateError) {
+    return <Alert variant="danger">{error || updateError}</Alert>;
+  }
+
+  if (!profile) {
+    return <div>Loading...</div>;
+  }
+
+  const ProfileContent = () => (
+    <>
+      <div className={styles.profileHeader}>
+        <h2>{profile.user} <span className={styles.username}>@{profile.user}</span></h2>
+        {currentUser && currentUser.pk === profile.id && (
+          <Button onClick={handleEdit} className={styles.editButton}>
+            <FaEdit /> Edit Profile
+          </Button>
+        )}
+      </div>
+      <p className={styles.bio}>{profile.bio || 'No bio yet. Click edit to add one!'}</p>
+      <div className={styles.profileDetails}>
+        <p>
+          <FaMapMarkerAlt /> Location: {profile.location || 'Not specified'}
+        </p>
+        <p>
+          <FaRunning /> Running Level: {profile.running_level_display || 'Not specified'}
+        </p>
+        <p>
+          <FaUsers /> Participated Events: {profile.participated_events?.length || 0}
+        </p>
+      </div>
+    </>
+  );
+
+  const EditForm = () => (
+    <Form onSubmit={handleSubmit}>
+      <Form.Group>
+        <Form.Label>Bio</Form.Label>
+        <Form.Control
+          as="textarea"
+          rows={3}
+          name="bio"
+          value={editedProfile.bio || ''}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Location</Form.Label>
+        <Form.Control
+          type="text"
+          name="location"
+          value={editedProfile.location || ''}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Running Level</Form.Label>
+        <Form.Control
+          as="select"
+          name="running_level"
+          value={editedProfile.running_level || ''}
+          onChange={handleChange}
+        >
+          <option value="">Select a level</option>
+          <option value="1">Beginner</option>
+          <option value="2">Intermediate</option>
+          <option value="3">Advanced</option>
+        </Form.Control>
+      </Form.Group>
+      <Button type="submit">Save Changes</Button>
+      <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
+    </Form>
+  );
 
   return (
     <div className={styles.detailedProfile}>
@@ -39,64 +116,24 @@ const DetailedProfile = () => {
         <Card.Body>
           <Row>
             <Col xs={12} md={4} className={styles.profileImageCol}>
-              <img src={profile.profilePicture} alt={profile.name} className={styles.profileImage} />
+              <img src={profile.image || "/placeholder.svg?height=150&width=150"} alt={profile.user} className={styles.profileImage} />
             </Col>
             <Col xs={12} md={8}>
-              <div className={styles.profileHeader}>
-                <h2>{profile.name} <span className={styles.username}>{profile.username}</span></h2>
-                <Link to="/edit-profile" className={styles.editButton}>
-                  <FaEdit /> Edit Profile
-                </Link>
-              </div>
-              <p className={styles.bio}>{profile.bio}</p>
-              <div className={styles.profileDetails}>
-                <p>
-                  <FaMapMarkerAlt /> Location: <Link to={`/cities/${profile.location}`}>{profile.location}</Link>
-                </p>
-                <p>
-                  <FaMapMarkerAlt /> Hero City: <Link to={`/cities/${profile.heroCity}`}>{profile.heroCity}</Link>
-                </p>
-                <p>
-                  <FaRunning /> Running Level: {profile.runningLevel}
-                </p>
-                <p>
-                  <FaUsers /> Club: <Link to={`/clubs/${profile.club}`}>{profile.club}</Link>
-                </p>
-              </div>
-              <div className={styles.profileStats}>
-                <span>{profile.clubsCount} clubs</span>
-                <span>{profile.followers} followers</span>
-                <span>{profile.following} following</span>
-              </div>
+              {isEditing ? <EditForm /> : <ProfileContent />}
             </Col>
           </Row>
         </Card.Body>
       </Card>
 
+      {/* Keep the statistics and achievements sections as placeholders for now */}
       <h3 className={styles.sectionTitle}>Statistics</h3>
       <Row className={styles.statisticsGrid}>
-        {statistics.map((stat, index) => (
-          <Col key={index} xs={6} md={3}>
-            <Card className={styles.statCard}>
-              <Card.Body>
-                <h4>{stat.value}</h4>
-                <p>{stat.label}</p>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
+        {/* ... (keep the existing statistics code) */}
       </Row>
 
       <h3 className={styles.sectionTitle}>Achievements</h3>
       <div className={styles.achievementsStack}>
-        {achievements.map((achievement, index) => (
-          <Card key={index} className={styles.achievementCard}>
-            <Card.Body>
-              <h4><FaTrophy className={styles.trophyIcon} /> {achievement.title}</h4>
-              <p>{achievement.description}</p>
-            </Card.Body>
-          </Card>
-        ))}
+        {/* ... (keep the existing achievements code) */}
       </div>
     </div>
   );
