@@ -1,28 +1,14 @@
-import React, { useState } from 'react';
-import { Card, Row, Col, Button, Image } from 'react-bootstrap';
-import { FaEdit, FaMapMarkerAlt, FaRunning, FaUsers, FaTrophy, FaCity } from 'react-icons/fa';
+import React from 'react';
+import { Card, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { FaEdit, FaMapMarkerAlt, FaRunning, FaTrophy, FaCity, FaUser } from 'react-icons/fa';
 import styles from '../../styles/DetailedProfile.module.css';
 import { useUserProfile } from '../../hooks/useUserProfile';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
-import EditProfileForm from './EditProfileForm';
 
 const DetailedProfile = () => {
-  const { userProfile, refreshUserProfile } = useUserProfile();
+  const { userProfile } = useUserProfile();
   const currentUser = useCurrentUser();
-  const [isEditing, setIsEditing] = useState(false);
-
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
-
-  const handleCancel = () => {
-    setIsEditing(false);
-  };
-
-  const handleProfileUpdated = (updatedProfile) => {
-    refreshUserProfile();
-    setIsEditing(false);
-  };
 
   if (!userProfile) {
     return <div>Loading...</div>;
@@ -31,26 +17,23 @@ const DetailedProfile = () => {
   const ProfileContent = () => (
     <>
       <div className={styles.profileHeader}>
-        <h2>{userProfile.user} <span className={styles.username}>@{userProfile.user}</span></h2>
+        <h2>{userProfile.user}</h2>
         {currentUser && currentUser.profile_id === userProfile.id && (
-          <Button onClick={handleEdit} className={styles.editButton}>
+          <Link to="/edit-profile" className={styles.editButton}>
             <FaEdit /> Edit Profile
-          </Button>
+          </Link>
         )}
       </div>
       <p className={styles.bio}>{userProfile.bio || 'No bio yet. Click edit to add one!'}</p>
       <div className={styles.profileDetails}>
         <p>
-          <FaMapMarkerAlt /> Location: {userProfile.location || 'Not specified'}
+          <FaMapMarkerAlt /> Location: {userProfile?.location || 'Not specified'}
         </p>
         <p>
-          <FaCity /> City: {userProfile.city || 'Not specified'}
+          <FaCity /> City: {userProfile?.city || 'Not specified'}
         </p>
         <p>
-          <FaRunning /> Running Level: {userProfile.running_level_display || 'Not specified'}
-        </p>
-        <p>
-          <FaUsers /> Participated Events: {userProfile.participated_events?.length || 0}
+          <FaRunning /> Running Level: {userProfile?.running_level_display || 'Not specified'}
         </p>
       </div>
       <div className={styles.statsContainer}>
@@ -73,23 +56,20 @@ const DetailedProfile = () => {
         <Card.Body>
           <Row>
             <Col xs={12} md={4} className={styles.profileImageCol}>
-              <Image 
-                src={userProfile.image || "/placeholder.svg?height=150&width=150"} 
-                alt={userProfile.user} 
-                className={styles.profileImage} 
-                roundedCircle
-              />
+              <div className={styles.iconWrapper}>
+                {currentUser?.profile_image ? (
+                  <img 
+                    src={currentUser.profile_image} 
+                    alt={`${currentUser.username}'s profile`} 
+                    className={styles.profileImage}
+                  />
+                ) : (
+                  <FaUser className={styles.profileIcon} aria-label="Default user icon" />
+                )}
+              </div>
             </Col>
             <Col xs={12} md={8}>
-              {isEditing ? (
-                <EditProfileForm 
-                  userProfile={userProfile}
-                  onCancel={handleCancel}
-                  onProfileUpdated={handleProfileUpdated}
-                />
-              ) : (
-                <ProfileContent />
-              )}
+              <ProfileContent />
             </Col>
           </Row>
         </Card.Body>
