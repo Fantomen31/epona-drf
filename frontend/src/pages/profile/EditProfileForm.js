@@ -80,7 +80,7 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
           <div className={styles.imagePreviewContainer}>
             <Image 
               src={imageFile ? URL.createObjectURL(imageFile) : userProfile.profile_image || "/placeholder.svg?height=150&width=150"} 
-              alt="Profile preview" 
+              alt=" " 
               className={styles.imagePreview} 
               roundedCircle
             />
