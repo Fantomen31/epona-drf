@@ -1,56 +1,27 @@
-// components/DetailedProfile.js
 import React, { useState } from 'react';
-import { Card, Row, Col, Button, Form, Alert, Image } from 'react-bootstrap';
+import { Card, Row, Col, Button, Alert, Image } from 'react-bootstrap';
 import { FaEdit, FaMapMarkerAlt, FaRunning, FaUsers, FaTrophy, FaCity } from 'react-icons/fa';
-import styles from '../styles/DetailedProfile.module.css';
-import { useUserProfile } from '../hooks/useUserProfile';
-import { useProfileUpdate } from '../hooks/useProfileUpdate';
-import { useCurrentUser } from '../contexts/CurrentUserContext';
+import styles from '../../styles/DetailedProfile.module.css';
+import { useUserProfile } from '../../hooks/useUserProfile';
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import EditProfileForm from './EditProfileForm';
 
 const DetailedProfile = () => {
   const { userProfile, refreshUserProfile } = useUserProfile();
-  const { updateProfile, updateError } = useProfileUpdate();
   const currentUser = useCurrentUser();
   const [isEditing, setIsEditing] = useState(false);
-  const [editedProfile, setEditedProfile] = useState({});
-  const [imageFile, setImageFile] = useState(null);
 
   const handleEdit = () => {
-    setEditedProfile(userProfile);
     setIsEditing(true);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
-    setImageFile(null);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEditedProfile(prev => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleImageChange = (e) => {
-    if (e.target.files.length > 0) {
-      setImageFile(e.target.files[0]);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const updatedProfile = { ...editedProfile };
-    if (imageFile) {
-      updatedProfile.image = imageFile;
-    }
-    const { success } = await updateProfile(userProfile.id, updatedProfile);
-    if (success) {
-      setIsEditing(false);
-      setImageFile(null);
-      refreshUserProfile();
-    }
+  const handleProfileUpdated = (updatedProfile) => {
+    refreshUserProfile();
+    setIsEditing(false);
   };
 
   if (!userProfile) {
@@ -96,65 +67,6 @@ const DetailedProfile = () => {
     </>
   );
 
-  const EditForm = () => (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group>
-        <Form.Label>Profile Image</Form.Label>
-        <Form.Control
-          type="file"
-          onChange={handleImageChange}
-          accept="image/*"
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Bio</Form.Label>
-        <Form.Control
-          as="textarea"
-          rows={3}
-          name="bio"
-          value={editedProfile.bio || ''}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Location</Form.Label>
-        <Form.Control
-          type="text"
-          name="location"
-          value={editedProfile.location || ''}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>City</Form.Label>
-        <Form.Control
-          type="text"
-          name="city"
-          value={editedProfile.city || ''}
-          onChange={handleChange}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Running Level</Form.Label>
-        <Form.Control
-          as="select"
-          name="running_level"
-          value={editedProfile.running_level || ''}
-          onChange={handleChange}
-        >
-          <option value="">Select a level</option>
-          <option value="1">Novice</option>
-          <option value="2">Beginner</option>
-          <option value="3">Intermediate</option>
-          <option value="4">Advanced</option>
-          <option value="5">Professional</option>
-        </Form.Control>
-      </Form.Group>
-      <Button type="submit">Save Changes</Button>
-      <Button variant="secondary" onClick={handleCancel}>Cancel</Button>
-    </Form>
-  );
-
   return (
     <div className={styles.detailedProfile}>
       <Card className={styles.profileCard}>
@@ -169,7 +81,15 @@ const DetailedProfile = () => {
               />
             </Col>
             <Col xs={12} md={8}>
-              {isEditing ? <EditForm /> : <ProfileContent />}
+              {isEditing ? (
+                <EditProfileForm 
+                  userProfile={userProfile}
+                  onCancel={handleCancel}
+                  onProfileUpdated={handleProfileUpdated}
+                />
+              ) : (
+                <ProfileContent />
+              )}
             </Col>
           </Row>
         </Card.Body>
