@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Form, Button, Image, Alert } from 'react-bootstrap';
-import { FaUser, FaTimes } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 import styles from '../../styles/EditProfileForm.module.css';
 import { axiosReq } from '../../api/axiosDefaults';
 
@@ -74,20 +74,6 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
         </Alert>
       ))}
       <Form onSubmit={handleSubmit} className={styles.form}>
-        <Form.Group className={styles.formGroup}>
-          <Form.Label>Current Profile Image</Form.Label>
-          <div className={styles.iconWrapper}>
-            {userProfile?.profile_image ? (
-              <img 
-                src={userProfile.profile_image} 
-                alt={`${userProfile.user}'s profile`} 
-                className={styles.profileImage}
-              />
-            ) : (
-              <FaUser className={styles.profileIcon} aria-label="Default user icon" />
-            )}
-          </div>
-        </Form.Group>
 
         <Form.Group className={styles.formGroup}>
           <Form.Label>New Profile Image</Form.Label>
