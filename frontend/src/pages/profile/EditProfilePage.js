@@ -11,12 +11,12 @@ const EditProfilePage = () => {
   const navigate = useNavigate();
 
   const handleCancel = () => {
-    navigate('/profile');
+    navigate(`/profiles/${userProfile.id}`);
   };
 
   const handleProfileUpdated = (updatedProfile) => {
     refreshUserProfile();
-    navigate('/profile');
+    navigate(`/profiles/${userProfile.id}`);
   };
 
   if (!userProfile) {
@@ -31,7 +31,6 @@ const EditProfilePage = () => {
         </Col>
         <Col md={9}>
           <div className={styles.editProfilePageContent}>
-            <h1 className={styles.pageTitle}>Edit Profile</h1>
             <EditProfileForm 
               userProfile={userProfile}
               onCancel={handleCancel}
