@@ -145,3 +145,29 @@
     width: 48%;
   }
 }
+
+.fileInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.removeFileButton {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #E67E22;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.removeFileButton:hover {
+  color: #D35400;
+}
