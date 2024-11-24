@@ -6,7 +6,16 @@ export const useProfileUpdate = () => {
 
   const updateProfile = async (profileId, profileData) => {
     try {
-      const { data } = await axiosReq.put(`/api/profiles/${profileId}/`, profileData);
+      const formData = new FormData();
+      Object.keys(profileData).forEach(key => {
+        if (profileData[key] !== null && profileData[key] !== undefined) {
+          formData.append(key, profileData[key]);
+        }
+      });
+
+      const { data } = await axiosReq.put(`/api/profiles/${profileId}/`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
       return { success: true, data };
     } catch (err) {
       setUpdateError('Failed to update profile');
