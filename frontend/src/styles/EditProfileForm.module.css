@@ -1,106 +1,147 @@
 .formContainer {
-    background-color: #212a21;
-    border-radius: 10px;
-    padding: 2rem;
-    max-width: 400px;
-    margin: 2rem auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #212a21;
+  border-radius: 10px;
+  padding: 5%;
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.formTitle {
+  color: #F5F5F0;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.formGroup label {
+  color: #F5F5F0;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.formControl {
+  color: #F5F5F0;
+  background-color: #212a21;
+  border: 1px solid #7AB55C;
+  padding: 0.5rem;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.formControl:focus {
+  color: #F5F5F0;
+  background-color: #2C4A33;
+  outline: none;
+  border-color: #E67E22;
+  box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.25);
+}
+
+.formControl::placeholder {
+  color: #A0A0A0;
+}
+
+.submitButton, .cancelButton {
+  background-color: #E67E22;
+  border: none;
+  color: #F5F5F0;
+  padding: 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.submitButton:hover, .cancelButton:hover {
+  background-color: #D35400;
+}
+
+.submitButton:focus, .cancelButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.5);
+}
+
+.cancelButton {
+  background-color: #6c757d;
+  margin-top: 0.5rem;
+}
+
+.cancelButton:hover {
+  background-color: #5a6268;
+}
+
+.imagePreviewContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.imagePreview {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 2px solid #7AB55C;
+  border-radius: 50%;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.invalidFeedback {
+  color: #DC3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .formContainer {
+    padding: 1rem;
+    margin: 1rem auto;
   }
-  
+
   .formTitle {
-    color: #F5F5F0;
-    text-align: center;
-    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
   }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .formGroup {
-    margin-bottom: 1rem;
-  }
-  
-  .formGroup label {
-    color: #F5F5F0;
-    margin-bottom: 0.5rem;
-    display: block;
-  }
-  
-  .formControl {
-    color: #F5F5F0;
-    background-color: #212a21;
-    border: 1px solid #7AB55C;
-    padding: 0.5rem;
-    border-radius: 5px;
-    width: 100%;
-  }
-  
-  .formControl:focus {
-    color: #F5F5F0;
-    background-color: #2C4A33;
-    outline: none;
-    border-color: #E67E22;
-    box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.25);
-  }
-  
-  .formControl::placeholder {
-    color: #A0A0A0;
-  }
-  
-  .submitButton, .cancelButton {
-    background-color: #E67E22;
-    border: none;
-    color: #F5F5F0;
-    padding: 0.75rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 1rem;
-    width: 100%;
-  }
-  
-  .submitButton:hover, .cancelButton:hover {
-    background-color: #D35400;
-  }
-  
-  .submitButton:focus, .cancelButton:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.5);
-  }
-  
-  .cancelButton {
-    background-color: #6c757d;
-    margin-top: 0.5rem;
-  }
-  
-  .cancelButton:hover {
-    background-color: #5a6268;
-  }
-  
-  .imagePreviewContainer {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-  }
-  
+
   .imagePreview {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border: 2px solid #7AB55C;
-    border-radius: 50%;
+    width: 120px;
+    height: 120px;
   }
-  
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .formContainer {
+    padding: 1.5rem;
+    max-width: 80%;
+  }
+}
+
+@media (min-width: 1025px) {
+  .formContainer {
+    padding: 2rem;
+    max-width: 70%;
+  }
+
   .buttonGroup {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
+    flex-direction: row;
+    justify-content: space-between;
   }
-  
-  .invalidFeedback {
-    color: #DC3545;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
+
+  .submitButton, .cancelButton {
+    width: 48%;
   }
+}
