@@ -30,8 +30,6 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
     fetchCities();
   }, []);
 
-  console.log('Cities state before rendering:', cities);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevData => ({
@@ -72,7 +70,7 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
       dataToSend = {
         bio: formData.bio,
         location: formData.location,
-        running_level: parseInt(formData.running_level, 10),
+        running_level: parseInt(formData.running_level),
         city: formData.city,
       };
     }
@@ -180,7 +178,6 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
             onChange={handleChange}
             className={styles.formControl}
           >
-          <option value="">Select a city</option>
             {cities.map(city => (
           <option key={city.id} value={city.id}>{city.name}</option>
           ))}
@@ -201,7 +198,6 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
             onChange={handleChange}
             className={styles.formControl}
           >
-            <option value="">Select a level</option>
             <option value="1">Novice</option>
             <option value="2">Beginner</option>
             <option value="3">Intermediate</option>

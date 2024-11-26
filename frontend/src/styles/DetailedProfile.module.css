@@ -127,60 +127,43 @@
   color: #E67E22;
 }
 
-.statisticsGrid {
-  margin-bottom: 25px;
-}
-
-.statCard {
-  height: 100%;
-  padding: 12px;
-  text-align: center;
+.comingSoonCard {
   background-color: #2c3e2c;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
-.statCard h4 {
-  margin-bottom: 5px;
-  font-size: 1.2em;
+.comingSoonTitle {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
   color: #E67E22;
 }
 
-.statCard p {
-  font-size: 0.9rem;
-  color: #e0e0e0;
-}
-
-.achievementsStack {
+.comingSoonContent {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-
-.achievementCard {
-  padding: 12px;
-  background-color: #2c3e2c;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.achievementCard h4 {
-  display: flex;
   align-items: center;
-  font-size: 1.1rem;
-  color: #E67E22;
+  text-align: center;
+  padding: 20px;
 }
 
-.achievementCard p {
-  margin-top: 5px;
-  font-size: 0.9rem;
+.comingSoonIcon {
+  font-size: 3rem;
+  color: #E67E22;
+  margin-bottom: 15px;
+}
+
+.comingSoonContent p {
+  margin: 5px 0;
   color: #e0e0e0;
 }
 
-.trophyIcon {
-  margin-right: 8px;
-  font-size: 1.1rem;
-  color: #ffd700;
+.comingSoonContent p:first-of-type {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #F5F5F0;
 }
 
 @media (max-width: 768px) {

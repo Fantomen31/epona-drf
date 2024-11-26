@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaEdit, FaMapMarkerAlt, FaRunning, FaTrophy, FaCity, FaUser } from 'react-icons/fa';
+import { FaEdit, FaMapMarkerAlt, FaRunning, FaCity, FaUser, FaClock } from 'react-icons/fa';
 import styles from '../../styles/DetailedProfile.module.css';
 import { useUserProfile } from '../../hooks/useUserProfile';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
@@ -38,16 +38,29 @@ const DetailedProfile = () => {
       </div>
       <div className={styles.statsContainer}>
         <div className={styles.statItem}>
-          <span>{userProfile.followers_count || 0} Followers</span>
+          <span>{userProfile.followers_count || 0}</span> Followers
         </div>
         <div className={styles.statItem}>
-          <span>{userProfile.following_count || 0} Following</span>
+          <span>{userProfile.following_count || 0}</span> Following
         </div>
         <div className={styles.statItem}>
-          <span>{userProfile.clubs_count || 0} Clubs</span>
+          <span>{userProfile.clubs_count || 0}</span> Clubs
         </div>
       </div>
     </>
+  );
+
+  const ComingSoonSection = ({ title }) => (
+    <Card className={styles.comingSoonCard}>
+      <Card.Body>
+        <h3 className={styles.comingSoonTitle}>{title}</h3>
+        <div className={styles.comingSoonContent}>
+          <FaClock className={styles.comingSoonIcon} />
+          <p>Coming Soon!</p>
+          <p>We're working hard to bring you exciting new features.</p>
+        </div>
+      </Card.Body>
+    </Card>
   );
 
   return (
@@ -76,62 +89,10 @@ const DetailedProfile = () => {
       </Card>
 
       <h3 className={styles.sectionTitle}>Statistics</h3>
-      <Row className={styles.statisticsGrid}>
-        <Col xs={6} md={3}>
-          <Card className={styles.statCard}>
-            <Card.Body>
-              <h4>1,234 km</h4>
-              <p>Total Distance</p>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={6} md={3}>
-          <Card className={styles.statCard}>
-            <Card.Body>
-              <h4>5:30 /km</h4>
-              <p>Avg. Pace</p>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={6} md={3}>
-          <Card className={styles.statCard}>
-            <Card.Body>
-              <h4>156</h4>
-              <p>Total Runs</p>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col xs={6} md={3}>
-          <Card className={styles.statCard}>
-            <Card.Body>
-              <h4>120h 45m</h4>
-              <p>Total Time</p>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+      <ComingSoonSection title="Runner Statistics" />
 
       <h3 className={styles.sectionTitle}>Achievements</h3>
-      <div className={styles.achievementsStack}>
-        <Card className={styles.achievementCard}>
-          <Card.Body>
-            <h4><FaTrophy className={styles.trophyIcon} /> Marathon Finisher</h4>
-            <p>Completed first marathon</p>
-          </Card.Body>
-        </Card>
-        <Card className={styles.achievementCard}>
-          <Card.Body>
-            <h4><FaTrophy className={styles.trophyIcon} /> 100km Club</h4>
-            <p>Ran 100km in a month</p>
-          </Card.Body>
-        </Card>
-        <Card className={styles.achievementCard}>
-          <Card.Body>
-            <h4><FaTrophy className={styles.trophyIcon} /> Early Bird</h4>
-            <p>10 runs before 7am</p>
-          </Card.Body>
-        </Card>
-      </div>
+      <ComingSoonSection title="Runner Achievements" />
     </div>
   );
 };
