@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Form, Button, Image, Alert } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import styles from '../../styles/EditProfileForm.module.css';
-import { axiosReq } from '../../api/axiosDefaults';
+import { axiosReq, setRequestConfig } from '../../api/axiosDefaults';
 
 const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
   const [formData, setFormData] = useState({
@@ -42,16 +42,28 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
     setIsLoading(true);
     setErrors({});
 
-    const formDataToSend = new FormData();
-    for (const [key, value] of Object.entries(formData)) {
-      formDataToSend.append(key, value);
-    }
+    let dataToSend;
+    let config;
+
     if (imageFile) {
-      formDataToSend.append('profile_image', imageFile);
+      dataToSend = new FormData();
+      dataToSend.append('bio', formData.bio);
+      dataToSend.append('location', formData.location);
+      dataToSend.append('running_level', formData.running_level);
+      dataToSend.append('image', imageFile);
+      dataToSend.append('city', formData.city);
+    } else {
+      dataToSend = {
+        bio: formData.bio,
+        location: formData.location,
+        running_level: formData.running_level,
+      };
     }
 
+    config = setRequestConfig(dataToSend);
+
     try {
-      const { data } = await axiosReq.put(`/profiles/${userProfile.id}/`, formDataToSend);
+      const { data } = await axiosReq.put(`/api/profiles/${userProfile.id}/`, dataToSend, config);
       onProfileUpdated(data);
     } catch (err) {
       console.error(err);
@@ -74,13 +86,12 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
         </Alert>
       ))}
       <Form onSubmit={handleSubmit} className={styles.form}>
-
         <Form.Group className={styles.formGroup}>
-          <Form.Label>New Profile Image</Form.Label>
+          <Form.Label>Profile Image</Form.Label>
           <div className={styles.imagePreviewContainer}>
             <Image 
-              src={imageFile ? URL.createObjectURL(imageFile) :  "/placeholder.svg?height=150&width=150"} 
-              alt=" " 
+              src={imageFile ? URL.createObjectURL(imageFile) : userProfile.image || "/placeholder.svg?height=150&width=150"} 
+              alt="" 
               className={styles.imagePreview} 
               roundedCircle
             />
@@ -103,7 +114,7 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
               </Button>
             )}
           </div>
-          {errors.profile_image?.map((message, idx) => (
+          {errors.image?.map((message, idx) => (
             <Alert variant="warning" key={idx}>
               {message}
             </Alert>
@@ -144,13 +155,14 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
         </Form.Group>
 
         <Form.Group className={styles.formGroup}>
+          
           <Form.Label>City</Form.Label>
           <Form.Control
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            className={styles.formControl}
+          type="text"
+          name="city"
+          value={formData.city || ''}
+          onChange={handleChange}
+          className={styles.formControl}
           />
           {errors.city?.map((message, idx) => (
             <Alert variant="warning" key={idx}>
@@ -174,7 +186,6 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
             <option value="3">Intermediate</option>
             <option value="4">Advanced</option>
             <option value="5">Professional</option>
-            
           </Form.Control>
           {errors.running_level?.map((message, idx) => (
             <Alert variant="warning" key={idx}>
