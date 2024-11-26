@@ -2,14 +2,14 @@ from rest_framework import serializers
 from .models import Profile
 from django.contrib.auth.models import User
 from events.serializers import EventSerializer
+from cities.models import City  # Add this import
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     running_level_display = serializers.CharField(source='get_running_level_display', read_only=True)
-    running_level = serializers.IntegerField(read_only=True)
     is_owner = serializers.SerializerMethodField()
     participated_events = EventSerializer(many=True, read_only=True)
-    city = serializers.CharField(source='city.name', read_only=True)
+    city = serializers.PrimaryKeyRelatedField(queryset=City.objects.all(), allow_null=True)
 
     class Meta:
         model = Profile
@@ -23,3 +23,9 @@ class ProfileSerializer(serializers.ModelSerializer):
     def get_is_owner(self, obj):
         request = self.context.get('request')
         return request.user == obj.user if request and request.user.is_authenticated else False
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.city:
+            representation['city'] = instance.city.name
+        return representation

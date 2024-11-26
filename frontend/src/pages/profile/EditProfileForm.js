@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Form, Button, Image, Alert } from 'react-bootstrap';
 import { FaTimes } from 'react-icons/fa';
 import styles from '../../styles/EditProfileForm.module.css';
@@ -8,13 +8,29 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
   const [formData, setFormData] = useState({
     bio: userProfile?.bio || '',
     location: userProfile?.location || '',
-    city: userProfile?.city || '',
+    city: userProfile?.city?.id || '',
     running_level: userProfile?.running_level || '',
   });
   const [imageFile, setImageFile] = useState(null);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [cities, setCities] = useState([]);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const { data } = await axiosReq.get('/api/cities/');
+        setCities(data.results); 
+      } catch (err) {
+        console.error('Error fetching cities:', err);
+        setErrors(prevErrors => ({ ...prevErrors, cities: ['Failed to load cities. Please try again.'] }));
+      }
+    };
+    fetchCities();
+  }, []);
+
+  console.log('Cities state before rendering:', cities);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,14 +65,15 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
       dataToSend = new FormData();
       dataToSend.append('bio', formData.bio);
       dataToSend.append('location', formData.location);
-      dataToSend.append('running_level', formData.running_level);
+      dataToSend.append('running_level', parseInt(formData.running_level, 10));
       dataToSend.append('image', imageFile);
       dataToSend.append('city', formData.city);
     } else {
       dataToSend = {
         bio: formData.bio,
         location: formData.location,
-        running_level: formData.running_level,
+        running_level: parseInt(formData.running_level, 10),
+        city: formData.city,
       };
     }
 
@@ -155,21 +172,25 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
         </Form.Group>
 
         <Form.Group className={styles.formGroup}>
-          
           <Form.Label>City</Form.Label>
           <Form.Control
-          type="text"
-          name="city"
-          value={formData.city || ''}
-          onChange={handleChange}
-          className={styles.formControl}
-          />
-          {errors.city?.map((message, idx) => (
-            <Alert variant="warning" key={idx}>
-              {message}
-            </Alert>
+            as="select"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
+            className={styles.formControl}
+          >
+          <option value="">Select a city</option>
+            {cities.map(city => (
+          <option key={city.id} value={city.id}>{city.name}</option>
           ))}
-        </Form.Group>
+         </Form.Control>
+         {errors.city?.map((message, idx) => (
+        <Alert variant="warning" key={idx}>
+          {message}
+        </Alert>
+        ))}
+      </Form.Group>
 
         <Form.Group className={styles.formGroup}>
           <Form.Label>Running Level</Form.Label>
