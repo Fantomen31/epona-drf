@@ -1,0 +1,44 @@
+.searchAndFilterForm {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #212a21;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .searchAndFilterForm :global(.form-control) {
+    margin-bottom: 10px;
+    background-color: #2c3e2c;
+    border: 1px solid #3a4d3a;
+    color: #F5F5F0;
+  }
+  
+  .searchAndFilterForm :global(.form-control:focus) {
+    background-color: #2c3e2c;
+    border-color: #E67E22;
+    box-shadow: 0 0 0 0.2rem rgba(230, 126, 34, 0.25);
+    color: #F5F5F0;
+  }
+  
+  .searchAndFilterForm :global(.form-control::placeholder) {
+    color: #a0a0a0;
+  }
+  
+  .filterButton {
+    width: 100%;
+    background-color: #E67E22;
+    border-color: #E67E22;
+    color: #F5F5F0;
+    transition: all 0.3s ease;
+  }
+  
+  .filterButton:hover, .filterButton:focus {
+    background-color: #d35400;
+    border-color: #d35400;
+    color: #F5F5F0;
+    transform: translateY(-2px);
+  }
+  
+  .filterButton:active {
+    transform: translateY(0);
+  }
