@@ -1,4 +1,3 @@
-// components/MyRunups.js
 import React, { useState } from 'react';
 import { Card, Tab, Nav, Button, Alert, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';

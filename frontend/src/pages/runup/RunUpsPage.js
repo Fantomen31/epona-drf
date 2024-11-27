@@ -1,53 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Container, Row, Col, Button, Alert } from 'react-bootstrap';
 import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ProfileSideMenu from '../profile/ProfileSideMenu';
 import styles from '../../styles/RunUpsPage.module.css';
+import { axiosReq } from '../../api/axiosDefaults';
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import { useUserProfile } from '../../hooks/useUserProfile';
 
 const RunUpsPage = () => {
+  const currentUser = useCurrentUser();
+  const { userProfile } = useUserProfile();
   const [runUps, setRunUps] = useState([]);
-  const [filteredRunUps, setFilteredRunUps] = useState([]);
-  const [filters, setFilters] = useState({
-    pace: '',
-    distance: '',
-    timeFrame: '',
-  });
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchRunUps = useCallback(async () => {
+    if (!userProfile?.city) return;
+
+    setIsLoading(true);
+    setError(null);
+    try {
+      const { data } = await axiosReq.get('/api/runups/');
+      setRunUps(data.results);
+    } catch (err) {
+      setError(err.response?.data?.message || 'An error occurred while fetching RunUps');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [userProfile]);
 
   useEffect(() => {
-    // Fetch RunUps from API or use mock data
-    const fetchedRunUps = [
-      { id: 1, distance: '5km', pace: '5:30 /km', location: 'Golden Gate Park', startTime: '2023-11-13T17:00:00', host: 'John Doe' },
-      { id: 2, distance: '10km', pace: '6:00 /km', location: 'Embarcadero', startTime: '2023-11-14T18:30:00', host: 'Jane Smith' },
-      { id: 3, distance: '15km', pace: '5:45 /km', location: 'Presidio', startTime: '2023-11-15T06:30:00', host: 'Mike Johnson' },
-      { id: 4, distance: '8km', pace: '5:15 /km', location: 'Marina Green', startTime: '2023-11-16T19:00:00', host: 'Emily Brown' },
-      { id: 5, distance: '12km', pace: '5:50 /km', location: 'Lands End', startTime: '2023-11-17T08:00:00', host: 'David Wilson' },
-    ];
-    setRunUps(fetchedRunUps);
-    setFilteredRunUps(fetchedRunUps);
-  }, []);
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters(prevFilters => ({
-      ...prevFilters,
-      [name]: value
-    }));
-  };
-
-  const applyFilters = () => {
-    let filtered = runUps;
-    if (filters.pace) {
-      filtered = filtered.filter(runUp => runUp.pace.includes(filters.pace));
+    if (currentUser && userProfile?.city) {
+      fetchRunUps();
     }
-    if (filters.distance) {
-      filtered = filtered.filter(runUp => runUp.distance.includes(filters.distance));
-    }
-    if (filters.timeFrame) {
-      // Implement time frame filtering logic here
-    }
-    setFilteredRunUps(filtered);
-  };
+  }, [currentUser, userProfile, fetchRunUps]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -55,11 +42,24 @@ const RunUpsPage = () => {
       weekday: 'short', 
       day: '2-digit', 
       month: 'short', 
+      year: 'numeric',
       hour: '2-digit', 
       minute: '2-digit',
       hour12: false 
     });
   };
+
+  if (!currentUser) {
+    return <Alert variant="warning">Please log in to view RunUps.</Alert>;
+  }
+
+  if (isLoading) {
+    return <div>Loading RunUps...</div>;
+  }
+
+  if (error) {
+    return <Alert variant="danger">Error: {error}</Alert>;
+  }
 
   return (
     <Container fluid className={styles.runUpsPageContainer}>
@@ -68,62 +68,22 @@ const RunUpsPage = () => {
           <ProfileSideMenu />
         </Col>
         <Col md={10} className={styles.mainContentColumn}>
-          <h1 className={styles.pageTitle}>RunUps in Your City</h1>
-          <Row className={styles.filterSection}>
-            <Col md={3}>
-              <Form.Group controlId="paceFilter">
-                <Form.Label>Pace</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  name="pace" 
-                  value={filters.pace} 
-                  onChange={handleFilterChange} 
-                  placeholder="e.g., 5:30 /km"
-                />
-              </Form.Group>
-            </Col>
-            <Col md={3}>
-              <Form.Group controlId="distanceFilter">
-                <Form.Label>Distance</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  name="distance" 
-                  value={filters.distance} 
-                  onChange={handleFilterChange} 
-                  placeholder="e.g., 5km"
-                />
-              </Form.Group>
-            </Col>
-            <Col md={3}>
-              <Form.Group controlId="timeFrameFilter">
-                <Form.Label>Time Frame</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  name="timeFrame" 
-                  value={filters.timeFrame} 
-                  onChange={handleFilterChange} 
-                  placeholder="e.g., This week"
-                />
-              </Form.Group>
-            </Col>
-            <Col md={3} className="d-flex align-items-end">
-              <Button variant="primary" onClick={applyFilters} className={styles.filterButton}>
-                Apply Filters
-              </Button>
-            </Col>
-          </Row>
+          <h1 className={styles.pageTitle}>RunUps in {userProfile?.city?.name || 'Your City'}</h1>
           <Row className={styles.runUpsList}>
-            {filteredRunUps.map((runUp) => (
+            {runUps.map((runUp) => (
               <Col key={runUp.id} md={6} lg={4} className={styles.runUpCol}>
-                <Link to={`/runups/${runUps.id}`} className={styles.runUpLink}>
+                <Link to={`/runups/${runUp.id}`} className={styles.runUpLink}>
                   <div className={styles.runUpCard}>
-                    <h3>{runUp.distance} RunUp</h3>
-                    <p><FaUser /> Host: {runUp.host}</p>
+                    <h3>{runUp.distance}km RunUp</h3>
+                    <p><FaUser /> Host: {runUp.host.username}</p>
                     <p><FaMapMarkerAlt /> {runUp.location}</p>
-                    <p><FaClock /> {formatDate(runUp.startTime)}</p>
-                    <p><FaRoad /> Distance: {runUp.distance}</p>
-                    <p><FaTachometerAlt /> Pace: {runUp.pace}</p>
-                    <Button variant="success" className={styles.joinButton}>Join RunUp</Button>
+                    <p><FaClock /> {formatDate(runUp.date_time)}</p>
+                    <p><FaRoad /> Distance: {runUp.distance}km</p>
+                    <p><FaTachometerAlt /> Pace: {runUp.pace} min/km</p>
+                    <p>Participants: {runUp.participants_count}</p>
+                    <Button variant="success" className={styles.joinButton}>
+                      {runUp.is_joined ? 'Leave RunUp' : 'Join RunUp'}
+                    </Button>
                   </div>
                 </Link>
               </Col>

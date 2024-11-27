@@ -8,7 +8,7 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
   const [formData, setFormData] = useState({
     bio: userProfile?.bio || '',
     location: userProfile?.location || '',
-    city: userProfile?.city?.id || '',
+    city: userProfile?.city || '',
     running_level: userProfile?.running_level || '',
   });
   const [imageFile, setImageFile] = useState(null);
@@ -16,6 +16,10 @@ const EditProfileForm = ({ userProfile, onCancel, onProfileUpdated }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [cities, setCities] = useState([]);
   const fileInputRef = useRef(null);
+
+  console.log('CITY: ', formData.city)
+  console.log('bio: ', formData.bio)
+  console.log('location: ', formData.location)
 
   useEffect(() => {
     const fetchCities = async () => {
