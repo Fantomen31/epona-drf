@@ -1,10 +1,11 @@
 import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaEdit, FaMapMarkerAlt, FaRunning, FaCity, FaUser, FaClock } from 'react-icons/fa';
+import { FaEdit, FaMapMarkerAlt, FaRunning, FaCity, FaUser } from 'react-icons/fa';
 import styles from '../../styles/DetailedProfile.module.css';
 import { useUserProfile } from '../../hooks/useUserProfile';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import ComingSoonSection from '../../components/ComingSoonSection';
 
 const DetailedProfile = () => {
   const { userProfile } = useUserProfile();
@@ -50,19 +51,6 @@ const DetailedProfile = () => {
     </>
   );
 
-  const ComingSoonSection = ({ title }) => (
-    <Card className={styles.comingSoonCard}>
-      <Card.Body>
-        <h3 className={styles.comingSoonTitle}>{title}</h3>
-        <div className={styles.comingSoonContent}>
-          <FaClock className={styles.comingSoonIcon} />
-          <p>Coming Soon!</p>
-          <p>We're working hard to bring you exciting new features.</p>
-        </div>
-      </Card.Body>
-    </Card>
-  );
-
   return (
     <div className={styles.detailedProfile}>
       <Card className={styles.profileCard}>
@@ -89,10 +77,10 @@ const DetailedProfile = () => {
       </Card>
 
       <h3 className={styles.sectionTitle}>Statistics</h3>
-      <ComingSoonSection title="Runner Statistics" />
+      <ComingSoonSection />
 
       <h3 className={styles.sectionTitle}>Achievements</h3>
-      <ComingSoonSection title="Runner Achievements" />
+      <ComingSoonSection />
     </div>
   );
 };

@@ -25,16 +25,16 @@ const ProfileSideMenu = () => {
             <span>Cities</span>
           </Link>
         </li>
-        <li className={`${styles.menuItem} ${styles.disabled}`}>
-          <Link to="/events">
-            <FaFlag className={styles.icon} />
-            <span>Events</span>
-          </Link>
-        </li>
         <li className={styles.menuItem}>
           <Link to="/runups">
             <FaRunning className={styles.icon} />
             <span>RunUps</span>
+          </Link>
+        </li>
+        <li className={`${styles.menuItem} ${styles.disabled}`}>
+          <Link to="/events">
+            <FaFlag className={styles.icon} />
+            <span>Events</span>
           </Link>
         </li>
         <li className={`${styles.menuItem} ${styles.disabled}`}>
