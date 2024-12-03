@@ -297,3 +297,15 @@
     height: 400px; /* Fixed height for mobile */
   }
 }
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hostButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

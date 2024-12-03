@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Card, Tab, Nav, Button, Alert, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -6,13 +6,34 @@ import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import { useRunups } from '../../hooks/useRunups';
 import { useRunupActions } from '../../hooks/useRunupActions';
 import styles from '../../styles/MyRunups.module.css';
-import { FaRunning, FaMapMarkerAlt, FaClock, FaUser } from 'react-icons/fa';
+import { FaRunning, FaMapMarkerAlt, FaClock, FaUser, FaPlus } from 'react-icons/fa';
+import HostRunupModal from './HostRunupModal';
 
 const MyRunups = ({ inProfilePage = false }) => {
   const currentUser = useCurrentUser();
-  const { runups, loading, error, hasMore, loadMore, formatDate } = useRunups();
+  const { runups, loading, error, hasMore, loadMore, formatDate, cities, createRunup, handleHostRunup } = useRunups();
   const { handleJoinLeaveRunup, handleDeleteRunup } = useRunupActions(() => loadMore());
   const [activeTab, setActiveTab] = useState('hosted');
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = useCallback(async () => {
+    const canHost = await handleHostRunup();
+    if (canHost) {
+      setShowModal(true);
+    }
+  }, [handleHostRunup]);
+
+  const handleCloseModal = useCallback(() => setShowModal(false), []);
+
+  const handleRunupCreated = useCallback(async (newRunupData) => {
+    const result = await createRunup(newRunupData);
+    if (result.success) {
+      handleCloseModal();
+      loadMore(1); // Refresh the runups list
+    } else {
+      console.error(result.message);
+    }
+  }, [createRunup, handleCloseModal, loadMore]);
 
   const hostedRunups = runups.filter(runup => runup.host.username === currentUser?.username);
   const joinedRunups = runups.filter(runup => runup.is_joined && runup.host.id !== currentUser?.id);
@@ -87,7 +108,14 @@ const MyRunups = ({ inProfilePage = false }) => {
     <div className={`${styles.myRunupsContainer} ${inProfilePage ? styles.profilePageContainer : ''}`}>
       <Card className={`${styles.myRunupsCard} ${inProfilePage ? styles.profilePageCard : ''}`}>
         <Card.Header className={styles.cardHeader}>
-          <h3>My RunUps</h3>
+          <div className={styles.headerContent}>
+            <h3>My RunUps</h3>
+            {inProfilePage && (
+              <Button variant="success" className={styles.hostButton} onClick={handleOpenModal}>
+                <FaPlus /> Host RunUp
+              </Button>
+            )}
+          </div>
         </Card.Header>
         <Card.Body className={`${styles.cardBody} ${inProfilePage ? styles.profilePageCardBody : ''}`}>
           <Tab.Container activeKey={activeTab} onSelect={(k) => setActiveTab(k)}>
@@ -124,6 +152,14 @@ const MyRunups = ({ inProfilePage = false }) => {
           </Tab.Container>
         </Card.Body>
       </Card>
+      {showModal && (
+        <HostRunupModal 
+          show={showModal} 
+          handleClose={handleCloseModal} 
+          onRunupCreated={handleRunupCreated}
+          cities={cities}
+        />
+      )}
     </div>
   );
 };

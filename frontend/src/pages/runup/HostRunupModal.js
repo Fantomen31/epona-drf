@@ -38,13 +38,13 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
     e.preventDefault();
     const formattedData = {
       ...runupData,
-      date_time: `${runupData.date}T${runupData.time}`,
+      date_time: `${runupData.date}T${runupData.time}:00Z`,
       duration: parseInt(runupData.duration, 10),
+      distance: parseInt(runupData.distance, 10),
       visibility: runupData.privacy === 'public' ? 'OPEN' : 'CLOSED'
     };
     delete formattedData.date;
     delete formattedData.time;
-    delete formattedData.privacy;
 
     const result = await createRunup(formattedData);
     setIsSuccess(result.success);
