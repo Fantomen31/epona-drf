@@ -1,16 +1,17 @@
 import React, { useState, useCallback } from 'react';
 import { Card, Tab, Nav, Button, Alert, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import { useRunups } from '../../hooks/useRunups';
 import { useRunupActions } from '../../hooks/useRunupActions';
 import styles from '../../styles/MyRunups.module.css';
-import { FaRunning, FaMapMarkerAlt, FaClock, FaUser, FaPlus } from 'react-icons/fa';
+import { FaRunning, FaMapMarkerAlt, FaClock, FaUser, FaPlus, FaSearch } from 'react-icons/fa';
 import HostRunupModal from './HostRunupModal';
 
 const MyRunups = ({ inProfilePage = false }) => {
   const currentUser = useCurrentUser();
+  const navigate = useNavigate();
   const { runups, loading, error, hasMore, loadMore, formatDate, cities, createRunup, handleHostRunup } = useRunups();
   const { handleJoinLeaveRunup, handleDeleteRunup } = useRunupActions(() => loadMore());
   const [activeTab, setActiveTab] = useState('hosted');
@@ -34,6 +35,10 @@ const MyRunups = ({ inProfilePage = false }) => {
       console.error(result.message);
     }
   }, [createRunup, handleCloseModal, loadMore]);
+
+  const navigateToExplore = useCallback(() => {
+    navigate('/runups');
+  }, [navigate]);
 
   const hostedRunups = runups.filter(runup => runup.host.username === currentUser?.username);
   const joinedRunups = runups.filter(runup => runup.is_joined && runup.host.id !== currentUser?.id);
@@ -111,9 +116,14 @@ const MyRunups = ({ inProfilePage = false }) => {
           <div className={styles.headerContent}>
             <h3>My RunUps</h3>
             {inProfilePage && (
-              <Button variant="success" className={styles.hostButton} onClick={handleOpenModal}>
-                <FaPlus /> Host RunUp
-              </Button>
+              <div className={styles.headerButtons}>
+                <Button variant="primary" className={styles.exploreButton} onClick={navigateToExplore}>
+                  <FaSearch /> View All RunUps
+                </Button>
+                <Button variant="success" className={styles.hostButton} onClick={handleOpenModal}>
+                  <FaPlus /> Host RunUp
+                </Button>
+              </div>
             )}
           </div>
         </Card.Header>

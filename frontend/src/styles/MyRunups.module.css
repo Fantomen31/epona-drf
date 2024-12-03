@@ -304,6 +304,12 @@
   align-items: center;
 }
 
+.headerButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.exploreButton,
 .hostButton {
   display: flex;
   align-items: center;
