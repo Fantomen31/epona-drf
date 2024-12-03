@@ -315,3 +315,65 @@
   align-items: center;
   gap: 0.5rem;
 }
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.exploreButton,
+.hostButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.exploreButton {
+  background-color: #e67e22;
+  color: #191e19;
+}
+
+.exploreButton:hover {
+  background-color: #d35400;
+}
+
+.hostButton {
+  background-color: #27ae60;
+  color: #191e19;
+}
+
+.hostButton:hover {
+  background-color: #2ecc71;
+}
+
+.exploreButton svg,
+.hostButton svg {
+  margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerButtons {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .exploreButton,
+  .hostButton {
+    flex: 1;
+  }
+}
