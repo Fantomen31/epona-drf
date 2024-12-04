@@ -1,68 +1,94 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Container, Row, Col, Button, Form, Alert, Spinner } from 'react-bootstrap';
+import { useParams, useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser } from 'react-icons/fa';
 import ProfileSideMenu from '../profile/ProfileSideMenu';
 import styles from '../../styles/RunUpProfile.module.css';
+import { useRunups } from '../../hooks/useRunups';
+import { useRunupActions } from '../../hooks/useRunupActions';
+import { axiosReq } from '../../api/axiosDefaults';
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
 
 const RunUpProfile = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const currentUser = useCurrentUser();
+  const { formatDate } = useRunups();
+  const { handleJoinLeaveRunup } = useRunupActions(() => fetchRunUp());
   const [runUp, setRunUp] = useState(null);
   const [comment, setComment] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Fetch RunUp details from API or use mock data
-    const fetchedRunUp = {
-      id: 1,
-      distance: '5km',
-      pace: '5:30 /km',
-      location: 'Golden Gate Park',
-      startTime: '2023-11-13T17:00:00',
-      host: 'John Doe',
-      participants: ['John Doe', 'Jane Smith', 'Mike Johnson'],
-      comments: [
-        { id: 1, user: 'Jane Smith', text: 'Looking forward to this run!', timestamp: '2023-11-12T10:30:00' },
-        { id: 2, user: 'Mike Johnson', text: 'Great route choice!', timestamp: '2023-11-12T11:45:00' },
-      ],
-    };
-    setRunUp(fetchedRunUp);
+  const fetchRunUp = useCallback(async () => {
+    try {
+      const { data } = await axiosReq.get(`/api/runups/${id}/`);
+      setRunUp({
+        ...data,
+        comments: data.comments || [
+          { id: 1, owner: 'PlaceholderUser1', content: 'Great RunUp!', created_at: new Date().toISOString() },
+          { id: 2, owner: 'PlaceholderUser2', content: 'Looking forward to it!', created_at: new Date().toISOString() }
+        ]
+      });
+      setError(null);
+    } catch (err) {
+      setError('Failed to fetch RunUp details. Please try again.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   }, [id]);
 
-  const handleJoin = () => {
-    // Implement join logic here
-    console.log('Joined RunUp');
-  };
+  useEffect(() => {
+    fetchRunUp();
+  }, [fetchRunUp]);
 
-  const handleCommentSubmit = (e) => {
-    e.preventDefault();
-    if (comment.trim()) {
-      const newComment = {
-        id: runUp.comments.length + 1,
-        user: 'Current User', // Replace with actual user name
-        text: comment,
-        timestamp: new Date().toISOString(),
-      };
-      setRunUp(prevRunUp => ({
-        ...prevRunUp,
-        comments: [...prevRunUp.comments, newComment],
-      }));
-      setComment('');
+  const handleJoinLeave = async () => {
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+    const result = await handleJoinLeaveRunup(id, runUp.is_joined ? 'leave' : 'join');
+    if (result.success) {
+      fetchRunUp();
+    } else {
+      setError(result.message);
     }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleString('en-US', { 
-      weekday: 'short', 
-      day: '2-digit', 
-      month: 'short', 
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: false 
-    });
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+    if (comment.trim()) {
+      try {
+        await axiosReq.post(`/api/runups/${id}/comments/`, { content: comment });
+        fetchRunUp();
+        setComment('');
+      } catch (err) {
+        setError('Failed to post comment. Please try again.');
+        console.error(err);
+      }
+    }
   };
 
-  if (!runUp) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return <Alert variant="danger">{error}</Alert>;
+  }
+
+  if (!runUp) return <Alert variant="warning">RunUp not found.</Alert>;
 
   return (
     <Container fluid className={styles.runUpProfileContainer}>
@@ -71,34 +97,38 @@ const RunUpProfile = () => {
           <ProfileSideMenu />
         </Col>
         <Col md={10} className={styles.mainContentColumn}>
-          <h1 className={styles.runUpTitle}>{runUp.distance} RunUp</h1>
+          <h1 className={styles.runUpTitle}>{runUp.distance}km RunUp</h1>
           <Row>
             <Col md={8}>
               <div className={styles.runUpDetails}>
-                <p><FaUser /> Host: {runUp.host}</p>
+                <p><FaUser /> Host: {runUp.host.username}</p>
                 <p><FaMapMarkerAlt /> Location: {runUp.location}</p>
-                <p><FaClock /> Start Time: {formatDate(runUp.startTime)}</p>
-                <p><FaRoad /> Distance: {runUp.distance}</p>
+                <p><FaClock /> Start Time: {formatDate(runUp.date_time)}</p>
+                <p><FaRoad /> Distance: {runUp.distance}km</p>
                 <p><FaTachometerAlt /> Pace: {runUp.pace}</p>
               </div>
               <div className={styles.participantsSection}>
                 <h3>Participants ({runUp.participants.length})</h3>
                 <ul className={styles.participantsList}>
-                  {runUp.participants.map((participant, index) => (
-                    <li key={index}>{participant}</li>
+                  {runUp.participants.map((participant) => (
+                    <li key={participant.id}>{participant.username}</li>
                   ))}
                 </ul>
               </div>
               <div className={styles.commentsSection}>
                 <h3>Comments</h3>
                 <div className={styles.commentsList}>
-                  {runUp.comments.map(comment => (
-                    <div key={comment.id} className={styles.comment}>
-                      <p className={styles.commentUser}>{comment.user}</p>
-                      <p className={styles.commentText}>{comment.text}</p>
-                      <p className={styles.commentTimestamp}>{formatDate(comment.timestamp)}</p>
-                    </div>
-                  ))}
+                  {runUp.comments && runUp.comments.length > 0 ? (
+                    runUp.comments.map(comment => (
+                      <div key={comment.id} className={styles.comment}>
+                        <p className={styles.commentUser}>{comment.owner}</p>
+                        <p className={styles.commentText}>{comment.content}</p>
+                        <p className={styles.commentTimestamp}>{formatDate(comment.created_at)}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>No comments yet.</p>
+                  )}
                 </div>
                 <Form onSubmit={handleCommentSubmit} className={styles.commentForm}>
                   <Form.Group controlId="newComment">
@@ -116,8 +146,12 @@ const RunUpProfile = () => {
             </Col>
             <Col md={4}>
               <div className={styles.actionSection}>
-                <Button variant="success" onClick={handleJoin} className={styles.joinButton}>
-                  Join RunUp
+                <Button 
+                  variant={runUp.is_joined ? "danger" : "success"} 
+                  onClick={handleJoinLeave} 
+                  className={styles.joinButton}
+                >
+                  {runUp.is_joined ? 'Leave RunUp' : 'Join RunUp'}
                 </Button>
               </div>
               {/* Add a map component here to show the run route */}
