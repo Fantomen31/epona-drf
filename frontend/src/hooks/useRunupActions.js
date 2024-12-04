@@ -1,7 +1,10 @@
 import { useCallback } from 'react';
 import { axiosReq } from '../api/axiosDefaults';
+import { useRunups } from './useRunups';
 
-export const useRunupActions = (fetchRunups) => {
+export const useRunupActions = () => {
+  const { fetchRunups } = useRunups();
+
   const handleJoinLeaveRunup = useCallback(async (runupId, action) => {
     try {
       const { data } = await axiosReq.post(`/api/runups/${runupId}/${action}/`);
