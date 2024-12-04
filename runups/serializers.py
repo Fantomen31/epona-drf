@@ -28,3 +28,9 @@ class RunUpSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         return user in obj.participants.all() if user.is_authenticated else False
 
+    def update(self, instance, validated_data):
+        # Only update fields that are provided in the request
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance

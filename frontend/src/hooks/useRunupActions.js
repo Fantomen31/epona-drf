@@ -32,13 +32,13 @@ export const useRunupActions = () => {
 
   const handleEditRunup = useCallback(async (runupId, updatedData) => {
     try {
-      const { data } = await axiosReq.put(`/api/runups/${runupId}/`, updatedData);
+      const { data } = await axiosReq.patch(`/api/runups/${runupId}/`, updatedData);
       console.log('Edit runup response:', data);
       await fetchRunups();
       setShowEditModal(false);
       return { success: true, message: 'Successfully edited runup' };
     } catch (err) {
-      console.error('Error editing runup:', err);
+      console.error('Error editing runup:', err.response ? err.response.data : err);
       return { success: false, message: 'Failed to edit runup. Please try again.' };
     }
   }, [fetchRunups]);
