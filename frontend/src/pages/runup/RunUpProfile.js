@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Button, Form, Alert, Spinner } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser, FaEdit, FaTrash } from 'react-icons/fa';
 import ProfileSideMenu from '../profile/ProfileSideMenu';
 import styles from '../../styles/RunUpProfile.module.css';
 import { useRunups } from '../../hooks/useRunups';
@@ -13,8 +13,8 @@ const RunUpProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const currentUser = useCurrentUser();
-  const { formatDate } = useRunups();
-  const { handleJoinLeaveRunup } = useRunupActions(() => fetchRunUp());
+  const { formatDate, fetchRunups } = useRunups();
+  const { handleJoinLeaveRunup, handleDeleteRunup } = useRunupActions();
   const [runUp, setRunUp] = useState(null);
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(true);
@@ -23,13 +23,7 @@ const RunUpProfile = () => {
   const fetchRunUp = useCallback(async () => {
     try {
       const { data } = await axiosReq.get(`/api/runups/${id}/`);
-      setRunUp({
-        ...data,
-        comments: data.comments || [
-          { id: 1, owner: 'PlaceholderUser1', content: 'Great RunUp!', created_at: new Date().toISOString() },
-          { id: 2, owner: 'PlaceholderUser2', content: 'Looking forward to it!', created_at: new Date().toISOString() }
-        ]
-      });
+      setRunUp(data);
       setError(null);
     } catch (err) {
       setError('Failed to fetch RunUp details. Please try again.');
@@ -74,6 +68,22 @@ const RunUpProfile = () => {
     }
   };
 
+  const handleEdit = () => {
+    navigate(`/runups/${id}/edit`);
+  };
+
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this RunUp?')) {
+      const result = await handleDeleteRunup(id);
+      if (result.success) {
+        await fetchRunups();
+        navigate('/runups');
+      } else {
+        setError(result.message);
+      }
+    }
+  };
+
   if (loading) {
     return (
       <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
@@ -89,6 +99,8 @@ const RunUpProfile = () => {
   }
 
   if (!runUp) return <Alert variant="warning">RunUp not found.</Alert>;
+
+  const isHost = currentUser && runUp.host && currentUser.pk === runUp.host.id;
 
   return (
     <Container fluid className={styles.runUpProfileContainer}>
@@ -145,18 +157,37 @@ const RunUpProfile = () => {
               </div>
             </Col>
             <Col md={4}>
-              <div className={styles.actionSection}>
-                <Button 
-                  variant={runUp.is_joined ? "danger" : "success"} 
-                  onClick={handleJoinLeave} 
-                  className={styles.joinButton}
-                >
-                  {runUp.is_joined ? 'Leave RunUp' : 'Join RunUp'}
-                </Button>
-              </div>
               {/* Add a map component here to show the run route */}
               <div className={styles.mapPlaceholder}>
                 Map placeholder
+              </div>
+              <div className={styles.actionSection}>
+                {isHost ? (
+                  <>
+                    <Button 
+                      variant="warning" 
+                      onClick={handleEdit} 
+                      className={styles.editButton}
+                    >
+                      <FaEdit /> Edit RunUp
+                    </Button>
+                    <Button 
+                      variant="danger" 
+                      onClick={handleDelete} 
+                      className={styles.deleteButton}
+                    >
+                      <FaTrash /> Delete RunUp
+                    </Button>
+                  </>
+                ) : (
+                  <Button 
+                    variant={runUp.is_joined ? "danger" : "success"} 
+                    onClick={handleJoinLeave} 
+                    className={styles.joinButton}
+                  >
+                    {runUp.is_joined ? 'Leave RunUp' : 'Join RunUp'}
+                  </Button>
+                )}
               </div>
             </Col>
           </Row>
