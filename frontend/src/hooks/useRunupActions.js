@@ -26,5 +26,17 @@ export const useRunupActions = (fetchRunups) => {
     }
   }, [fetchRunups]);
 
-  return { handleJoinLeaveRunup, handleDeleteRunup };
+  const handleEditRunup = useCallback(async (runupId, updatedData) => {
+    try {
+      const { data } = await axiosReq.put(`/api/runups/${runupId}/`, updatedData);
+      console.log('Edit runup response:', data);
+      await fetchRunups();
+      return { success: true, message: 'Successfully edited runup' };
+    } catch (err) {
+      console.error('Error editing runup:', err);
+      return { success: false, message: 'Failed to edit runup. Please try again.' };
+    }
+  }, [fetchRunups]);
+
+  return { handleJoinLeaveRunup, handleDeleteRunup, handleEditRunup };
 };
