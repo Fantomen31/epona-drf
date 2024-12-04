@@ -135,6 +135,10 @@ const RunUpProfile = () => {
                 <p><FaRoad /> Distance: {runUp.distance}km</p>
                 <p><FaTachometerAlt /> Pace: {runUp.pace}</p>
               </div>
+              <div className={styles.descriptionSection}>
+                <h3> Description</h3>
+                <p>{runUp.description || 'No description provided.'}</p>
+              </div>
               <div className={styles.participantsSection}>
                 <h3>Participants ({runUp.participants.length})</h3>
                 <ul className={styles.participantsList}>
@@ -173,7 +177,6 @@ const RunUpProfile = () => {
               </div>
             </Col>
             <Col md={4}>
-              {/* Add a map component here to show the run route */}
               <div className={styles.mapPlaceholder}>
                 Map placeholder
               </div>
