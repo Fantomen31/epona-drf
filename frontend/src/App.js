@@ -53,6 +53,7 @@ function App() {
                 <Route path="/runups" element={<RunUpsPage />} />
                 <Route path="/runups/:id" element={<RunUpProfile />} />
                 <Route path="/edit-profile" element={<EditProfilePage />} />
+                
 
               </Routes>
             </Container>

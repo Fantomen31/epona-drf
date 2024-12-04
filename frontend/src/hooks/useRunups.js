@@ -46,6 +46,27 @@ export const useRunups = () => {
     }
   }, []);
 
+  const editRunup = useCallback(async (runupId, runupData) => {
+    try {
+      console.log('Editing runup with data:', runupData);
+      const { data } = await axiosReq.patch(`/api/runups/${runupId}/`, runupData);
+      console.log('Edit runup response:', data);
+      setRunups(prevRunups => prevRunups.map(runup => 
+        runup.id === runupId ? data : runup
+      ));
+      return { success: true, message: 'Runup updated successfully!' };
+    } catch (err) {
+      console.error('Error updating runup:', err.response ? err.response.data : err);
+      let errorMessage = 'Failed to update runup. Please try again.';
+      if (err.response && err.response.data) {
+        errorMessage = Object.entries(err.response.data)
+          .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`)
+          .join('; ');
+      }
+      return { success: false, message: errorMessage };
+    }
+  }, []);
+
   const fetchRunups = useCallback(async (pageNumber = 1) => {
     setLoading(true);
     setError(null);
@@ -143,6 +164,7 @@ export const useRunups = () => {
     error, 
     hasMore,
     createRunup, 
+    editRunup,
     fetchRunups, 
     fetchCities, 
     handleJoinLeaveRunup, 

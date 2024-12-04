@@ -1,9 +1,10 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { axiosReq } from '../api/axiosDefaults';
 import { useRunups } from './useRunups';
 
 export const useRunupActions = () => {
   const { fetchRunups } = useRunups();
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const handleJoinLeaveRunup = useCallback(async (runupId, action) => {
     try {
@@ -34,6 +35,7 @@ export const useRunupActions = () => {
       const { data } = await axiosReq.put(`/api/runups/${runupId}/`, updatedData);
       console.log('Edit runup response:', data);
       await fetchRunups();
+      setShowEditModal(false);
       return { success: true, message: 'Successfully edited runup' };
     } catch (err) {
       console.error('Error editing runup:', err);
@@ -41,5 +43,20 @@ export const useRunupActions = () => {
     }
   }, [fetchRunups]);
 
-  return { handleJoinLeaveRunup, handleDeleteRunup, handleEditRunup };
+  const handleOpenEditModal = useCallback(() => {
+    setShowEditModal(true);
+  }, []);
+
+  const handleCloseEditModal = useCallback(() => {
+    setShowEditModal(false);
+  }, []);
+
+  return { 
+    handleJoinLeaveRunup, 
+    handleDeleteRunup, 
+    handleEditRunup, 
+    showEditModal, 
+    handleOpenEditModal, 
+    handleCloseEditModal 
+  };
 };

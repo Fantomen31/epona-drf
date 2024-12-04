@@ -3,12 +3,11 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useRunups } from '../../hooks/useRunups';
 import styles from '../../styles/HostRunupModal.module.css';
 
-const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
+const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {}, isEditing = false, initialData = null }) => {
   const [runupData, setRunupData] = useState({
     description: '',
     location: '',
-    date: '',
-    time: '',
+    date_time: '',
     city: '',
     distance: '',
     pace: '',
@@ -20,33 +19,64 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
   const [resultMessage, setResultMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const { cities, createRunup } = useRunups();
+  const { cities, createRunup, editRunup } = useRunups();
 
   useEffect(() => {
-    console.log('Cities in HostRunupModal:', cities);
-  }, [cities]);
+    if (isEditing && initialData) {
+      const { visibility, ...rest } = initialData;
+      setRunupData({
+        ...rest,
+        date_time: initialData.date_time ? new Date(initialData.date_time).toISOString().slice(0, 16) : '',
+        privacy: visibility === 'OPEN' ? 'public' : 'private'
+      });
+    } else {
+      setRunupData({
+        description: '',
+        location: '',
+        date_time: '',
+        city: '',
+        distance: '',
+        pace: '',
+        duration: '',
+        privacy: 'public'
+      });
+    }
+  }, [isEditing, initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setRunupData(prevData => ({
       ...prevData,
-      [name]: value
+      [name]: name === 'date_time' ? value.slice(0, 16) : value
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formattedData = {
-      ...runupData,
-      date_time: `${runupData.date}T${runupData.time}:00Z`,
-      duration: parseInt(runupData.duration, 10),
-      distance: parseInt(runupData.distance, 10),
-      visibility: runupData.privacy === 'public' ? 'OPEN' : 'CLOSED'
-    };
-    delete formattedData.date;
-    delete formattedData.time;
-
-    const result = await createRunup(formattedData);
+    const formattedData = {};
+  
+    // Only include changed fields
+    Object.keys(runupData).forEach(key => {
+      if (initialData[key] !== runupData[key]) {
+        if (['city', 'distance', 'duration'].includes(key)) {
+          formattedData[key] = parseInt(runupData[key], 10);
+        } else if (key === 'date_time') {
+          formattedData[key] = runupData[key] ? new Date(runupData[key]).toISOString() : undefined;
+        } else if (key === 'privacy') {
+          formattedData['visibility'] = runupData[key] === 'public' ? 'OPEN' : 'CLOSED';
+        } else {
+          formattedData[key] = runupData[key];
+        }
+      }
+    });
+  
+    let result;
+    if (isEditing) {
+      result = await editRunup(initialData.id, formattedData);
+    } else {
+      result = await createRunup(formattedData);
+    }
+  
     setIsSuccess(result.success);
     setResultMessage(result.message);
     setShowResultModal(true);
@@ -59,14 +89,14 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
   const getMaxDate = () => {
     const date = new Date();
     date.setDate(date.getDate() + 7);
-    return date.toISOString().split('T')[0];
+    return date.toISOString().slice(0, 16);
   };
 
   return (
     <>
       <Modal show={show} onHide={handleClose} className={styles.modal}>
         <Modal.Header closeButton className={styles.modalHeader}>
-          <Modal.Title className={styles.modalTitle}>Host a Runup</Modal.Title>
+          <Modal.Title className={styles.modalTitle}>{isEditing ? 'Edit Runup' : 'Host a Runup'}</Modal.Title>
         </Modal.Header>
         <Modal.Body className={styles.modalBody}>
           <Form onSubmit={handleSubmit}>
@@ -78,7 +108,7 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
                 name="description"
                 value={runupData.description}
                 onChange={handleChange}
-                required
+                required={!isEditing}
                 className={styles.formControl}
               />
             </Form.Group>
@@ -89,31 +119,20 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
                 name="location"
                 value={runupData.location}
                 onChange={handleChange}
-                required
+                required={!isEditing}
                 className={styles.formControl}
               />
             </Form.Group>
             <Form.Group className={styles.formGroup}>
-              <Form.Label className={styles.formLabel}>Date</Form.Label>
+              <Form.Label className={styles.formLabel}>Date and Time</Form.Label>
               <Form.Control
-                type="date"
-                name="date"
-                value={runupData.date}
+                type="datetime-local"
+                name="date_time"
+                value={runupData.date_time}
                 onChange={handleChange}
-                required
-                min={new Date().toISOString().split('T')[0]}
+                required={!isEditing}
+                min={new Date().toISOString().slice(0, 16)}
                 max={getMaxDate()}
-                className={styles.formControl}
-              />
-            </Form.Group>
-            <Form.Group className={styles.formGroup}>
-              <Form.Label className={styles.formLabel}>Time</Form.Label>
-              <Form.Control
-                type="time"
-                name="time"
-                value={runupData.time}
-                onChange={handleChange}
-                required
                 className={styles.formControl}
               />
             </Form.Group>
@@ -123,7 +142,7 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
                 name="city"
                 value={runupData.city}
                 onChange={handleChange}
-                required
+                required={!isEditing}
                 className={`${styles.formControl} ${styles.formSelect}`}
               >
                 <option value="">Select a city</option>
@@ -143,7 +162,7 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
                 name="distance"
                 value={runupData.distance}
                 onChange={handleChange}
-                required
+                required={!isEditing}
                 min={1}
                 max={25}
                 className={styles.formControl}
@@ -156,7 +175,7 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
                 name="pace"
                 value={runupData.pace}
                 onChange={handleChange}
-                required
+                required={!isEditing}
                 placeholder="e.g., 5:30"
                 pattern="\d{1,2}:\d{2}"
                 className={styles.formControl}
@@ -169,7 +188,7 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
                 name="duration"
                 value={runupData.duration}
                 onChange={handleChange}
-                required
+                required={!isEditing}
                 min={1}
                 className={styles.formControl}
               />
@@ -180,7 +199,7 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
                 name="privacy"
                 value={runupData.privacy}
                 onChange={handleChange}
-                required
+                required={!isEditing}
                 className={`${styles.formControl} ${styles.formSelect}`}
               >
                 <option value="public">Public</option>
@@ -188,7 +207,7 @@ const HostRunupModal = ({ show, handleClose, onRunupCreated = () => {} }) => {
               </Form.Select>
             </Form.Group>
             <Button type="submit" className={styles.submitButton}>
-              Create Runup
+              {isEditing ? 'Update Runup' : 'Create Runup'}
             </Button>
           </Form>
         </Modal.Body>

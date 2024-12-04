@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Row, Col, Alert, Button } from 'react-bootstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import ProfileSideMenu from '../profile/ProfileSideMenu';
@@ -147,9 +147,6 @@ const RunUpsPage = () => {
                     <p><FaRoad /> Distance: {runUp.distance}km</p>
                     <p><FaTachometerAlt /> Pace: {runUp.pace} min/km</p>
                     <p>Participants: {runUp.participants_count}</p>
-                    <Button variant="success" className={styles.joinButton}>
-                      {runUp.is_joined ? 'Leave RunUp' : 'Join RunUp'}
-                    </Button>
                   </div>
                 </Link>
               </Col>

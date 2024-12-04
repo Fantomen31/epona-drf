@@ -111,9 +111,48 @@
     background-color: #d35400;
     color: var(--dark-green);
   }
+
+  .editButton,
+.deleteButton {
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editButton {
+  background-color: var(--orange);
+  border: none;
+  color: var(--dark-green);
+  font-weight: bold;
+}
+
+.editButton:hover {
+  background-color: #d35400;
+  color: var(--dark-green);
+}
+
+.deleteButton {
+  background-color: #c0392b;
+  border: none;
+  color: var(--creamy-white);
+  font-weight: bold;
+}
+
+.deleteButton:hover {
+  background-color: #a93226;
+}
+
+.editButton svg,
+.deleteButton svg {
+  margin-right: 5px;
+}
   
   .actionSection {
     margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
   }
   
   .mapPlaceholder {

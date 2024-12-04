@@ -8,17 +8,19 @@ import { useRunups } from '../../hooks/useRunups';
 import { useRunupActions } from '../../hooks/useRunupActions';
 import { axiosReq } from '../../api/axiosDefaults';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
+import HostRunupModal from '../../pages/runup/HostRunupModal';
 
 const RunUpProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const currentUser = useCurrentUser();
   const { formatDate, fetchRunups } = useRunups();
-  const { handleJoinLeaveRunup, handleDeleteRunup } = useRunupActions();
+  const { handleJoinLeaveRunup, handleDeleteRunup, handleEditRunup } = useRunupActions();
   const [runUp, setRunUp] = useState(null);
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const fetchRunUp = useCallback(async () => {
     try {
@@ -69,7 +71,21 @@ const RunUpProfile = () => {
   };
 
   const handleEdit = () => {
-    navigate(`/runups/${id}/edit`);
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+  };
+
+  const handleUpdateRunup = async (updatedData) => {
+    const result = await handleEditRunup(id, updatedData);
+    if (result.success) {
+      fetchRunUp();
+      setShowEditModal(false);
+    } else {
+      setError(result.message);
+    }
   };
 
   const handleDelete = async () => {
@@ -193,6 +209,13 @@ const RunUpProfile = () => {
           </Row>
         </Col>
       </Row>
+      <HostRunupModal
+        show={showEditModal}
+        handleClose={handleCloseEditModal}
+        onRunupCreated={handleUpdateRunup}
+        isEditing={true}
+        initialData={runUp}
+      />
     </Container>
   );
 };
