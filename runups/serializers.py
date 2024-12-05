@@ -18,7 +18,7 @@ class RunUpSerializer(serializers.ModelSerializer):
         model = RunUp
         fields = ['id', 'host', 'description', 'location', 'date_time', 'visibility', 'city', 
                   'is_active', 'created_at', 'updated_at', 'participants', 'participants_count', 
-                  'is_joined', 'distance', 'pace', 'duration', 'route']
+                  'is_joined', 'distance', 'pace', 'duration', 'route', 'comments']
         read_only_fields = ['id', 'host', 'is_active', 'created_at', 'updated_at' ,'comments']
 
     def get_participants_count(self, obj):
