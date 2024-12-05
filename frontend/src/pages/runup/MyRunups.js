@@ -60,7 +60,7 @@ const MyRunups = ({ inProfilePage = false }) => {
         </div>
       </div>
       <div className={styles.actionButtons}>
-        <Link to={`/runup/${runup.id}`} className={styles.viewButton}>
+        <Link to={`/runups/${runup.id}`} className={styles.viewButton}>
           View Details
         </Link>
         {!isHosted && (
