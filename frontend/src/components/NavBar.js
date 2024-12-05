@@ -49,6 +49,7 @@ const NavBar = () => {
           </span>
         }
         id="basic-nav-dropdown" 
+        class ="dropdown-menu show"
         className={styles.burgerMenu}
       >
         <NavDropdown.Item as={NavLink} to="/profiles/:id" className={styles.dropdownItem} activeClassName={styles.active}>

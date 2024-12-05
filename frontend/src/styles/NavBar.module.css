@@ -56,13 +56,13 @@
 }
 
 .navLink {
-  color: #F5F5F0 !important;
+  color: #F5F5F0;
   font-size: 16px;
   line-height: 1.5;
   margin: 0 0.25rem;
   position: relative;
   transition: color 0.3s ease, background-color 0.3s ease;
-  display: flex !important;
+  display: flex;
   align-items: center;
   text-decoration: none;
   padding: 0.35rem 0.75rem;
@@ -74,7 +74,7 @@
 
 .navLink:hover,
 .navLink.active {
-  color: #E67E22 !important;
+  color: #E67E22;
   transform: scale(1.05);
 }
 
@@ -97,17 +97,22 @@
 }
 
 .burgerMenu .dropdown-toggle {
-  color: #E67E22 !important;
+  color: #E67E22;
+ 
+}
+
+.dropdown-menu.show {
+  background-color: #212a21;
 }
 
 .burgerMenu .dropdown-toggle::after {
-  color: #E67E22 !important;
-  display: inline-block !important;
+  color: #E67E22;
+  display: inline-block;
   margin-left: 0.5rem;
 }
 
 .burgerMenu .dropdown-menu {
-  background-color: #E67E22 !important;
+  background-color: #E67E22;
   border: 1px solid #7AB55C;
   padding: 0;
   min-width: 180px;
@@ -115,17 +120,17 @@
 
 .dropdownItem {
   background-color: #212a21;
-  color: #F5F5F0 !important;
+  color: #F5F5F0;
   transition: color 0.3s ease, background-color 0.3s ease;
   padding: 0.35rem 0.75rem;
-  display: flex !important;
+  display: flex;
   align-items: center;
 }
 
 .dropdownItem:hover,
 .dropdownItem.active {
-  background-color: #191e19 !important;
-  color: #E67E22 !important;
+  background-color: #191e19;
+  color: #E67E22;
 }
 
 .dropdownItem .faIcon {
@@ -137,6 +142,14 @@
 .dropdownItem:hover .faIcon,
 .dropdownItem.active .faIcon {
   color: #E67E22;
+}
+
+.dropdown-menu {
+  --bs-dropdown-bg: #191e19;
+}
+
+.dropdown-item:active {
+  background-color: #2a7a2a;
 }
 
 @media (max-width: 768px) {
