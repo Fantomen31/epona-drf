@@ -38,7 +38,7 @@ urlpatterns = [
     path('api/profiles/', include('profiles.urls')),
     path('api/runups/', include('runups.urls')),
     path('api/routes/', include('routes.urls')),
-    path('api/comments/', include('routes.urls')),
+    path('api/', include('comments.urls')),
     path('api/events/', include('events.urls')),
     path('api/clubs/', include('clubs.urls')),
     path('api/cities/', include('cities.urls')),

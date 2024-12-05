@@ -9,7 +9,7 @@ export const useComments = (runupId) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const { data } = await axiosReq.get(`/runups/${runupId}/comments/`);
+        const { data } = await axiosReq.get(`/api/runups/${runupId}/comments/`);
         setComments(data);
         setLoading(false);
       } catch (err) {

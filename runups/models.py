@@ -35,6 +35,7 @@ class RunUp(models.Model):
         help_text="Description or link to the planned route"
     )
 
+
     def __str__(self):
         return f"RunUp by {self.host.username} on {self.date_time.date()}"
 

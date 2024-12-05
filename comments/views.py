@@ -1,12 +1,9 @@
-# comments/views.py
-from rest_framework import generics, permissions, status
-from rest_framework.response import Response
+from rest_framework import generics, permissions
 from .models import Comment
 from .serializers import CommentSerializer
-from .permissions import IsOwnerOrReadOnly
 from runups.models import RunUp
 
-class CommentList(generics.ListCreateAPIView):
+class CommentListCreateView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
@@ -17,26 +14,19 @@ class CommentList(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         runup_id = self.kwargs.get('runup_id')
         runup = RunUp.objects.get(id=runup_id)
-        serializer.save(user=self.request.user, runup=runup)
+        serializer.save(author=self.request.user, runup=runup)
 
-class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
+class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class CommentEdit(generics.UpdateAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
-
-class CommentDelete(generics.DestroyAPIView):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
-
-class UserCommentList(generics.ListAPIView):
-    serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        return Comment.objects.filter(user=self.request.user)
+    def get_object(self):
+        queryset = self.get_queryset()
+        obj = generics.get_object_or_404(
+            queryset,
+            pk=self.kwargs.get('pk'),
+            runup__id=self.kwargs.get('runup_id')
+        )
+        self.check_object_permissions(self.request, obj)
+        return obj

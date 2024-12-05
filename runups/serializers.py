@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import RunUp
 from django.contrib.auth.models import User
+from comments.serializers import CommentSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,13 +14,14 @@ class RunUpSerializer(serializers.ModelSerializer):
     participants = UserSerializer(many=True, read_only=True)
     participants_count = serializers.SerializerMethodField()
     is_joined = serializers.SerializerMethodField()
+    comments = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = RunUp
         fields = ['id', 'host', 'description', 'location', 'date_time', 'visibility', 'city', 
                   'is_active', 'created_at', 'updated_at', 'participants', 'participants_count', 
                   'is_joined', 'distance', 'pace', 'duration', 'route', 'comments']
-        read_only_fields = ['id', 'host', 'is_active', 'created_at', 'updated_at' ,'comments']
+        read_only_fields = ['id', 'host', 'is_active', 'created_at', 'updated_at']
 
     def get_participants_count(self, obj):
         return obj.participants.count()
