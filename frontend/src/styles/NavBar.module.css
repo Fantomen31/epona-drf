@@ -111,7 +111,7 @@
   margin-left: 0.5rem;
 }
 
-.burgerMenu .dropdown-menu {
+.burgerMenu .dropdown-menu.show {
   background-color: #E67E22;
   border: 1px solid #7AB55C;
   padding: 0;

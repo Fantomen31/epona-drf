@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     'clubs',
     'runups',
     'routes',
+    'comments',
 
 ]
 

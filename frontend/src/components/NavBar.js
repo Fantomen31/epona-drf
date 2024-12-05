@@ -49,8 +49,7 @@ const NavBar = () => {
           </span>
         }
         id="basic-nav-dropdown" 
-        class ="dropdown-menu show"
-        className={styles.burgerMenu}
+        className={`${styles.burgerMenu} custom-dropdown`}
       >
         <NavDropdown.Item as={NavLink} to="/profiles/:id" className={styles.dropdownItem} activeClassName={styles.active}>
           <FontAwesomeIcon icon={faUser} className={styles.faIcon} />
