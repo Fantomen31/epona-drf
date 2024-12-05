@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Row, Col, Button, Form, Alert, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Button, Alert, Spinner } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt, FaClock, FaRoad, FaTachometerAlt, FaUser, FaEdit, FaTrash } from 'react-icons/fa';
 import ProfileSideMenu from '../profile/ProfileSideMenu';
@@ -9,6 +9,7 @@ import { useRunupActions } from '../../hooks/useRunupActions';
 import { axiosReq } from '../../api/axiosDefaults';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import HostRunupModal from '../../pages/runup/HostRunupModal';
+import Comments from '../../components/Comments';
 
 const RunUpProfile = () => {
   const { id } = useParams();
@@ -17,7 +18,6 @@ const RunUpProfile = () => {
   const { formatDate, fetchRunups } = useRunups();
   const { handleJoinLeaveRunup, handleDeleteRunup, handleEditRunup } = useRunupActions();
   const [runUp, setRunUp] = useState(null);
-  const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -49,24 +49,6 @@ const RunUpProfile = () => {
       fetchRunUp();
     } else {
       setError(result.message);
-    }
-  };
-
-  const handleCommentSubmit = async (e) => {
-    e.preventDefault();
-    if (!currentUser) {
-      navigate('/login');
-      return;
-    }
-    if (comment.trim()) {
-      try {
-        await axiosReq.post(`/api/runups/${id}/comments/`, { content: comment });
-        fetchRunUp();
-        setComment('');
-      } catch (err) {
-        setError('Failed to post comment. Please try again.');
-        console.error(err);
-      }
     }
   };
 
@@ -148,32 +130,7 @@ const RunUpProfile = () => {
                 </ul>
               </div>
               <div className={styles.commentsSection}>
-                <h3>Comments</h3>
-                <div className={styles.commentsList}>
-                  {runUp.comments && runUp.comments.length > 0 ? (
-                    runUp.comments.map(comment => (
-                      <div key={comment.id} className={styles.comment}>
-                        <p className={styles.commentUser}>{comment.owner}</p>
-                        <p className={styles.commentText}>{comment.content}</p>
-                        <p className={styles.commentTimestamp}>{formatDate(comment.created_at)}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <p>No comments yet.</p>
-                  )}
-                </div>
-                <Form onSubmit={handleCommentSubmit} className={styles.commentForm}>
-                  <Form.Group controlId="newComment">
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      value={comment}
-                      onChange={(e) => setComment(e.target.value)}
-                      placeholder="Add a comment..."
-                    />
-                  </Form.Group>
-                  <Button type="submit" variant="primary" className={styles.submitButton}>Post Comment</Button>
-                </Form>
+                < Comments runupId={id} />
               </div>
             </Col>
             <Col md={4}>
